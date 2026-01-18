@@ -62,9 +62,8 @@ func DefaultStyles() Styles {
 			Padding(0, 1),
 
 		MenuOptionActive: lipgloss.NewStyle().
-			Background(lipgloss.Color("6")).  // Cyan
-			Foreground(lipgloss.Color("0")).  // Black text
-			Bold(true).
+			Background(lipgloss.Color("6")).   // Cyan
+			Foreground(lipgloss.Color("16")).  // True black (256-color)
 			Padding(0, 1),
 
 		MenuOptionDisabled: lipgloss.NewStyle().

@@ -402,7 +402,7 @@ func (m *MenuBar) View() string {
 		labelWithUnderline := underlineFirst(menu.Label)
 		if m.isOpen && i == m.activeMenu {
 			// Switch to cyan background for active item
-			sb.WriteString("\033[46;30;1m") // Cyan bg, black bold
+			sb.WriteString("\033[46;38;5;16m") // Cyan bg, true black text
 			sb.WriteString("  " + labelWithUnderline + "  ")
 			sb.WriteString("\033[44;97m") // Back to dark blue
 		} else {
