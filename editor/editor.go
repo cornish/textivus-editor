@@ -334,13 +334,35 @@ func (e *Editor) doSave() bool {
 	content := e.buffer.String()
 	err := os.WriteFile(e.filename, []byte(content), 0644)
 	if err != nil {
-		e.statusbar.SetMessage("Error: "+err.Error(), "error")
+		// Clean up Go's error message for user display
+		errMsg := err.Error()
+		errMsg = strings.TrimPrefix(errMsg, "open ")
+		e.statusbar.SetMessage("Save failed: "+errMsg, "error")
 		return false
 	}
 
 	e.modified = false
 	e.statusbar.SetMessage("Saved: "+e.filename, "success")
 	e.updateTitle()
+	e.updateMenuState()
+	return true
+}
+
+// doSaveInDialog performs file save, showing errors in the dialog instead of status bar
+func (e *Editor) doSaveInDialog() bool {
+	content := e.buffer.String()
+	err := os.WriteFile(e.filename, []byte(content), 0644)
+	if err != nil {
+		// Clean up Go's error message for dialog display
+		errMsg := err.Error()
+		errMsg = strings.TrimPrefix(errMsg, "open ")
+		e.fileBrowserError = "Save failed: " + errMsg
+		return false
+	}
+
+	e.modified = false
+	e.fileBrowserError = ""
+	e.statusbar.SetMessage("Saved: "+e.filename, "success")
 	e.updateMenuState()
 	return true
 }
@@ -384,6 +406,13 @@ func (e *Editor) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return e.handleKey(msg)
 
 	case tea.MouseMsg:
+		// Route mouse to dialog handlers if applicable
+		if e.mode == ModeFileBrowser {
+			return e.handleFileBrowserMouse(msg)
+		}
+		if e.mode == ModeSaveAs {
+			return e.handleSaveAsMouse(msg)
+		}
 		return e.handleMouse(msg)
 	}
 

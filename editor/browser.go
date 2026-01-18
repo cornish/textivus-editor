@@ -11,6 +11,197 @@ import (
 	"github.com/mattn/go-runewidth"
 )
 
+// handleFileBrowserMouse handles mouse input in file browser mode
+func (e *Editor) handleFileBrowserMouse(msg tea.MouseMsg) (tea.Model, tea.Cmd) {
+	// Calculate dialog position (must match overlayFileBrowser)
+	boxWidth := 52
+	visibleHeight := e.fileBrowserVisibleHeight()
+	boxHeight := visibleHeight + 6
+
+	startX := (e.width - boxWidth) / 2
+	startY := (e.viewport.Height() - boxHeight) / 2
+
+	// Adjust mouse Y for menu bar
+	mouseY := msg.Y - 1
+
+	// Calculate relative position within dialog
+	relX := msg.X - startX
+	relY := mouseY - startY
+
+	// Check if click is outside dialog - close it
+	if relX < 0 || relX >= boxWidth || relY < 0 || relY >= boxHeight {
+		if msg.Button == tea.MouseButtonLeft && msg.Action == tea.MouseActionPress {
+			e.mode = ModeNormal
+			e.statusbar.SetMessage("Cancelled", "info")
+		}
+		return e, nil
+	}
+
+	// File list starts at line 3 (after title, directory, separator)
+	fileListStart := 3
+	fileListEnd := fileListStart + visibleHeight
+
+	switch msg.Button {
+	case tea.MouseButtonLeft:
+		if msg.Action == tea.MouseActionPress {
+			// Check if click is in file list area
+			if relY >= fileListStart && relY < fileListEnd {
+				clickedIdx := e.fileBrowserScroll + (relY - fileListStart)
+				if clickedIdx >= 0 && clickedIdx < len(e.fileBrowserEntries) {
+					if e.fileBrowserSelected == clickedIdx {
+						// Double-click effect: same item clicked again - open it
+						if !e.browserEnterDirectory() {
+							// Not a directory - open the file
+							entry := e.fileBrowserEntries[e.fileBrowserSelected]
+							if !entry.IsDir {
+								fullPath := filepath.Join(e.fileBrowserDir, entry.Name)
+								if err := e.LoadFile(fullPath); err != nil {
+									// Show error in dialog, stay open
+									e.fileBrowserError = "Open failed: " + err.Error()
+								} else {
+									e.mode = ModeNormal
+									e.fileBrowserError = ""
+									e.statusbar.SetMessage("Opened: "+fullPath, "success")
+								}
+							}
+						}
+					} else {
+						// First click - just select
+						e.fileBrowserSelected = clickedIdx
+					}
+				}
+			}
+		}
+
+	case tea.MouseButtonWheelUp:
+		if relY >= fileListStart && relY < fileListEnd {
+			if e.fileBrowserScroll > 0 {
+				e.fileBrowserScroll--
+				// Keep selection visible
+				if e.fileBrowserSelected >= e.fileBrowserScroll+visibleHeight {
+					e.fileBrowserSelected = e.fileBrowserScroll + visibleHeight - 1
+				}
+			}
+		}
+
+	case tea.MouseButtonWheelDown:
+		if relY >= fileListStart && relY < fileListEnd {
+			maxScroll := len(e.fileBrowserEntries) - visibleHeight
+			if maxScroll < 0 {
+				maxScroll = 0
+			}
+			if e.fileBrowserScroll < maxScroll {
+				e.fileBrowserScroll++
+				// Keep selection visible
+				if e.fileBrowserSelected < e.fileBrowserScroll {
+					e.fileBrowserSelected = e.fileBrowserScroll
+				}
+			}
+		}
+	}
+
+	return e, nil
+}
+
+// handleSaveAsMouse handles mouse input in Save As mode
+func (e *Editor) handleSaveAsMouse(msg tea.MouseMsg) (tea.Model, tea.Cmd) {
+	// Calculate dialog position (must match overlaySaveAs)
+	boxWidth := 52
+	visibleHeight := e.saveAsVisibleHeight()
+	boxHeight := visibleHeight + 7
+
+	startX := (e.width - boxWidth) / 2
+	startY := (e.viewport.Height() - boxHeight) / 2
+
+	// Adjust mouse Y for menu bar
+	mouseY := msg.Y - 1
+
+	// Calculate relative position within dialog
+	relX := msg.X - startX
+	relY := mouseY - startY
+
+	// Check if click is outside dialog - close it
+	if relX < 0 || relX >= boxWidth || relY < 0 || relY >= boxHeight {
+		if msg.Button == tea.MouseButtonLeft && msg.Action == tea.MouseActionPress {
+			e.mode = ModeNormal
+			e.statusbar.SetMessage("Cancelled", "info")
+		}
+		return e, nil
+	}
+
+	// Layout:
+	// 0: title border
+	// 1: directory line
+	// 2: filename input line
+	// 3: separator
+	// 4 to 4+visibleHeight-1: file list
+	// then: separator, status, help, bottom border
+
+	filenameLineY := 2
+	fileListStart := 4
+	fileListEnd := fileListStart + visibleHeight
+
+	switch msg.Button {
+	case tea.MouseButtonLeft:
+		if msg.Action == tea.MouseActionPress {
+			// Click on filename line - focus filename input
+			if relY == filenameLineY {
+				e.saveAsFocusBrowser = false
+				return e, nil
+			}
+
+			// Check if click is in file list area
+			if relY >= fileListStart && relY < fileListEnd {
+				e.saveAsFocusBrowser = true
+				clickedIdx := e.fileBrowserScroll + (relY - fileListStart)
+				if clickedIdx >= 0 && clickedIdx < len(e.fileBrowserEntries) {
+					if e.fileBrowserSelected == clickedIdx {
+						// Double-click effect: same item clicked again
+						if !e.browserEnterDirectory() {
+							// Not a directory - copy filename to input
+							entry := e.fileBrowserEntries[e.fileBrowserSelected]
+							if !entry.IsDir {
+								e.saveAsFilename = entry.Name
+								e.saveAsFocusBrowser = false
+								e.fileBrowserError = ""
+							}
+						}
+					} else {
+						// First click - just select
+						e.fileBrowserSelected = clickedIdx
+					}
+				}
+			}
+		}
+
+	case tea.MouseButtonWheelUp:
+		if relY >= fileListStart && relY < fileListEnd {
+			if e.fileBrowserScroll > 0 {
+				e.fileBrowserScroll--
+				if e.fileBrowserSelected >= e.fileBrowserScroll+visibleHeight {
+					e.fileBrowserSelected = e.fileBrowserScroll + visibleHeight - 1
+				}
+			}
+		}
+
+	case tea.MouseButtonWheelDown:
+		if relY >= fileListStart && relY < fileListEnd {
+			maxScroll := len(e.fileBrowserEntries) - visibleHeight
+			if maxScroll < 0 {
+				maxScroll = 0
+			}
+			if e.fileBrowserScroll < maxScroll {
+				e.fileBrowserScroll++
+				if e.fileBrowserSelected < e.fileBrowserScroll {
+					e.fileBrowserSelected = e.fileBrowserScroll
+				}
+			}
+		}
+	}
+
+	return e, nil
+}
+
 // handleFileBrowserKey handles keyboard input in file browser mode
 func (e *Editor) handleFileBrowserKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	visibleHeight := e.fileBrowserVisibleHeight()
@@ -27,11 +218,12 @@ func (e *Editor) handleFileBrowserKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 				entry := e.fileBrowserEntries[e.fileBrowserSelected]
 				if !entry.IsDir {
 					fullPath := filepath.Join(e.fileBrowserDir, entry.Name)
-					e.mode = ModeNormal
-					e.fileBrowserError = ""
 					if err := e.LoadFile(fullPath); err != nil {
-						e.statusbar.SetMessage("Error: "+err.Error(), "error")
+						// Show error in dialog, stay open
+						e.fileBrowserError = "Open failed: " + err.Error()
 					} else {
+						e.mode = ModeNormal
+						e.fileBrowserError = ""
 						e.statusbar.SetMessage("Opened: "+fullPath, "success")
 					}
 				}
@@ -237,11 +429,15 @@ func (e *Editor) handleSaveAsKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 				e.mode = ModePrompt
 				return e, nil
 			}
-			// Save the file
+			// Save the file - try first, only close dialog on success
+			oldFilename := e.filename
 			e.filename = fullPath
-			e.mode = ModeNormal
-			if e.doSave() {
+			if e.doSaveInDialog() {
+				e.mode = ModeNormal
 				e.updateTitle()
+			} else {
+				// Save failed - restore filename and keep dialog open
+				e.filename = oldFilename
 			}
 		}
 
@@ -569,7 +765,7 @@ func (e *Editor) overlayFileBrowser(viewportContent string) string {
 	dialogLines = append(dialogLines, e.box.Vertical+statusLine+e.box.Vertical)
 
 	// Help line
-	helpText := "[Enter] Open  [Esc] Cancel  [Bksp] Parent"
+	helpText := "Click/Enter: Open  Esc: Cancel  Bksp: Parent"
 	dialogLines = append(dialogLines, e.box.Vertical+centerText(helpText, innerWidth)+e.box.Vertical)
 
 	// Bottom border
@@ -673,7 +869,7 @@ func (e *Editor) overlaySaveAs(viewportContent string) string {
 
 	// Filename input line - show block cursor when focused
 	filenameDisplay := e.saveAsFilename
-	editAreaWidth := innerWidth - 12 // " Filename: " prefix (11) + 1 space
+	editAreaWidth := innerWidth - 11 // " Filename: " prefix is 11 chars
 	fnWidth := runewidth.StringWidth(filenameDisplay)
 	if fnWidth > editAreaWidth-1 { // -1 for cursor
 		// Truncate from start to show end of filename
@@ -760,9 +956,9 @@ func (e *Editor) overlaySaveAs(viewportContent string) string {
 	// Help line - changes based on focus
 	var helpText string
 	if e.saveAsFocusBrowser {
-		helpText = "[Enter] Select  [Tab] Switch  [Esc] Cancel"
+		helpText = "Click/Enter: Select  Tab: Switch  Esc: Cancel"
 	} else {
-		helpText = "[Enter] Save  [Tab] Switch  [Esc] Cancel"
+		helpText = "Enter: Save  Tab: Browse  Esc: Cancel"
 	}
 	dialogLines = append(dialogLines, e.box.Vertical+centerText(helpText, innerWidth)+e.box.Vertical)
 
