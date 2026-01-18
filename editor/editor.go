@@ -397,6 +397,14 @@ func (e *Editor) handleKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		e.openFile()
 		return e, nil
 
+	case tea.KeyCtrlW:
+		e.toggleWordWrap()
+		return e, nil
+
+	case tea.KeyCtrlL:
+		e.toggleLineNumbers()
+		return e, nil
+
 	case tea.KeyCtrlHome:
 		e.selection.Clear()
 		e.cursor.MoveToStart()
@@ -599,6 +607,32 @@ func (e *Editor) handleKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		return e, nil
 
 	case tea.KeyRunes:
+		// Check for Alt+letter combinations first
+		if msg.Alt && len(msg.Runes) == 1 {
+			switch msg.Runes[0] {
+			case 'f', 'F':
+				e.mode = ModeMenu
+				e.menubar.OpenMenu(0)
+				e.updateViewportSize()
+				return e, nil
+			case 'e', 'E':
+				e.mode = ModeMenu
+				e.menubar.OpenMenu(1)
+				e.updateViewportSize()
+				return e, nil
+			case 'v', 'V':
+				e.mode = ModeMenu
+				e.menubar.OpenMenu(2)
+				e.updateViewportSize()
+				return e, nil
+			case 'h', 'H':
+				e.mode = ModeMenu
+				e.menubar.OpenMenu(3)
+				e.updateViewportSize()
+				return e, nil
+			}
+		}
+		// Regular character input
 		for _, r := range msg.Runes {
 			e.insertChar(r)
 		}
@@ -611,17 +645,22 @@ func (e *Editor) handleKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	// Menu shortcuts
 	case "alt+f":
 		e.mode = ModeMenu
-		e.menubar.OpenMenu(0)
+		e.menubar.OpenMenu(0) // File
 		e.updateViewportSize()
 		return e, nil
 	case "alt+e":
 		e.mode = ModeMenu
-		e.menubar.OpenMenu(1)
+		e.menubar.OpenMenu(1) // Edit
+		e.updateViewportSize()
+		return e, nil
+	case "alt+v":
+		e.mode = ModeMenu
+		e.menubar.OpenMenu(2) // View
 		e.updateViewportSize()
 		return e, nil
 	case "alt+h":
 		e.mode = ModeMenu
-		e.menubar.OpenMenu(2)
+		e.menubar.OpenMenu(3) // Help
 		e.updateViewportSize()
 		return e, nil
 	case "f10":
@@ -675,6 +714,12 @@ func (e *Editor) handleKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		return e, nil
 	case "ctrl+o":
 		e.openFile()
+		return e, nil
+	case "ctrl+w":
+		e.toggleWordWrap()
+		return e, nil
+	case "ctrl+l":
+		e.toggleLineNumbers()
 		return e, nil
 
 	// Word movement
@@ -796,6 +841,17 @@ func (e *Editor) handleMenuKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	case tea.KeyRight:
 		e.menubar.NextMenu()
 		e.updateViewportSize() // Dropdown height may change
+
+	case tea.KeyRunes:
+		// Handle hotkey letter press
+		if len(msg.Runes) == 1 {
+			action := e.menubar.SelectByHotKey(msg.Runes[0])
+			if action != ui.ActionNone {
+				e.mode = ModeNormal
+				e.updateViewportSize()
+				return e.executeAction(action)
+			}
+		}
 	}
 
 	return e, nil
@@ -1264,6 +1320,7 @@ func (e *Editor) executeAction(action ui.MenuAction) (tea.Model, tea.Cmd) {
 		e.mode = ModeFind
 		e.findQuery = ""
 		e.findActive = true
+		e.updateViewportSize()
 	case ui.ActionWordWrap:
 		e.toggleWordWrap()
 	case ui.ActionLineNumbers:

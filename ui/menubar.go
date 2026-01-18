@@ -36,7 +36,8 @@ const (
 // MenuItem represents a single menu option
 type MenuItem struct {
 	Label    string
-	Shortcut string
+	Shortcut string     // Keyboard shortcut displayed (e.g., "Ctrl+S")
+	HotKey   rune       // Single letter hotkey when menu is open (e.g., 'S')
 	Action   MenuAction
 	Disabled bool
 }
@@ -64,37 +65,37 @@ func NewMenuBar(styles Styles) *MenuBar {
 			{
 				Label: "File",
 				Items: []MenuItem{
-					{Label: "New", Shortcut: "Ctrl+N", Action: ActionNew},
-					{Label: "Open", Shortcut: "Ctrl+O", Action: ActionOpen},
-					{Label: "Save", Shortcut: "Ctrl+S", Action: ActionSave},
-					{Label: "Save As", Shortcut: "", Action: ActionSaveAs},
-					{Label: "Revert", Shortcut: "", Action: ActionRevert},
-					{Label: "Exit", Shortcut: "Ctrl+Q", Action: ActionExit},
+					{Label: "New", Shortcut: "Ctrl+N", HotKey: 'N', Action: ActionNew},
+					{Label: "Open", Shortcut: "Ctrl+O", HotKey: 'O', Action: ActionOpen},
+					{Label: "Save", Shortcut: "Ctrl+S", HotKey: 'S', Action: ActionSave},
+					{Label: "Save As", Shortcut: "", HotKey: 'A', Action: ActionSaveAs},
+					{Label: "Revert", Shortcut: "", HotKey: 'R', Action: ActionRevert},
+					{Label: "Exit", Shortcut: "Ctrl+Q", HotKey: 'X', Action: ActionExit},
 				},
 			},
 			{
 				Label: "Edit",
 				Items: []MenuItem{
-					{Label: "Undo", Shortcut: "Ctrl+Z", Action: ActionUndo},
-					{Label: "Redo", Shortcut: "Ctrl+Y", Action: ActionRedo},
-					{Label: "Cut", Shortcut: "Ctrl+X", Action: ActionCut},
-					{Label: "Copy", Shortcut: "Ctrl+C", Action: ActionCopy},
-					{Label: "Paste", Shortcut: "Ctrl+V", Action: ActionPaste},
-					{Label: "Select All", Shortcut: "Ctrl+A", Action: ActionSelectAll},
-					{Label: "Find", Shortcut: "Ctrl+F", Action: ActionFind},
+					{Label: "Undo", Shortcut: "Ctrl+Z", HotKey: 'U', Action: ActionUndo},
+					{Label: "Redo", Shortcut: "Ctrl+Y", HotKey: 'R', Action: ActionRedo},
+					{Label: "Cut", Shortcut: "Ctrl+X", HotKey: 'T', Action: ActionCut},
+					{Label: "Copy", Shortcut: "Ctrl+C", HotKey: 'C', Action: ActionCopy},
+					{Label: "Paste", Shortcut: "Ctrl+V", HotKey: 'P', Action: ActionPaste},
+					{Label: "Select All", Shortcut: "Ctrl+A", HotKey: 'L', Action: ActionSelectAll},
+					{Label: "Find", Shortcut: "Ctrl+F", HotKey: 'F', Action: ActionFind},
 				},
 			},
 			{
 				Label: "View",
 				Items: []MenuItem{
-					{Label: "[ ] Word Wrap", Shortcut: "", Action: ActionWordWrap},
-					{Label: "[ ] Line Numbers", Shortcut: "", Action: ActionLineNumbers},
+					{Label: "[ ] Word Wrap", Shortcut: "Ctrl+W", HotKey: 'W', Action: ActionWordWrap},
+					{Label: "[ ] Line Numbers", Shortcut: "Ctrl+L", HotKey: 'L', Action: ActionLineNumbers},
 				},
 			},
 			{
 				Label: "Help",
 				Items: []MenuItem{
-					{Label: "About", Shortcut: "F1", Action: ActionAbout},
+					{Label: "About", Shortcut: "F1", HotKey: 'A', Action: ActionAbout},
 				},
 			},
 		},
@@ -206,6 +207,34 @@ func (m *MenuBar) Select() MenuAction {
 	return action
 }
 
+// SelectByHotKey finds an item by hotkey in the current menu and returns its action
+// Returns ActionNone if no match or menu is not open
+func (m *MenuBar) SelectByHotKey(key rune) MenuAction {
+	if !m.isOpen || m.activeMenu < 0 || m.activeMenu >= len(m.menus) {
+		return ActionNone
+	}
+	// Convert to uppercase for case-insensitive matching
+	upperKey := key
+	if key >= 'a' && key <= 'z' {
+		upperKey = key - 32
+	}
+	items := m.menus[m.activeMenu].Items
+	for _, item := range items {
+		if item.Disabled {
+			continue
+		}
+		itemKey := item.HotKey
+		if itemKey >= 'a' && itemKey <= 'z' {
+			itemKey = itemKey - 32
+		}
+		if itemKey == upperKey {
+			m.Close()
+			return item.Action
+		}
+	}
+	return ActionNone
+}
+
 // SetItemDisabled sets the disabled state of a menu item by action
 func (m *MenuBar) SetItemDisabled(action MenuAction, disabled bool) {
 	for i := range m.menus {
@@ -292,6 +321,41 @@ func (m *MenuBar) Height() int {
 	return 1 + m.DropdownHeight()
 }
 
+// underlineFirst returns the string with its first character underlined (DOS style)
+func underlineFirst(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+	runes := []rune(s)
+	// \033[4m = underline on, \033[24m = underline off
+	return "\033[4m" + string(runes[0]) + "\033[24m" + string(runes[1:])
+}
+
+// underlineChar returns the string with the specified character underlined (case-insensitive)
+// If the character is not found, returns the original string
+func underlineChar(s string, c rune) string {
+	if len(s) == 0 || c == 0 {
+		return s
+	}
+	runes := []rune(s)
+	// Convert hotkey to uppercase for matching
+	upperC := c
+	if c >= 'a' && c <= 'z' {
+		upperC = c - 32
+	}
+	for i, r := range runes {
+		upperR := r
+		if r >= 'a' && r <= 'z' {
+			upperR = r - 32
+		}
+		if upperR == upperC {
+			// Found the character - underline it
+			return string(runes[:i]) + "\033[4m" + string(r) + "\033[24m" + string(runes[i+1:])
+		}
+	}
+	return s
+}
+
 // View renders the menu bar (just the bar, not the dropdown)
 func (m *MenuBar) View() string {
 	// Calculate total width of menu items
@@ -314,14 +378,15 @@ func (m *MenuBar) View() string {
 	sb.WriteString("\033[44;97m") // Dark blue bg, bright white text
 
 	for i, menu := range m.menus {
-		itemText := "  " + menu.Label + "  "
+		// Underline the first letter (Alt shortcut indicator)
+		labelWithUnderline := underlineFirst(menu.Label)
 		if m.isOpen && i == m.activeMenu {
 			// Switch to cyan background for active item
 			sb.WriteString("\033[46;30;1m") // Cyan bg, black bold
-			sb.WriteString(itemText)
+			sb.WriteString("  " + labelWithUnderline + "  ")
 			sb.WriteString("\033[44;97m") // Back to dark blue
 		} else {
-			sb.WriteString(itemText)
+			sb.WriteString("  " + labelWithUnderline + "  ")
 		}
 	}
 
@@ -385,8 +450,14 @@ func (m *MenuBar) renderDropdownContent() string {
 			style = m.styles.MenuOption
 		}
 
-		// Format: "Label    Shortcut"
-		line := item.Label
+		// Format: "Label    Shortcut" with hotkey underlined
+		label := item.Label
+		if item.HotKey != 0 {
+			label = underlineChar(label, item.HotKey)
+		}
+
+		// Calculate spacing (use original label length, not underlined)
+		line := label
 		if item.Shortcut != "" {
 			spaces := maxWidth - len(item.Label) - len(item.Shortcut)
 			if spaces < 2 {
@@ -443,8 +514,13 @@ func (m *MenuBar) renderDropdown() string {
 			style = m.styles.MenuOption
 		}
 
-		// Format: "Label    Shortcut"
-		line := item.Label
+		// Format: "Label    Shortcut" with hotkey underlined
+		label := item.Label
+		if item.HotKey != 0 {
+			label = underlineChar(label, item.HotKey)
+		}
+
+		line := label
 		if item.Shortcut != "" {
 			spaces := maxWidth - len(item.Label) - len(item.Shortcut)
 			if spaces < 2 {
