@@ -974,6 +974,10 @@ func (e *Editor) handlePromptKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 
 	case tea.KeyEnter:
 		e.executePrompt()
+		// If quit was confirmed, exit immediately
+		if e.pendingQuit {
+			return e, tea.Quit
+		}
 		e.mode = ModeNormal
 		e.updateViewportSize()
 
