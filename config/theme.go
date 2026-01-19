@@ -199,6 +199,181 @@ var builtinThemes = map[string]Theme{
 			Type:     "81",  // Light blue
 		},
 	},
+	"nord": {
+		Name:        "nord",
+		Description: "Arctic, north-bluish color palette",
+		Author:      "Arctic Ice Studio",
+		UI: UIColors{
+			MenuBg:           "#3B4252", // nord1
+			MenuFg:           "#ECEFF4", // nord6
+			MenuHighlightBg:  "#5E81AC", // nord10
+			MenuHighlightFg:  "#ECEFF4", // nord6
+			StatusBg:         "#3B4252", // nord1
+			StatusFg:         "#ECEFF4", // nord6
+			StatusAccent:     "#88C0D0", // nord8
+			SelectionBg:      "#4C566A", // nord3
+			SelectionFg:      "#ECEFF4", // nord6
+			LineNumber:       "#4C566A", // nord3
+			LineNumberActive: "#D8DEE9", // nord4
+			ErrorFg:          "#BF616A", // nord11
+			DisabledFg:       "#4C566A", // nord3
+			DialogBg:         "#3B4252", // nord1
+			DialogFg:         "#ECEFF4", // nord6
+			DialogBorder:     "#4C566A", // nord3
+			DialogTitle:      "#88C0D0", // nord8
+			DialogButton:     "#5E81AC", // nord10
+			DialogButtonFg:   "#ECEFF4", // nord6
+		},
+		Syntax: SyntaxColors{
+			Keyword:  "#81A1C1", // nord9
+			String:   "#A3BE8C", // nord14
+			Comment:  "#616E88", // nord3 brightened
+			Number:   "#B48EAD", // nord15
+			Operator: "#81A1C1", // nord9
+			Function: "#88C0D0", // nord8
+			Type:     "#8FBCBB", // nord7
+		},
+	},
+	"dracula": {
+		Name:        "dracula",
+		Description: "Dark theme with vibrant colors",
+		Author:      "Zeno Rocha",
+		UI: UIColors{
+			MenuBg:           "#282A36", // background
+			MenuFg:           "#F8F8F2", // foreground
+			MenuHighlightBg:  "#BD93F9", // purple
+			MenuHighlightFg:  "#282A36", // background
+			StatusBg:         "#282A36", // background
+			StatusFg:         "#F8F8F2", // foreground
+			StatusAccent:     "#FF79C6", // pink
+			SelectionBg:      "#44475A", // selection
+			SelectionFg:      "#F8F8F2", // foreground
+			LineNumber:       "#6272A4", // comment
+			LineNumberActive: "#F8F8F2", // foreground
+			ErrorFg:          "#FF5555", // red
+			DisabledFg:       "#6272A4", // comment
+			DialogBg:         "#282A36", // background
+			DialogFg:         "#F8F8F2", // foreground
+			DialogBorder:     "#6272A4", // comment
+			DialogTitle:      "#BD93F9", // purple
+			DialogButton:     "#50FA7B", // green
+			DialogButtonFg:   "#282A36", // background
+		},
+		Syntax: SyntaxColors{
+			Keyword:  "#FF79C6", // pink
+			String:   "#F1FA8C", // yellow
+			Comment:  "#6272A4", // comment
+			Number:   "#BD93F9", // purple
+			Operator: "#FF79C6", // pink
+			Function: "#50FA7B", // green
+			Type:     "#8BE9FD", // cyan
+		},
+	},
+	"gruvbox": {
+		Name:        "gruvbox",
+		Description: "Retro groove color scheme",
+		Author:      "morhetz",
+		UI: UIColors{
+			MenuBg:           "#282828", // bg0
+			MenuFg:           "#EBDBB2", // fg1
+			MenuHighlightBg:  "#D79921", // yellow
+			MenuHighlightFg:  "#282828", // bg0
+			StatusBg:         "#282828", // bg0
+			StatusFg:         "#EBDBB2", // fg1
+			StatusAccent:     "#D79921", // yellow
+			SelectionBg:      "#504945", // bg2
+			SelectionFg:      "#EBDBB2", // fg1
+			LineNumber:       "#665C54", // bg3
+			LineNumberActive: "#EBDBB2", // fg1
+			ErrorFg:          "#FB4934", // bright red
+			DisabledFg:       "#665C54", // bg3
+			DialogBg:         "#3C3836", // bg1
+			DialogFg:         "#EBDBB2", // fg1
+			DialogBorder:     "#665C54", // bg3
+			DialogTitle:      "#FABD2F", // bright yellow
+			DialogButton:     "#98971A", // green
+			DialogButtonFg:   "#EBDBB2", // fg1
+		},
+		Syntax: SyntaxColors{
+			Keyword:  "#FB4934", // bright red
+			String:   "#B8BB26", // bright green
+			Comment:  "#928374", // gray
+			Number:   "#D3869B", // bright purple
+			Operator: "#FE8019", // bright orange
+			Function: "#FABD2F", // bright yellow
+			Type:     "#83A598", // bright blue
+		},
+	},
+	"solarized": {
+		Name:        "solarized",
+		Description: "Precision colors for machines and people",
+		Author:      "Ethan Schoonover",
+		UI: UIColors{
+			MenuBg:           "#002B36", // base03
+			MenuFg:           "#839496", // base0
+			MenuHighlightBg:  "#268BD2", // blue
+			MenuHighlightFg:  "#FDF6E3", // base3
+			StatusBg:         "#002B36", // base03
+			StatusFg:         "#839496", // base0
+			StatusAccent:     "#2AA198", // cyan
+			SelectionBg:      "#073642", // base02
+			SelectionFg:      "#93A1A1", // base1
+			LineNumber:       "#586E75", // base01
+			LineNumberActive: "#93A1A1", // base1
+			ErrorFg:          "#DC322F", // red
+			DisabledFg:       "#586E75", // base01
+			DialogBg:         "#073642", // base02
+			DialogFg:         "#839496", // base0
+			DialogBorder:     "#586E75", // base01
+			DialogTitle:      "#268BD2", // blue
+			DialogButton:     "#2AA198", // cyan
+			DialogButtonFg:   "#FDF6E3", // base3
+		},
+		Syntax: SyntaxColors{
+			Keyword:  "#859900", // green
+			String:   "#2AA198", // cyan
+			Comment:  "#586E75", // base01
+			Number:   "#D33682", // magenta
+			Operator: "#859900", // green
+			Function: "#268BD2", // blue
+			Type:     "#B58900", // yellow
+		},
+	},
+	"catppuccin": {
+		Name:        "catppuccin",
+		Description: "Soothing pastel theme (Mocha)",
+		Author:      "Catppuccin",
+		UI: UIColors{
+			MenuBg:           "#1E1E2E", // base
+			MenuFg:           "#CDD6F4", // text
+			MenuHighlightBg:  "#CBA6F7", // mauve
+			MenuHighlightFg:  "#1E1E2E", // base
+			StatusBg:         "#1E1E2E", // base
+			StatusFg:         "#CDD6F4", // text
+			StatusAccent:     "#F5C2E7", // pink
+			SelectionBg:      "#45475A", // surface1
+			SelectionFg:      "#CDD6F4", // text
+			LineNumber:       "#6C7086", // overlay0
+			LineNumberActive: "#CDD6F4", // text
+			ErrorFg:          "#F38BA8", // red
+			DisabledFg:       "#6C7086", // overlay0
+			DialogBg:         "#313244", // surface0
+			DialogFg:         "#CDD6F4", // text
+			DialogBorder:     "#585B70", // surface2
+			DialogTitle:      "#CBA6F7", // mauve
+			DialogButton:     "#89B4FA", // blue
+			DialogButtonFg:   "#1E1E2E", // base
+		},
+		Syntax: SyntaxColors{
+			Keyword:  "#CBA6F7", // mauve
+			String:   "#A6E3A1", // green
+			Comment:  "#6C7086", // overlay0
+			Number:   "#FAB387", // peach
+			Operator: "#89DCEB", // sky
+			Function: "#89B4FA", // blue
+			Type:     "#F9E2AF", // yellow
+		},
+	},
 }
 
 // DefaultTheme returns the default DOS EDIT theme
@@ -344,7 +519,7 @@ func mergeWithDefault(theme Theme) Theme {
 
 // ThemeNames returns the list of built-in theme names
 func ThemeNames() []string {
-	return []string{"default", "dark", "light", "monokai"}
+	return []string{"default", "dark", "light", "monokai", "nord", "dracula", "gruvbox", "solarized", "catppuccin"}
 }
 
 // ListUserThemes returns a list of user-defined theme names
