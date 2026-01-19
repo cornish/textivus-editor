@@ -437,6 +437,9 @@ func (e *Editor) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if e.mode == ModeSaveAs {
 			return e.handleSaveAsMouse(msg)
 		}
+		if e.mode == ModeTheme {
+			return e.handleThemeMouse(msg)
+		}
 		return e.handleMouse(msg)
 	}
 
@@ -1535,6 +1538,69 @@ func (e *Editor) handleThemeKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		// Cancel - just close dialog
 		e.mode = ModeNormal
 	}
+	return e, nil
+}
+
+// handleThemeMouse handles mouse input in the theme selection dialog
+func (e *Editor) handleThemeMouse(msg tea.MouseMsg) (tea.Model, tea.Cmd) {
+	// Calculate dialog position (must match overlayThemeDialog)
+	boxWidth := 40
+	themeCount := len(e.themeList)
+	// Dialog structure: title, empty, themes..., empty, footer, bottom border
+	boxHeight := themeCount + 5
+
+	startX := (e.width - boxWidth) / 2
+	startY := (e.viewport.Height() - boxHeight) / 2
+
+	// Adjust mouse Y for menu bar
+	mouseY := msg.Y - 1
+
+	// Calculate relative position within dialog
+	relX := msg.X - startX
+	relY := mouseY - startY
+
+	// Check if click is outside dialog - close it
+	if relX < 0 || relX >= boxWidth || relY < 0 || relY >= boxHeight {
+		if msg.Button == tea.MouseButtonLeft && msg.Action == tea.MouseActionPress {
+			e.mode = ModeNormal
+		}
+		return e, nil
+	}
+
+	// Theme list starts at line 2 (after title border and empty line)
+	themeListStart := 2
+	themeListEnd := themeListStart + themeCount
+
+	switch msg.Button {
+	case tea.MouseButtonLeft:
+		if msg.Action == tea.MouseActionPress {
+			// Check if click is in theme list area
+			if relY >= themeListStart && relY < themeListEnd {
+				clickedIdx := relY - themeListStart
+				if clickedIdx >= 0 && clickedIdx < themeCount {
+					if e.themeIndex == clickedIdx {
+						// Double-click effect: same item clicked again - apply it
+						e.applyTheme(e.themeList[e.themeIndex])
+						e.mode = ModeNormal
+					} else {
+						// First click - just select
+						e.themeIndex = clickedIdx
+					}
+				}
+			}
+		}
+
+	case tea.MouseButtonWheelUp:
+		if e.themeIndex > 0 {
+			e.themeIndex--
+		}
+
+	case tea.MouseButtonWheelDown:
+		if e.themeIndex < themeCount-1 {
+			e.themeIndex++
+		}
+	}
+
 	return e, nil
 }
 

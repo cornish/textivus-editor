@@ -7,36 +7,79 @@ import (
 )
 
 // overlayLineAt overlays the dropdown line on top of the viewport line at the given offset,
-// preserving viewport content on both sides of the dropdown
+// preserving viewport content on both sides of the dropdown (including ANSI color codes)
 func overlayLineAt(dropLine, viewportLine string, offset int) string {
 	// Calculate the visual width of the dropdown line (strip ANSI codes)
 	dropWidth := visualWidth(dropLine)
 
-	// Get the viewport content as runes (stripped of ANSI for positioning)
-	vpRunes := []rune(stripAnsi(viewportLine))
+	// Extract prefix and suffix from viewport line, preserving ANSI codes
+	prefix := sliceAnsiString(viewportLine, 0, offset)
+	suffix := sliceAnsiString(viewportLine, offset+dropWidth, -1)
 
 	// Build the result: prefix + dropdown + suffix
 	var result strings.Builder
 
 	// Prefix: viewport content before the dropdown (or spaces if line is short)
-	if offset > 0 {
-		if len(vpRunes) >= offset {
-			// Use viewport content as prefix
-			result.WriteString(string(vpRunes[:offset]))
-		} else {
-			// Viewport line is shorter than offset - use what we have plus padding
-			result.WriteString(string(vpRunes))
-			result.WriteString(strings.Repeat(" ", offset-len(vpRunes)))
-		}
+	prefixWidth := visualWidth(prefix)
+	result.WriteString(prefix)
+	if prefixWidth < offset {
+		// Viewport line is shorter than offset - add padding
+		result.WriteString(strings.Repeat(" ", offset-prefixWidth))
 	}
 
 	// The dropdown itself
 	result.WriteString(dropLine)
 
-	// Suffix: viewport content after the dropdown
-	suffixStart := offset + dropWidth
-	if suffixStart < len(vpRunes) {
-		result.WriteString(string(vpRunes[suffixStart:]))
+	// Suffix: viewport content after the dropdown (with ANSI codes preserved)
+	if suffix != "" {
+		result.WriteString(suffix)
+	}
+
+	return result.String()
+}
+
+// sliceAnsiString extracts a substring from an ANSI-coded string based on visual positions.
+// start and end are visual column positions (0-indexed). Use end=-1 for "to the end".
+// ANSI escape codes are preserved and passed through correctly.
+func sliceAnsiString(s string, start, end int) string {
+	var result strings.Builder
+	visualPos := 0
+	inEscape := false
+	var escapeSeq strings.Builder
+
+	for _, r := range s {
+		if r == '\033' {
+			inEscape = true
+			escapeSeq.Reset()
+			escapeSeq.WriteRune(r)
+			continue
+		}
+
+		if inEscape {
+			escapeSeq.WriteRune(r)
+			if (r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') {
+				inEscape = false
+				// Include escape sequences that appear within our range
+				// or at the boundary (to preserve color state)
+				if end == -1 || visualPos < end {
+					if visualPos >= start || visualPos == 0 {
+						result.WriteString(escapeSeq.String())
+					} else if visualPos < start {
+						// Escape sequence before our range - still include it
+						// to maintain proper color state
+						result.WriteString(escapeSeq.String())
+					}
+				}
+			}
+			continue
+		}
+
+		// Regular character - check if it's in our range
+		charWidth := runewidth.RuneWidth(r)
+		if visualPos >= start && (end == -1 || visualPos < end) {
+			result.WriteRune(r)
+		}
+		visualPos += charWidth
 	}
 
 	return result.String()
