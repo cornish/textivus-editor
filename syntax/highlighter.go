@@ -1,11 +1,40 @@
 package syntax
 
 import (
+	"fmt"
+	"strconv"
+	"strings"
 	"unicode/utf8"
 
 	"github.com/alecthomas/chroma/v2"
 	"github.com/alecthomas/chroma/v2/lexers"
 )
+
+// SyntaxColors holds the color settings for syntax highlighting
+type SyntaxColors struct {
+	Keyword  string
+	String   string
+	Comment  string
+	Number   string
+	Operator string
+	Function string
+	Type     string
+	Error    string
+}
+
+// DefaultSyntaxColors returns the default syntax color settings
+func DefaultSyntaxColors() SyntaxColors {
+	return SyntaxColors{
+		Keyword:  "14", // Bright cyan
+		String:   "10", // Bright green
+		Comment:  "8",  // Gray
+		Number:   "11", // Bright yellow
+		Operator: "13", // Bright magenta
+		Function: "12", // Bright blue
+		Type:     "11", // Bright yellow
+		Error:    "9",  // Bright red
+	}
+}
 
 // ColorSpan represents a colored region of text
 type ColorSpan struct {
@@ -18,12 +47,14 @@ type ColorSpan struct {
 type Highlighter struct {
 	lexer   chroma.Lexer
 	enabled bool
+	colors  SyntaxColors
 }
 
 // New creates a new Highlighter for the given filename
 func New(filename string) *Highlighter {
 	h := &Highlighter{
 		enabled: true,
+		colors:  DefaultSyntaxColors(),
 	}
 	h.SetFile(filename)
 	return h
@@ -56,6 +87,11 @@ func (h *Highlighter) HasLexer() bool {
 	return h.lexer != nil
 }
 
+// SetColors sets the syntax highlighting colors
+func (h *Highlighter) SetColors(colors SyntaxColors) {
+	h.colors = colors
+}
+
 // GetLineColors returns color spans for a line
 // Returns nil if highlighting is disabled or no lexer is available
 func (h *Highlighter) GetLineColors(line string) []ColorSpan {
@@ -71,7 +107,7 @@ func (h *Highlighter) GetLineColors(line string) []ColorSpan {
 	var spans []ColorSpan
 	pos := 0
 	for _, token := range iterator.Tokens() {
-		color := tokenColor(token.Type)
+		color := h.tokenColor(token.Type)
 		tokenLen := utf8.RuneCountInString(token.Value)
 		if color != "" && tokenLen > 0 {
 			spans = append(spans, ColorSpan{
@@ -97,8 +133,45 @@ func ColorAt(spans []ColorSpan, col int) string {
 	return ""
 }
 
+// colorToANSI converts a theme color string to an ANSI foreground escape sequence
+func colorToANSI(color string) string {
+	if strings.HasPrefix(color, "#") {
+		r, g, b := parseHexColor(color)
+		return fmt.Sprintf("\033[38;2;%d;%d;%dm", r, g, b)
+	}
+	n, err := strconv.Atoi(color)
+	if err != nil {
+		return "\033[37m" // Default to white on error
+	}
+	if n < 16 {
+		if n < 8 {
+			return fmt.Sprintf("\033[%dm", 30+n)
+		}
+		return fmt.Sprintf("\033[%dm", 90+(n-8))
+	}
+	return fmt.Sprintf("\033[38;5;%dm", n)
+}
+
+// parseHexColor parses #RGB or #RRGGBB to r, g, b values
+func parseHexColor(hex string) (int, int, int) {
+	hex = strings.TrimPrefix(hex, "#")
+	if len(hex) == 3 {
+		r, _ := strconv.ParseInt(string(hex[0])+string(hex[0]), 16, 32)
+		g, _ := strconv.ParseInt(string(hex[1])+string(hex[1]), 16, 32)
+		b, _ := strconv.ParseInt(string(hex[2])+string(hex[2]), 16, 32)
+		return int(r), int(g), int(b)
+	}
+	if len(hex) == 6 {
+		r, _ := strconv.ParseInt(hex[0:2], 16, 32)
+		g, _ := strconv.ParseInt(hex[2:4], 16, 32)
+		b, _ := strconv.ParseInt(hex[4:6], 16, 32)
+		return int(r), int(g), int(b)
+	}
+	return 255, 255, 255 // Default to white on error
+}
+
 // tokenColor returns the ANSI color code for a token type
-func tokenColor(t chroma.TokenType) string {
+func (h *Highlighter) tokenColor(t chroma.TokenType) string {
 	switch {
 	// Keywords
 	case t == chroma.Keyword,
@@ -108,7 +181,7 @@ func tokenColor(t chroma.TokenType) string {
 		t == chroma.KeywordPseudo,
 		t == chroma.KeywordReserved,
 		t == chroma.KeywordType:
-		return "\033[96m" // Bright cyan
+		return colorToANSI(h.colors.Keyword)
 
 	// Strings
 	case t == chroma.String,
@@ -125,7 +198,7 @@ func tokenColor(t chroma.TokenType) string {
 		t == chroma.StringRegex,
 		t == chroma.StringSingle,
 		t == chroma.StringSymbol:
-		return "\033[92m" // Bright green
+		return colorToANSI(h.colors.String)
 
 	// Comments
 	case t == chroma.Comment,
@@ -135,7 +208,7 @@ func tokenColor(t chroma.TokenType) string {
 		t == chroma.CommentPreprocFile,
 		t == chroma.CommentSingle,
 		t == chroma.CommentSpecial:
-		return "\033[90m" // Bright black (gray)
+		return colorToANSI(h.colors.Comment)
 
 	// Numbers
 	case t == chroma.Number,
@@ -145,38 +218,37 @@ func tokenColor(t chroma.TokenType) string {
 		t == chroma.NumberInteger,
 		t == chroma.NumberIntegerLong,
 		t == chroma.NumberOct:
-		return "\033[93m" // Bright yellow
+		return colorToANSI(h.colors.Number)
 
 	// Operators
 	case t == chroma.Operator,
 		t == chroma.OperatorWord:
-		return "\033[97m" // Bright white
+		return colorToANSI(h.colors.Operator)
 
 	// Functions
 	case t == chroma.NameFunction,
 		t == chroma.NameFunctionMagic:
-		return "\033[94m" // Bright blue
+		return colorToANSI(h.colors.Function)
 
 	// Types/Classes
 	case t == chroma.NameClass,
 		t == chroma.NameBuiltin,
 		t == chroma.NameBuiltinPseudo:
-		return "\033[95m" // Bright magenta
+		return colorToANSI(h.colors.Type)
 
 	// Constants
 	case t == chroma.NameConstant:
-		return "\033[93m" // Bright yellow
+		return colorToANSI(h.colors.Number) // Same as numbers
 
 	// Preprocessor
-	case t == chroma.CommentPreproc,
-		t == chroma.GenericHeading,
+	case t == chroma.GenericHeading,
 		t == chroma.GenericSubheading:
-		return "\033[95m" // Bright magenta
+		return colorToANSI(h.colors.Type)
 
 	// Errors
 	case t == chroma.Error,
 		t == chroma.GenericError:
-		return "\033[91m" // Bright red
+		return colorToANSI(h.colors.Error)
 
 	default:
 		return "" // Default terminal color

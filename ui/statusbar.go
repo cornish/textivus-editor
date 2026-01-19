@@ -84,17 +84,29 @@ func (s *StatusBar) SetWidth(width int) {
 	s.width = width
 }
 
+// SetStyles updates the styles for runtime theme changes
+func (s *StatusBar) SetStyles(styles Styles) {
+	s.styles = styles
+}
+
 // View renders the status bar
 func (s *StatusBar) View() string {
 	var sb strings.Builder
 
-	// Start with dark blue background, white text (matching menu bar style)
-	sb.WriteString("\033[44;97m")
+	// Get theme colors
+	ui := s.styles.Theme.UI
+	normalColor := ColorToANSI(ui.StatusFg, ui.StatusBg)
+	accentColor := ColorToANSIFg(ui.StatusAccent) + "\033[1m" // Bold
+	errorColor := ColorToANSIFg(ui.ErrorFg) + "\033[1m"       // Bold
+	resetToNormal := ColorToANSIFg(ui.StatusFg) + "\033[22m"  // Not bold
+
+	// Start with status bar colors
+	sb.WriteString(normalColor)
 
 	// Left side: modified indicator + filename
 	if s.modified {
-		// Bright cyan for modified indicator
-		sb.WriteString("\033[96;1m*\033[97;22m")
+		// Accent color for modified indicator
+		sb.WriteString(accentColor + "*" + resetToNormal)
 	}
 
 	var filename string
@@ -129,9 +141,9 @@ func (s *StatusBar) View() string {
 
 		// Render message with appropriate color
 		if s.messageType == "error" {
-			sb.WriteString("\033[91;1m") // Bright red, bold
+			sb.WriteString(errorColor)
 			sb.WriteString(s.message)
-			sb.WriteString("\033[97;22m") // Back to white, not bold
+			sb.WriteString(resetToNormal)
 		} else {
 			sb.WriteString(s.message)
 		}

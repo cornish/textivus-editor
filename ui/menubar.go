@@ -36,6 +36,7 @@ const (
 	ActionWordWrap
 	ActionLineNumbers
 	ActionSyntaxHighlight
+	ActionTheme // Opens theme selection dialog
 	// Help menu
 	ActionHelp
 	ActionAbout
@@ -109,6 +110,7 @@ func NewMenuBar(styles Styles) *MenuBar {
 					{Label: "[ ] Word Wrap", Shortcut: "", HotKey: 'W', Action: ActionWordWrap},
 					{Label: "[ ] Line Numbers", Shortcut: "Ctrl+L", HotKey: 'L', Action: ActionLineNumbers},
 					{Label: "[x] Syntax Highlight", Shortcut: "", HotKey: 'S', Action: ActionSyntaxHighlight},
+					{Label: "Theme...", Shortcut: "", HotKey: 'T', Action: ActionTheme},
 				},
 			},
 			{
@@ -129,6 +131,11 @@ func NewMenuBar(styles Styles) *MenuBar {
 // SetWidth sets the width of the menu bar
 func (m *MenuBar) SetWidth(width int) {
 	m.width = width
+}
+
+// SetStyles updates the styles for runtime theme changes
+func (m *MenuBar) SetStyles(styles Styles) {
+	m.styles = styles
 }
 
 // IsOpen returns true if a menu dropdown is open
@@ -390,21 +397,25 @@ func (m *MenuBar) View() string {
 		paddingWidth = m.width - currentWidth
 	}
 
-	// Build the menu bar with a continuous dark blue background
-	// and switching to cyan for the active item (classic DOS EDIT style)
+	// Get theme colors
+	ui := m.styles.Theme.UI
+	normalColor := ColorToANSI(ui.MenuFg, ui.MenuBg)
+	highlightColor := ColorToANSI(ui.MenuHighlightFg, ui.MenuHighlightBg)
+
+	// Build the menu bar
 	var sb strings.Builder
 
-	// Start with dark blue background, white text
-	sb.WriteString("\033[44;97m") // Dark blue bg, bright white text
+	// Start with menu background and foreground
+	sb.WriteString(normalColor)
 
 	for i, menu := range m.menus {
 		// Underline the first letter (Alt shortcut indicator)
 		labelWithUnderline := underlineFirst(menu.Label)
 		if m.isOpen && i == m.activeMenu {
-			// Switch to cyan background for active item
-			sb.WriteString("\033[46;38;5;16m") // Cyan bg, true black text
+			// Switch to highlight colors for active item
+			sb.WriteString(highlightColor)
 			sb.WriteString("  " + labelWithUnderline + "  ")
-			sb.WriteString("\033[44;97m") // Back to dark blue
+			sb.WriteString(normalColor)
 		} else {
 			sb.WriteString("  " + labelWithUnderline + "  ")
 		}

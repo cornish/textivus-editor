@@ -642,6 +642,12 @@ func (e *Editor) overlayFileBrowser(viewportContent string) string {
 	visibleHeight := e.fileBrowserVisibleHeight()
 	boxHeight := visibleHeight + 6 // +6 for header (3), status (1), and footer (2)
 
+	// Get theme colors for internal styling
+	themeUI := e.styles.Theme.UI
+	selectedStyle := "\033[" + colorToSGR(themeUI.DialogButtonFg, themeUI.DialogButton) + "m"
+	dialogResetStyle := "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m"
+	errorStyle := "\033[" + colorToSGRSingle(themeUI.ErrorFg, true) + "m"
+
 	// Helper to pad/truncate text to exact display width (Unicode-aware)
 	innerWidth := boxWidth - 2 // Account for left and right borders
 	padText := func(s string, width int) string {
@@ -735,8 +741,8 @@ func (e *Editor) overlayFileBrowser(viewportContent string) string {
 			line = padText(line, innerWidth)
 			// Style the line
 			if idx == e.fileBrowserSelected {
-				// Selected: white on blue
-				line = "\033[44;97m" + line + "\033[46;30m"
+				// Selected: use theme button colors
+				line = selectedStyle + line + dialogResetStyle
 			} else if entry.IsDir && !entry.Readable {
 				// Unreadable: dim/gray
 				line = "\033[2m" + line + "\033[22m"
@@ -758,7 +764,7 @@ func (e *Editor) overlayFileBrowser(viewportContent string) string {
 		if len(statusLine) > innerWidth {
 			statusLine = statusLine[:innerWidth]
 		}
-		statusLine = "\033[91m" + padText(statusLine, innerWidth) + "\033[30m" // Red text
+		statusLine = errorStyle + padText(statusLine, innerWidth) + dialogResetStyle
 	} else {
 		statusLine = padText("", innerWidth)
 	}
@@ -786,9 +792,9 @@ func (e *Editor) overlayFileBrowser(viewportContent string) string {
 	for i, dialogLine := range dialogLines {
 		viewportY := startY + i
 		if viewportY >= 0 && viewportY < len(viewportLines) {
-			// Build the styled line with cyan background
+			// Build the styled line with theme colors
 			var styledLine strings.Builder
-			styledLine.WriteString("\033[46;30m") // Cyan bg, black text
+			styledLine.WriteString(dialogResetStyle)
 			styledLine.WriteString(dialogLine)
 			styledLine.WriteString("\033[0m")
 
@@ -806,6 +812,12 @@ func (e *Editor) overlaySaveAs(viewportContent string) string {
 	boxWidth := 52
 	visibleHeight := e.saveAsVisibleHeight()
 	boxHeight := visibleHeight + 7 // +7 for header (4 with filename), status (1), and footer (2)
+
+	// Get theme colors for internal styling
+	themeUI := e.styles.Theme.UI
+	selectedStyle := "\033[" + colorToSGR(themeUI.DialogButtonFg, themeUI.DialogButton) + "m"
+	dialogResetStyle := "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m"
+	errorStyle := "\033[" + colorToSGRSingle(themeUI.ErrorFg, true) + "m"
 
 	// Helper to pad/truncate text to exact display width (Unicode-aware)
 	innerWidth := boxWidth - 2 // Account for left and right borders
@@ -924,8 +936,8 @@ func (e *Editor) overlaySaveAs(viewportContent string) string {
 			line = padText(line, innerWidth)
 			// Style the line
 			if idx == e.fileBrowserSelected && e.saveAsFocusBrowser {
-				// Selected: white on blue
-				line = "\033[44;97m" + line + "\033[46;30m"
+				// Selected: use theme button colors
+				line = selectedStyle + line + dialogResetStyle
 			} else if entry.IsDir && !entry.Readable {
 				// Unreadable: dim/gray
 				line = "\033[2m" + line + "\033[22m"
@@ -947,7 +959,7 @@ func (e *Editor) overlaySaveAs(viewportContent string) string {
 		if runewidth.StringWidth(statusLine) > innerWidth {
 			statusLine = runewidth.Truncate(statusLine, innerWidth, "")
 		}
-		statusLine = "\033[91m" + padText(statusLine, innerWidth) + "\033[30m" // Red text
+		statusLine = errorStyle + padText(statusLine, innerWidth) + dialogResetStyle
 	} else {
 		statusLine = padText("", innerWidth)
 	}
@@ -980,9 +992,9 @@ func (e *Editor) overlaySaveAs(viewportContent string) string {
 	for i, dialogLine := range dialogLines {
 		viewportY := startY + i
 		if viewportY >= 0 && viewportY < len(viewportLines) {
-			// Build the styled line with cyan background
+			// Build the styled line with theme colors
 			var styledLine strings.Builder
-			styledLine.WriteString("\033[46;30m") // Cyan bg, black text
+			styledLine.WriteString(dialogResetStyle)
 			styledLine.WriteString(dialogLine)
 			styledLine.WriteString("\033[0m")
 

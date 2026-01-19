@@ -94,6 +94,11 @@ func (v *Viewport) WordWrap() bool {
 	return v.wordWrap
 }
 
+// SetStyles updates the styles for runtime theme changes
+func (v *Viewport) SetStyles(styles Styles) {
+	v.styles = styles
+}
+
 // MoveDownVisual moves the cursor down by one visual line when word wrap is enabled.
 // Returns the new line and column position.
 func (v *Viewport) MoveDownVisual(lines []string, line, col int) (newLine, newCol int) {

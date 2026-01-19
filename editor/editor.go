@@ -30,6 +30,7 @@ const (
 	ModeAbout
 	ModeFileBrowser
 	ModeSaveAs
+	ModeTheme
 )
 
 // FileEntry represents a file or directory in the file browser
@@ -209,6 +210,10 @@ type Editor struct {
 	// Syntax highlighting
 	highlighter *syntax.Highlighter
 
+	// Theme selection state
+	themeList  []string // Available themes
+	themeIndex int      // Selected theme index
+
 	// Configuration
 	config *config.Config
 }
@@ -220,7 +225,9 @@ func New() *Editor {
 
 // NewWithConfig creates a new editor instance with the given configuration
 func NewWithConfig(cfg *config.Config) *Editor {
-	styles := ui.DefaultStyles()
+	// Create styles from the configured theme
+	theme := cfg.Theme.GetResolved()
+	styles := ui.NewStyles(theme)
 	buf := NewBuffer()
 
 	// Determine ASCII mode: config override or auto-detect
@@ -272,6 +279,23 @@ func NewWithConfig(cfg *config.Config) *Editor {
 		} else {
 			e.highlighter.SetEnabled(false)
 		}
+
+		// Apply true color setting (default is true)
+		if cfg.Editor.TrueColor != nil && !*cfg.Editor.TrueColor {
+			ui.UseTrueColor = false
+		}
+
+		// Apply theme syntax colors
+		e.highlighter.SetColors(syntax.SyntaxColors{
+			Keyword:  theme.Syntax.Keyword,
+			String:   theme.Syntax.String,
+			Comment:  theme.Syntax.Comment,
+			Number:   theme.Syntax.Number,
+			Operator: theme.Syntax.Operator,
+			Function: theme.Syntax.Function,
+			Type:     theme.Syntax.Type,
+			Error:    theme.UI.ErrorFg,
+		})
 	}
 
 	return e
@@ -480,6 +504,11 @@ func (e *Editor) handleKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	if e.mode == ModeAbout {
 		e.mode = ModeNormal
 		return e, nil
+	}
+
+	// Handle theme selection mode
+	if e.mode == ModeTheme {
+		return e.handleThemeKey(msg)
 	}
 
 	// Handle file browser mode
@@ -1333,6 +1362,8 @@ func (e *Editor) executeAction(action ui.MenuAction) (tea.Model, tea.Cmd) {
 		e.toggleLineNumbers()
 	case ui.ActionSyntaxHighlight:
 		e.toggleSyntaxHighlight()
+	case ui.ActionTheme:
+		e.showThemeDialog()
 	case ui.ActionHelp:
 		e.showHelp()
 	case ui.ActionAbout:
@@ -1411,6 +1442,100 @@ func (e *Editor) saveConfig() {
 	e.config.Editor.SyntaxHighlight = e.highlighter.Enabled()
 	// Save in background - don't block the UI
 	go e.config.Save()
+}
+
+// applyTheme changes the current theme and updates all UI components
+func (e *Editor) applyTheme(themeName string) {
+	// Load the theme
+	theme := config.LoadTheme(themeName)
+
+	// Create new styles from the theme
+	styles := ui.NewStyles(theme)
+
+	// Update all UI components
+	e.menubar.SetStyles(styles)
+	e.statusbar.SetStyles(styles)
+	e.viewport.SetStyles(styles)
+	e.styles = styles
+
+	// Update syntax highlighter colors
+	e.highlighter.SetColors(syntax.SyntaxColors{
+		Keyword:  theme.Syntax.Keyword,
+		String:   theme.Syntax.String,
+		Comment:  theme.Syntax.Comment,
+		Number:   theme.Syntax.Number,
+		Operator: theme.Syntax.Operator,
+		Function: theme.Syntax.Function,
+		Type:     theme.Syntax.Type,
+	})
+
+	// Update config and save
+	if e.config == nil {
+		e.config = config.DefaultConfig()
+	}
+	e.config.Theme.Name = themeName
+	go e.config.Save()
+
+	e.statusbar.SetMessage("Theme: "+themeName, "info")
+}
+
+// showThemeDialog opens the theme selection dialog
+func (e *Editor) showThemeDialog() {
+	// Build list of available themes (built-in + user themes)
+	e.themeList = config.ThemeNames()
+	userThemes := config.ListUserThemes()
+	for _, ut := range userThemes {
+		// Only add if not already in the list
+		found := false
+		for _, t := range e.themeList {
+			if t == ut {
+				found = true
+				break
+			}
+		}
+		if !found {
+			e.themeList = append(e.themeList, ut)
+		}
+	}
+
+	// Find current theme index
+	currentTheme := "default"
+	if e.config != nil && e.config.Theme.Name != "" {
+		currentTheme = e.config.Theme.Name
+	}
+	e.themeIndex = 0
+	for i, name := range e.themeList {
+		if name == currentTheme {
+			e.themeIndex = i
+			break
+		}
+	}
+
+	e.mode = ModeTheme
+}
+
+// handleThemeKey handles key events in the theme selection dialog
+func (e *Editor) handleThemeKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
+	switch msg.Type {
+	case tea.KeyUp:
+		if e.themeIndex > 0 {
+			e.themeIndex--
+		}
+	case tea.KeyDown:
+		if e.themeIndex < len(e.themeList)-1 {
+			e.themeIndex++
+		}
+	case tea.KeyEnter:
+		// Apply selected theme and close dialog
+		if e.themeIndex >= 0 && e.themeIndex < len(e.themeList) {
+			e.applyTheme(e.themeList[e.themeIndex])
+		}
+		e.mode = ModeNormal
+	case tea.KeyEsc:
+		// Cancel - just close dialog
+		e.mode = ModeNormal
+	}
+	return e, nil
 }
 
 // showHelp opens the Help dialog with keyboard shortcuts
@@ -2070,8 +2195,16 @@ func (e *Editor) View() string {
 		viewportContent = e.overlaySaveAs(viewportContent)
 	}
 
+	// If theme selection dialog is open, overlay it centered on the viewport
+	if e.mode == ModeTheme {
+		viewportContent = e.overlayThemeDialog(viewportContent)
+	}
+
 	sb.WriteString(viewportContent)
 	sb.WriteString("\n")
+
+	// Get theme colors for input bars
+	barColor := ui.ColorToANSI(e.styles.Theme.UI.MenuFg, e.styles.Theme.UI.MenuBg)
 
 	// Find bar if active
 	if e.mode == ModeFind {
@@ -2080,7 +2213,7 @@ func (e *Editor) View() string {
 		if padding < 0 {
 			padding = 0
 		}
-		sb.WriteString("\033[44;97m") // Dark blue bg, white text
+		sb.WriteString(barColor)
 		sb.WriteString(findContent)
 		sb.WriteString(strings.Repeat(" ", padding))
 		sb.WriteString("\033[0m\n")
@@ -2101,7 +2234,7 @@ func (e *Editor) View() string {
 		if findPadding < 0 {
 			findPadding = 0
 		}
-		sb.WriteString("\033[44;97m") // Dark blue bg, white text
+		sb.WriteString(barColor)
 		sb.WriteString(findLine)
 		sb.WriteString(strings.Repeat(" ", findPadding))
 		sb.WriteString("\033[0m\n")
@@ -2114,7 +2247,7 @@ func (e *Editor) View() string {
 			availSpace = 0
 			hints = ""
 		}
-		sb.WriteString("\033[44;97m") // Dark blue bg, white text
+		sb.WriteString(barColor)
 		sb.WriteString(replaceLine)
 		sb.WriteString(strings.Repeat(" ", availSpace))
 		sb.WriteString(hints)
@@ -2128,7 +2261,7 @@ func (e *Editor) View() string {
 		if padding < 0 {
 			padding = 0
 		}
-		sb.WriteString("\033[44;97m") // Dark blue bg, white text
+		sb.WriteString(barColor)
 		sb.WriteString(promptContent)
 		sb.WriteString(strings.Repeat(" ", padding))
 		sb.WriteString("\033[0m\n")

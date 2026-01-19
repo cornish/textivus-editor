@@ -2,6 +2,8 @@ package editor
 
 import (
 	"strings"
+
+	"github.com/mattn/go-runewidth"
 )
 
 // overlayLineAt overlays the dropdown line on top of the viewport line at the given offset,
@@ -62,7 +64,7 @@ func stripAnsi(s string) string {
 
 // visualWidth calculates the visible width of a string (ignoring ANSI codes)
 func visualWidth(s string) int {
-	return len([]rune(stripAnsi(s)))
+	return runewidth.StringWidth(stripAnsi(s))
 }
 
 // overlayAboutDialog overlays the about dialog centered on the viewport
@@ -172,14 +174,19 @@ func (e *Editor) overlayAboutDialog(viewportContent string) string {
 
 	viewportLines := strings.Split(viewportContent, "\n")
 
+	// Get theme dialog colors
+	themeUI := e.styles.Theme.UI
+	dialogStyle := "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m"
+	resetStyle := "\033[0m"
+
 	for i, aboutLine := range aboutLines {
 		viewportY := startY + i
 		if viewportY >= 0 && viewportY < len(viewportLines) {
-			// Build the styled about line with cyan background
+			// Build the styled about line with theme colors
 			var styledLine strings.Builder
-			styledLine.WriteString("\033[46;30m") // Cyan bg, black text
+			styledLine.WriteString(dialogStyle)
 			styledLine.WriteString(aboutLine)
-			styledLine.WriteString("\033[0m")
+			styledLine.WriteString(resetStyle)
 
 			// Overlay on viewport line
 			viewportLines[viewportY] = overlayLineAt(styledLine.String(), viewportLines[viewportY], startX)
@@ -198,18 +205,20 @@ func (e *Editor) overlayHelpDialog(viewportContent string) string {
 	// Layout: colWidth (33) + separator "  │ " (4) + colWidth (33) = 70
 
 	padText := func(s string, width int) string {
-		if len(s) > width {
-			return s[:width]
+		sw := runewidth.StringWidth(s)
+		if sw > width {
+			return runewidth.Truncate(s, width, "")
 		}
-		return s + strings.Repeat(" ", width-len(s))
+		return s + strings.Repeat(" ", width-sw)
 	}
 
 	centerText := func(s string, width int) string {
-		if len(s) >= width {
-			return s[:width]
+		sw := runewidth.StringWidth(s)
+		if sw >= width {
+			return runewidth.Truncate(s, width, "")
 		}
-		padLeft := (width - len(s)) / 2
-		padRight := width - len(s) - padLeft
+		padLeft := (width - sw) / 2
+		padRight := width - sw - padLeft
 		return strings.Repeat(" ", padLeft) + s + strings.Repeat(" ", padRight)
 	}
 
@@ -316,14 +325,19 @@ func (e *Editor) overlayHelpDialog(viewportContent string) string {
 
 	viewportLines := strings.Split(viewportContent, "\n")
 
+	// Get theme dialog colors
+	themeUI := e.styles.Theme.UI
+	dialogStyle := "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m"
+	resetStyle := "\033[0m"
+
 	for i, helpLine := range helpLines {
 		viewportY := startY + i
 		if viewportY >= 0 && viewportY < len(viewportLines) {
-			// Build the styled help line with cyan background
+			// Build the styled help line with theme colors
 			var styledLine strings.Builder
-			styledLine.WriteString("\033[46;30m") // Cyan bg, black text
+			styledLine.WriteString(dialogStyle)
 			styledLine.WriteString(helpLine)
-			styledLine.WriteString("\033[0m")
+			styledLine.WriteString(resetStyle)
 
 			// Overlay on viewport line
 			viewportLines[viewportY] = overlayLineAt(styledLine.String(), viewportLines[viewportY], startX)
@@ -331,4 +345,204 @@ func (e *Editor) overlayHelpDialog(viewportContent string) string {
 	}
 
 	return strings.Join(viewportLines, "\n")
+}
+
+// overlayThemeDialog overlays the theme selection dialog centered on the viewport
+func (e *Editor) overlayThemeDialog(viewportContent string) string {
+	boxWidth := 40
+	innerWidth := boxWidth - 2
+
+	padText := func(s string, width int) string {
+		sw := runewidth.StringWidth(s)
+		if sw > width {
+			return runewidth.Truncate(s, width, "")
+		}
+		return s + strings.Repeat(" ", width-sw)
+	}
+
+	centerText := func(s string, width int) string {
+		sw := runewidth.StringWidth(s)
+		if sw >= width {
+			return runewidth.Truncate(s, width, "")
+		}
+		padLeft := (width - sw) / 2
+		padRight := width - sw - padLeft
+		return strings.Repeat(" ", padLeft) + s + strings.Repeat(" ", padRight)
+	}
+
+	// Get the theme colors for the dialog
+	themeUI := e.styles.Theme.UI
+	dialogStyle := "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m"
+	selectedStyle := "\033[" + colorToSGR(themeUI.DialogButtonFg, themeUI.DialogButton) + "m"
+	dialogResetStyle := "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m"
+	resetStyle := "\033[0m"
+
+	// Current theme name for marking
+	currentTheme := "default"
+	if e.config != nil && e.config.Theme.Name != "" {
+		currentTheme = e.config.Theme.Name
+	}
+
+	// Build dialog lines (plain text, color applied in overlay loop)
+	var dialogLines []string
+
+	// Top border with title
+	title := " Select Theme "
+	titlePadLeft := (innerWidth - len(title)) / 2
+	titlePadRight := innerWidth - len(title) - titlePadLeft
+	dialogLines = append(dialogLines, e.box.TopLeft+strings.Repeat(e.box.Horizontal, titlePadLeft)+title+strings.Repeat(e.box.Horizontal, titlePadRight)+e.box.TopRight)
+
+	// Empty line
+	dialogLines = append(dialogLines, e.box.Vertical+strings.Repeat(" ", innerWidth)+e.box.Vertical)
+
+	// Theme list - need internal styling for selected item
+	for i, name := range e.themeList {
+		// Mark current theme with asterisk, selected with highlight
+		prefix := "   "
+		if name == currentTheme {
+			prefix = " * "
+		}
+		displayName := prefix + name
+
+		var line string
+		if i == e.themeIndex {
+			// Selected item - highlighted (internal styling needed)
+			line = e.box.Vertical + selectedStyle + padText(displayName, innerWidth) + dialogResetStyle + e.box.Vertical
+		} else {
+			// Normal item
+			line = e.box.Vertical + padText(displayName, innerWidth) + e.box.Vertical
+		}
+		dialogLines = append(dialogLines, line)
+	}
+
+	// Empty line
+	dialogLines = append(dialogLines, e.box.Vertical+strings.Repeat(" ", innerWidth)+e.box.Vertical)
+
+	// Footer
+	footerText := centerText("[Enter] Select  [Esc] Cancel", innerWidth)
+	dialogLines = append(dialogLines, e.box.Vertical+footerText+e.box.Vertical)
+
+	// Bottom border
+	dialogLines = append(dialogLines, e.box.BottomLeft+strings.Repeat(e.box.Horizontal, innerWidth)+e.box.BottomRight)
+
+	boxHeight := len(dialogLines)
+
+	// Calculate centering
+	startX := (e.width - boxWidth) / 2
+	if startX < 0 {
+		startX = 0
+	}
+	startY := (e.viewport.Height() - boxHeight) / 2
+	if startY < 0 {
+		startY = 0
+	}
+
+	viewportLines := strings.Split(viewportContent, "\n")
+
+	for i, dialogLine := range dialogLines {
+		viewportY := startY + i
+		if viewportY >= 0 && viewportY < len(viewportLines) {
+			// Build the styled dialog line with theme colors
+			var styledLine strings.Builder
+			styledLine.WriteString(dialogStyle)
+			styledLine.WriteString(dialogLine)
+			styledLine.WriteString(resetStyle)
+
+			// Overlay on viewport line
+			viewportLines[viewportY] = overlayLineAt(styledLine.String(), viewportLines[viewportY], startX)
+		}
+	}
+
+	return strings.Join(viewportLines, "\n")
+}
+
+// colorToSGR converts a theme color string to SGR parameters (without the leading \033[ and trailing m)
+// Returns fg;bg format for combined use
+func colorToSGR(fg, bg string) string {
+	fgCode := colorToSGRSingle(fg, true)
+	bgCode := colorToSGRSingle(bg, false)
+	return fgCode + ";" + bgCode
+}
+
+// colorToSGRSingle converts a single color to SGR parameter
+func colorToSGRSingle(color string, isForeground bool) string {
+	if strings.HasPrefix(color, "#") {
+		// Hex color
+		r, g, b := parseHexColor(color)
+		if isForeground {
+			return "38;2;" + itoa(r) + ";" + itoa(g) + ";" + itoa(b)
+		}
+		return "48;2;" + itoa(r) + ";" + itoa(g) + ";" + itoa(b)
+	}
+	// Numeric color
+	n := atoi(color)
+	if n < 16 {
+		// Basic colors
+		if isForeground {
+			if n < 8 {
+				return itoa(30 + n)
+			}
+			return itoa(90 + n - 8)
+		}
+		if n < 8 {
+			return itoa(40 + n)
+		}
+		return itoa(100 + n - 8)
+	}
+	// 256 color
+	if isForeground {
+		return "38;5;" + color
+	}
+	return "48;5;" + color
+}
+
+// parseHexColor parses #RGB or #RRGGBB to r, g, b values
+func parseHexColor(hex string) (int, int, int) {
+	hex = strings.TrimPrefix(hex, "#")
+	if len(hex) == 3 {
+		r := hexDigit(hex[0]) * 17
+		g := hexDigit(hex[1]) * 17
+		b := hexDigit(hex[2]) * 17
+		return r, g, b
+	}
+	if len(hex) == 6 {
+		r := hexDigit(hex[0])*16 + hexDigit(hex[1])
+		g := hexDigit(hex[2])*16 + hexDigit(hex[3])
+		b := hexDigit(hex[4])*16 + hexDigit(hex[5])
+		return r, g, b
+	}
+	return 255, 255, 255
+}
+
+func hexDigit(c byte) int {
+	if c >= '0' && c <= '9' {
+		return int(c - '0')
+	}
+	if c >= 'a' && c <= 'f' {
+		return int(c - 'a' + 10)
+	}
+	if c >= 'A' && c <= 'F' {
+		return int(c - 'A' + 10)
+	}
+	return 0
+}
+
+func itoa(n int) string {
+	if n < 0 {
+		return "-" + itoa(-n)
+	}
+	if n < 10 {
+		return string(byte('0' + n))
+	}
+	return itoa(n/10) + string(byte('0'+n%10))
+}
+
+func atoi(s string) int {
+	n := 0
+	for _, c := range s {
+		if c >= '0' && c <= '9' {
+			n = n*10 + int(c-'0')
+		}
+	}
+	return n
 }

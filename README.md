@@ -122,6 +122,89 @@ The status bar shows:
 - Current line and column
 - File encoding (UTF-8)
 
+## Configuration
+
+Festivus stores its configuration in `~/.config/festivus/config.toml`:
+
+```toml
+[editor]
+word_wrap = false
+line_numbers = false
+syntax_highlight = true
+true_color = true  # Set to false for older terminals
+
+[theme]
+name = "default"  # or "dark", "light", "monokai"
+```
+
+## Themes
+
+Festivus supports color themes with 4 built-in options:
+- **default** - Classic DOS EDIT style (blue/cyan)
+- **dark** - Modern dark theme
+- **light** - Light theme for bright environments
+- **monokai** - Monokai-inspired dark theme
+
+Switch themes at runtime via the **Options** menu, or set the default in your config file.
+
+### Custom Themes
+
+Create custom themes in `~/.config/festivus/themes/`:
+
+```toml
+# ~/.config/festivus/themes/mytheme.toml
+name = "mytheme"
+description = "My custom theme"
+author = "Your Name"
+
+[ui]
+menu_bg = "#3B4252"
+menu_fg = "#ECEFF4"
+menu_highlight_bg = "#5E81AC"
+menu_highlight_fg = "#ECEFF4"
+status_bg = "#3B4252"
+status_fg = "#ECEFF4"
+status_accent = "#88C0D0"
+selection_bg = "#4C566A"
+selection_fg = "#ECEFF4"
+line_number = "#4C566A"
+line_number_active = "#D8DEE9"
+error_fg = "#BF616A"
+disabled_fg = "#4C566A"
+dialog_bg = "#3B4252"
+dialog_fg = "#ECEFF4"
+dialog_border = "#4C566A"
+dialog_title = "#88C0D0"
+dialog_button = "#5E81AC"
+dialog_button_fg = "#ECEFF4"
+
+[syntax]
+keyword = "#81A1C1"
+string = "#A3BE8C"
+comment = "#616E88"
+number = "#B48EAD"
+operator = "#81A1C1"
+function = "#88C0D0"
+type = "#8FBCBB"
+```
+
+Then reference it in your config: `name = "mytheme"`
+
+### Color Formats
+
+Colors can be specified as:
+- **ANSI 16 colors**: `"0"` - `"15"`
+- **256-color palette**: `"16"` - `"255"`
+- **Hex colors**: `"#RGB"` or `"#RRGGBB"`
+
+### True Color Support
+
+Hex colors use 24-bit "true color" by default, which requires a modern terminal:
+- iTerm2, Alacritty, Kitty, Windows Terminal
+- GNOME Terminal, Konsole, VS Code terminal
+
+For older terminals, set `true_color = false` in your config to automatically convert hex colors to the nearest 256-color match.
+
 ## Why "Festivus"?
 
 > "A Festivus for the rest of us!"
