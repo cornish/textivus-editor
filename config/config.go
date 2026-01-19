@@ -18,8 +18,9 @@ type EditorConfig struct {
 	WordWrap        bool  `toml:"word_wrap"`
 	LineNumbers     bool  `toml:"line_numbers"`
 	SyntaxHighlight bool  `toml:"syntax_highlight"`
-	TrueColor       *bool `toml:"true_color"` // nil = auto (true), false = force 256-color
-	AsciiMode       *bool `toml:"ascii_mode"` // nil = auto-detect, true/false = override
+	TrueColor       *bool `toml:"true_color"`    // nil = auto (true), false = force 256-color
+	AsciiMode       *bool `toml:"ascii_mode"`    // nil = auto-detect, true/false = override
+	BackupOnSave    bool  `toml:"backup_on_save"` // Create filename~ backup before saving
 }
 
 // ThemeConfig holds the theme reference in the main config

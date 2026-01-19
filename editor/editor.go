@@ -355,6 +355,14 @@ func (e *Editor) SaveFile() bool {
 
 // doSave performs the actual file save
 func (e *Editor) doSave() bool {
+	// Create backup if enabled and file exists
+	if e.config != nil && e.config.Editor.BackupOnSave {
+		if err := e.createBackup(); err != nil {
+			e.statusbar.SetMessage("Backup failed: "+err.Error(), "error")
+			return false
+		}
+	}
+
 	content := e.buffer.String()
 	err := os.WriteFile(e.filename, []byte(content), 0644)
 	if err != nil {
@@ -372,8 +380,44 @@ func (e *Editor) doSave() bool {
 	return true
 }
 
+// createBackup creates a backup copy of the current file (filename~)
+func (e *Editor) createBackup() error {
+	if e.filename == "" {
+		return nil // No file to backup
+	}
+
+	// Check if file exists
+	if _, err := os.Stat(e.filename); os.IsNotExist(err) {
+		return nil // New file, nothing to backup
+	}
+
+	// Copy file to backup (filename~)
+	backupPath := e.filename + "~"
+	src, err := os.ReadFile(e.filename)
+	if err != nil {
+		return err
+	}
+
+	// Preserve original file permissions if possible
+	info, err := os.Stat(e.filename)
+	mode := os.FileMode(0644)
+	if err == nil {
+		mode = info.Mode()
+	}
+
+	return os.WriteFile(backupPath, src, mode)
+}
+
 // doSaveInDialog performs file save, showing errors in the dialog instead of status bar
 func (e *Editor) doSaveInDialog() bool {
+	// Create backup if enabled and file exists
+	if e.config != nil && e.config.Editor.BackupOnSave {
+		if err := e.createBackup(); err != nil {
+			e.fileBrowserError = "Backup failed: " + err.Error()
+			return false
+		}
+	}
+
 	content := e.buffer.String()
 	err := os.WriteFile(e.filename, []byte(content), 0644)
 	if err != nil {

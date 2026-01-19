@@ -131,19 +131,25 @@ Festivus stores its configuration in `~/.config/festivus/config.toml`:
 word_wrap = false
 line_numbers = false
 syntax_highlight = true
-true_color = true  # Set to false for older terminals
+true_color = true      # Set to false for older terminals
+backup_on_save = false # Create filename~ backup before saving
 
 [theme]
-name = "default"  # or "dark", "light", "monokai"
+name = "default"  # or "dark", "light", "monokai", "nord", "dracula", "gruvbox", "solarized", "catppuccin"
 ```
 
 ## Themes
 
-Festivus supports color themes with 4 built-in options:
+Festivus supports color themes with 9 built-in options:
 - **default** - Classic DOS EDIT style (blue/cyan)
 - **dark** - Modern dark theme
 - **light** - Light theme for bright environments
 - **monokai** - Monokai-inspired dark theme
+- **nord** - Arctic, north-bluish palette
+- **dracula** - Dark theme with vibrant colors
+- **gruvbox** - Retro groove color scheme
+- **solarized** - Precision colors (dark variant)
+- **catppuccin** - Soothing pastel theme (Mocha)
 
 Switch themes at runtime via the **Options** menu, or set the default in your config file.
 
