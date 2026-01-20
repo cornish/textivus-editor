@@ -39,10 +39,13 @@ const (
 
 // FileEntry represents a file or directory in the file browser
 type FileEntry struct {
-	Name     string
-	IsDir    bool
-	Size     int64
-	Readable bool // For directories: whether we can read/enter it
+	Name       string
+	IsDir      bool
+	Size       int64
+	Readable   bool   // For directories: whether we can read/enter it
+	IsFavorite bool   // Whether this item is favorited
+	FullPath   string // Full path (used in favorites view)
+	IsSpecial  bool   // True for special entries like "★ Favorites" or ".."
 }
 
 // BoxChars holds characters used for drawing dialog boxes
@@ -228,11 +231,12 @@ type Editor struct {
 	aboutQuote string
 
 	// File browser state (shared with Save As)
-	fileBrowserDir      string      // Current directory
-	fileBrowserEntries  []FileEntry // Directory contents
-	fileBrowserSelected int         // Selected index
-	fileBrowserScroll   int         // Scroll offset
-	fileBrowserError    string      // Error message to display in dialog
+	fileBrowserDir       string      // Current directory
+	fileBrowserEntries   []FileEntry // Directory contents
+	fileBrowserSelected  int         // Selected index
+	fileBrowserScroll    int         // Scroll offset
+	fileBrowserError     string      // Error message to display in dialog
+	fileBrowserFavorites bool        // true = showing favorites virtual directory
 
 	// Save As state
 	saveAsFilename     string // Filename input for Save As dialog

@@ -210,6 +210,7 @@ func (e *Editor) handleFileBrowserKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	switch msg.Type {
 	case tea.KeyEsc:
 		e.mode = ModeNormal
+		e.fileBrowserFavorites = false
 		e.statusbar.SetMessage("Cancelled", "info")
 
 	case tea.KeyEnter:
@@ -218,12 +219,16 @@ func (e *Editor) handleFileBrowserKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 			if e.fileBrowserSelected >= 0 && e.fileBrowserSelected < len(e.fileBrowserEntries) {
 				entry := e.fileBrowserEntries[e.fileBrowserSelected]
 				if !entry.IsDir {
-					fullPath := filepath.Join(e.fileBrowserDir, entry.Name)
+					// Use FullPath if available (favorites view), otherwise construct
+					fullPath := entry.FullPath
+					if fullPath == "" {
+						fullPath = filepath.Join(e.fileBrowserDir, entry.Name)
+					}
 					if err := e.LoadFile(fullPath); err != nil {
-						// Show error in dialog, stay open
 						e.fileBrowserError = "Open failed: " + err.Error()
 					} else {
 						e.mode = ModeNormal
+						e.fileBrowserFavorites = false
 						e.fileBrowserError = ""
 						e.statusbar.SetMessage("Opened: "+fullPath, "success")
 					}
@@ -251,6 +256,12 @@ func (e *Editor) handleFileBrowserKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 
 	case tea.KeyPgDown:
 		e.browserNavigatePgDown(visibleHeight)
+
+	case tea.KeyRunes:
+		// F key toggles favorite
+		if len(msg.Runes) == 1 && (msg.Runes[0] == 'f' || msg.Runes[0] == 'F') {
+			e.browserToggleFavorite()
+		}
 	}
 
 	return e, nil
@@ -342,6 +353,11 @@ func (e *Editor) browserNavigatePgDown(visibleHeight int) {
 
 // browserGoToParent navigates to parent directory
 func (e *Editor) browserGoToParent() {
+	if e.fileBrowserFavorites {
+		// Exit favorites view, go back to real directory
+		e.loadDirectory(e.fileBrowserDir)
+		return
+	}
 	if e.fileBrowserDir != "/" {
 		newPath := filepath.Clean(filepath.Dir(e.fileBrowserDir))
 		e.loadDirectory(newPath)
@@ -363,14 +379,66 @@ func (e *Editor) browserEnterDirectory() bool {
 		return true // Handled, but with error
 	}
 	e.fileBrowserError = "" // Clear error
-	var newPath string
+
+	// Handle special entries
 	if entry.Name == ".." {
-		newPath = filepath.Dir(e.fileBrowserDir)
+		e.browserGoToParent()
+		return true
+	}
+	if entry.Name == FavoritesEntryName {
+		e.loadFavorites()
+		return true
+	}
+
+	// In favorites view, use FullPath; otherwise construct path
+	var newPath string
+	if e.fileBrowserFavorites && entry.FullPath != "" {
+		newPath = entry.FullPath
 	} else {
 		newPath = filepath.Join(e.fileBrowserDir, entry.Name)
 	}
 	e.loadDirectory(filepath.Clean(newPath))
 	return true
+}
+
+// browserToggleFavorite toggles the favorite status of the selected item
+func (e *Editor) browserToggleFavorite() {
+	if e.config == nil {
+		return
+	}
+	if len(e.fileBrowserEntries) == 0 || e.fileBrowserSelected < 0 || e.fileBrowserSelected >= len(e.fileBrowserEntries) {
+		return
+	}
+	entry := &e.fileBrowserEntries[e.fileBrowserSelected]
+
+	// Don't allow favoriting special entries
+	if entry.IsSpecial {
+		return
+	}
+
+	// Get the full path
+	var fullPath string
+	if entry.FullPath != "" {
+		fullPath = entry.FullPath
+	} else {
+		fullPath = filepath.Join(e.fileBrowserDir, entry.Name)
+	}
+
+	isNowFav, changed := e.config.ToggleFavorite(fullPath, entry.IsDir)
+	if changed {
+		entry.IsFavorite = isNowFav
+		go e.config.Save()
+
+		if isNowFav {
+			e.statusbar.SetMessage("Added to favorites", "success")
+		} else {
+			e.statusbar.SetMessage("Removed from favorites", "info")
+			// If in favorites view and we unfavorited, reload
+			if e.fileBrowserFavorites {
+				e.loadFavorites()
+			}
+		}
+	}
 }
 
 // saveAsVisibleHeight returns the number of visible file entries in Save As
@@ -393,6 +461,7 @@ func (e *Editor) handleSaveAsKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	switch msg.Type {
 	case tea.KeyEsc:
 		e.mode = ModeNormal
+		e.fileBrowserFavorites = false
 		e.statusbar.SetMessage("Cancelled", "info")
 
 	case tea.KeyTab:
@@ -489,9 +558,14 @@ func (e *Editor) handleSaveAsKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		}
 
 	case tea.KeyRunes:
-		// Always type into filename field, switch focus there
-		e.saveAsFilename += string(msg.Runes)
-		e.saveAsFocusBrowser = false
+		// F key toggles favorite when focus is on browser
+		if e.saveAsFocusBrowser && len(msg.Runes) == 1 && (msg.Runes[0] == 'f' || msg.Runes[0] == 'F') {
+			e.browserToggleFavorite()
+		} else {
+			// Type into filename field, switch focus there
+			e.saveAsFilename += string(msg.Runes)
+			e.saveAsFocusBrowser = false
+		}
 
 	case tea.KeySpace:
 		e.saveAsFilename += " "
@@ -514,6 +588,7 @@ func (e *Editor) showFileBrowser() {
 
 	e.fileBrowserDir = startDir
 	e.fileBrowserSelected = 0
+	e.fileBrowserFavorites = false
 	e.fileBrowserScroll = 0
 	e.fileBrowserError = "" // Clear any previous error
 	e.loadDirectory(startDir)
@@ -542,11 +617,15 @@ func (e *Editor) showSaveAs() {
 	e.fileBrowserDir = startDir
 	e.fileBrowserSelected = 0
 	e.fileBrowserScroll = 0
+	e.fileBrowserFavorites = false
 	e.fileBrowserError = "" // Clear any previous error
 	e.saveAsFocusBrowser = false // Start with focus on filename field
 	e.loadDirectory(startDir)
 	e.mode = ModeSaveAs
 }
+
+// FavoritesEntryName is the display name for the favorites virtual directory
+const FavoritesEntryName = "★ Favorites"
 
 // loadDirectory reads the contents of a directory and populates the file browser
 func (e *Editor) loadDirectory(path string) {
@@ -558,16 +637,29 @@ func (e *Editor) loadDirectory(path string) {
 
 	// Clear any previous error on success
 	e.fileBrowserError = ""
+	e.fileBrowserFavorites = false
 
-	e.fileBrowserEntries = make([]FileEntry, 0, len(entries)+1)
+	e.fileBrowserEntries = make([]FileEntry, 0, len(entries)+2)
 
 	// Add parent directory entry if not at root
 	if path != "/" {
 		e.fileBrowserEntries = append(e.fileBrowserEntries, FileEntry{
-			Name:     "..",
-			IsDir:    true,
-			Size:     0,
-			Readable: true, // Parent is always readable (we came from there)
+			Name:      "..",
+			IsDir:     true,
+			Size:      0,
+			Readable:  true,
+			IsSpecial: true,
+		})
+	}
+
+	// Add favorites virtual directory entry if there are any favorites
+	if e.config != nil && (len(e.config.FavoriteFiles) > 0 || len(e.config.FavoriteDirs) > 0) {
+		e.fileBrowserEntries = append(e.fileBrowserEntries, FileEntry{
+			Name:      FavoritesEntryName,
+			IsDir:     true,
+			Size:      0,
+			Readable:  true,
+			IsSpecial: true,
 		})
 	}
 
@@ -575,27 +667,32 @@ func (e *Editor) loadDirectory(path string) {
 	// Note: We avoid calling entry.Info() for directories as it can hang
 	// on stale network mounts. Only call Info() for files (to get size).
 	var dirs, files []FileEntry
+	cleanPath := filepath.Clean(path)
 	for _, entry := range entries {
+		fullPath := filepath.Join(cleanPath, entry.Name())
 		if entry.IsDir() {
-			// For directories, don't call Info() - it can hang on stale mounts
-			// We'll check readability when they try to enter
+			isFav := e.config != nil && e.config.IsFavoriteDir(fullPath)
 			dirs = append(dirs, FileEntry{
-				Name:     entry.Name(),
-				IsDir:    true,
-				Size:     0,
-				Readable: true, // Assume readable, show error on enter
+				Name:       entry.Name(),
+				IsDir:      true,
+				Size:       0,
+				Readable:   true,
+				IsFavorite: isFav,
+				FullPath:   fullPath,
 			})
 		} else {
-			// For files, get info for size (less likely to hang)
 			info, err := entry.Info()
 			if err != nil {
 				continue
 			}
+			isFav := e.config != nil && e.config.IsFavoriteFile(fullPath)
 			files = append(files, FileEntry{
-				Name:     entry.Name(),
-				IsDir:    false,
-				Size:     info.Size(),
-				Readable: true,
+				Name:       entry.Name(),
+				IsDir:      false,
+				Size:       info.Size(),
+				Readable:   true,
+				IsFavorite: isFav,
+				FullPath:   fullPath,
 			})
 		}
 	}
@@ -612,7 +709,61 @@ func (e *Editor) loadDirectory(path string) {
 	e.fileBrowserEntries = append(e.fileBrowserEntries, dirs...)
 	e.fileBrowserEntries = append(e.fileBrowserEntries, files...)
 
-	e.fileBrowserDir = filepath.Clean(path)
+	e.fileBrowserDir = cleanPath
+	e.fileBrowserSelected = 0
+	e.fileBrowserScroll = 0
+}
+
+// loadFavorites populates the file browser with the favorites virtual directory
+func (e *Editor) loadFavorites() {
+	e.fileBrowserError = ""
+	e.fileBrowserFavorites = true
+	e.fileBrowserEntries = make([]FileEntry, 0)
+
+	// Add ".." to go back to the previous real directory
+	e.fileBrowserEntries = append(e.fileBrowserEntries, FileEntry{
+		Name:      "..",
+		IsDir:     true,
+		Size:      0,
+		Readable:  true,
+		IsSpecial: true,
+	})
+
+	if e.config == nil {
+		return
+	}
+
+	// Add favorite directories
+	for _, path := range e.config.FavoriteDirs {
+		name := filepath.Base(path)
+		e.fileBrowserEntries = append(e.fileBrowserEntries, FileEntry{
+			Name:       name,
+			IsDir:      true,
+			Size:       0,
+			Readable:   true,
+			IsFavorite: true,
+			FullPath:   path,
+		})
+	}
+
+	// Add favorite files
+	for _, path := range e.config.FavoriteFiles {
+		name := filepath.Base(path)
+		// Try to get file size
+		var size int64
+		if info, err := os.Stat(path); err == nil {
+			size = info.Size()
+		}
+		e.fileBrowserEntries = append(e.fileBrowserEntries, FileEntry{
+			Name:       name,
+			IsDir:      false,
+			Size:       size,
+			Readable:   true,
+			IsFavorite: true,
+			FullPath:   path,
+		})
+	}
+
 	e.fileBrowserSelected = 0
 	e.fileBrowserScroll = 0
 }
@@ -700,26 +851,51 @@ func (e *Editor) overlayFileBrowser(viewportContent string) string {
 	// Build the dialog lines
 	var dialogLines []string
 
-	// Top border with title
+	// Top border with title (changes for favorites view)
 	title := " Open File "
+	if e.fileBrowserFavorites {
+		title = " Favorites "
+	}
 	titlePadLeft := (boxWidth - 2 - len(title)) / 2
 	titlePadRight := boxWidth - 2 - len(title) - titlePadLeft
 	dialogLines = append(dialogLines, e.box.TopLeft+strings.Repeat(e.box.Horizontal, titlePadLeft)+title+strings.Repeat(e.box.Horizontal, titlePadRight)+e.box.TopRight)
 
-	// Directory line
-	dialogLines = append(dialogLines, e.box.Vertical+padText(" Directory: "+dirDisplay, innerWidth)+e.box.Vertical)
+	// Directory line (changes for favorites view)
+	var dirLine string
+	if e.fileBrowserFavorites {
+		dirLine = padText(" Showing favorite files and directories", innerWidth)
+	} else {
+		dirLine = padText(" Directory: "+dirDisplay, innerWidth)
+	}
+	dialogLines = append(dialogLines, e.box.Vertical+dirLine+e.box.Vertical)
 
 	// Separator
 	dialogLines = append(dialogLines, e.box.TeeLeft+strings.Repeat(e.box.Horizontal, innerWidth)+e.box.TeeRight)
 
 	// File list
-	lockWidth := runewidth.StringWidth(e.box.Lock)
+	// Prefix width: star (★) or space, plus space = 2 visual chars
+	starChar := "★"
+	if e.box.Lock == "*" {
+		starChar = "*" // ASCII mode
+	}
+	prefixWidth := 2
 	for i := 0; i < visibleHeight; i++ {
 		idx := e.fileBrowserScroll + i
 		if idx < len(e.fileBrowserEntries) {
 			entry := e.fileBrowserEntries[idx]
-			// Truncate filename if needed (leave room for size column)
-			nameWidth := 36
+
+			// Build prefix: star for favorites, space otherwise
+			var prefix string
+			if entry.IsFavorite {
+				prefix = starChar + " "
+			} else if entry.IsSpecial {
+				prefix = "  " // Special entries (.. and ★ Favorites) get no star
+			} else {
+				prefix = "  "
+			}
+
+			// Truncate filename if needed (leave room for prefix and size column)
+			nameWidth := 34 // Reduced to make room for star prefix
 			name := entry.Name
 			if runewidth.StringWidth(name) > nameWidth {
 				name = runewidth.Truncate(name, nameWidth-1, e.box.Ellipsis)
@@ -730,13 +906,12 @@ func (e *Editor) overlayFileBrowser(viewportContent string) string {
 			var line string
 			if entry.IsDir {
 				if !entry.Readable {
-					// Unreadable directory - show lock before name
-					line = " " + e.box.Lock + " " + namePadded + fmt.Sprintf("%6s ", "<DIR>")
+					line = prefix + e.box.Lock + " " + namePadded + fmt.Sprintf("%6s ", "<DIR>")
 				} else {
-					line = strings.Repeat(" ", lockWidth+2) + namePadded + fmt.Sprintf("%6s ", "<DIR>")
+					line = prefix + "  " + namePadded + fmt.Sprintf("%6s ", "<DIR>")
 				}
 			} else {
-				line = strings.Repeat(" ", lockWidth+2) + namePadded + fmt.Sprintf("%6s ", formatFileSize(entry.Size))
+				line = prefix + "  " + namePadded + fmt.Sprintf("%6s ", formatFileSize(entry.Size))
 			}
 			// Pad line to inner width using Unicode-aware width
 			line = padText(line, innerWidth)
@@ -754,6 +929,7 @@ func (e *Editor) overlayFileBrowser(viewportContent string) string {
 			dialogLines = append(dialogLines, e.box.Vertical+strings.Repeat(" ", innerWidth)+e.box.Vertical)
 		}
 	}
+	_ = prefixWidth // suppress unused variable warning
 
 	// Separator
 	dialogLines = append(dialogLines, e.box.TeeLeft+strings.Repeat(e.box.Horizontal, innerWidth)+e.box.TeeRight)
@@ -772,7 +948,7 @@ func (e *Editor) overlayFileBrowser(viewportContent string) string {
 	dialogLines = append(dialogLines, e.box.Vertical+statusLine+e.box.Vertical)
 
 	// Help line
-	helpText := "Click/Enter: Open  Esc: Cancel  Bksp: Parent"
+	helpText := "Enter: Open  F: Favorite  Bksp: Back  Esc: Cancel"
 	dialogLines = append(dialogLines, e.box.Vertical+centerText(helpText, innerWidth)+e.box.Vertical)
 
 	// Bottom border
@@ -877,8 +1053,14 @@ func (e *Editor) overlaySaveAs(viewportContent string) string {
 	titlePadRight := boxWidth - 2 - len(title) - titlePadLeft
 	dialogLines = append(dialogLines, e.box.TopLeft+strings.Repeat(e.box.Horizontal, titlePadLeft)+title+strings.Repeat(e.box.Horizontal, titlePadRight)+e.box.TopRight)
 
-	// Directory line
-	dialogLines = append(dialogLines, e.box.Vertical+padText(" Directory: "+dirDisplay, innerWidth)+e.box.Vertical)
+	// Directory line (changes for favorites view)
+	var dirLine string
+	if e.fileBrowserFavorites {
+		dirLine = padText(" Browsing: Favorites", innerWidth)
+	} else {
+		dirLine = padText(" Directory: "+dirDisplay, innerWidth)
+	}
+	dialogLines = append(dialogLines, e.box.Vertical+dirLine+e.box.Vertical)
 
 	// Filename input line - show block cursor when focused
 	filenameDisplay := e.saveAsFilename
@@ -908,13 +1090,25 @@ func (e *Editor) overlaySaveAs(viewportContent string) string {
 	dialogLines = append(dialogLines, e.box.TeeLeft+strings.Repeat(e.box.Horizontal, innerWidth)+e.box.TeeRight)
 
 	// File list
-	lockWidth := runewidth.StringWidth(e.box.Lock)
+	starChar := "★"
+	if e.box.Lock == "*" {
+		starChar = "*" // ASCII mode
+	}
 	for i := 0; i < visibleHeight; i++ {
 		idx := e.fileBrowserScroll + i
 		if idx < len(e.fileBrowserEntries) {
 			entry := e.fileBrowserEntries[idx]
-			// Truncate filename if needed (leave room for size column)
-			nameWidth := 36
+
+			// Build prefix: star for favorites, space otherwise
+			var prefix string
+			if entry.IsFavorite {
+				prefix = starChar + " "
+			} else {
+				prefix = "  "
+			}
+
+			// Truncate filename if needed (leave room for prefix and size column)
+			nameWidth := 34 // Reduced to make room for star prefix
 			name := entry.Name
 			if runewidth.StringWidth(name) > nameWidth {
 				name = runewidth.Truncate(name, nameWidth-1, e.box.Ellipsis)
@@ -925,13 +1119,12 @@ func (e *Editor) overlaySaveAs(viewportContent string) string {
 			var line string
 			if entry.IsDir {
 				if !entry.Readable {
-					// Unreadable directory - show lock before name
-					line = " " + e.box.Lock + " " + namePadded + fmt.Sprintf("%6s ", "<DIR>")
+					line = prefix + e.box.Lock + " " + namePadded + fmt.Sprintf("%6s ", "<DIR>")
 				} else {
-					line = strings.Repeat(" ", lockWidth+2) + namePadded + fmt.Sprintf("%6s ", "<DIR>")
+					line = prefix + "  " + namePadded + fmt.Sprintf("%6s ", "<DIR>")
 				}
 			} else {
-				line = strings.Repeat(" ", lockWidth+2) + namePadded + fmt.Sprintf("%6s ", formatFileSize(entry.Size))
+				line = prefix + "  " + namePadded + fmt.Sprintf("%6s ", formatFileSize(entry.Size))
 			}
 			// Pad line to inner width using Unicode-aware width
 			line = padText(line, innerWidth)
@@ -969,7 +1162,7 @@ func (e *Editor) overlaySaveAs(viewportContent string) string {
 	// Help line - changes based on focus
 	var helpText string
 	if e.saveAsFocusBrowser {
-		helpText = "Click/Enter: Select  Tab: Switch  Esc: Cancel"
+		helpText = "Enter: Select  F: Fav  Tab: Switch  Esc: Cancel"
 	} else {
 		helpText = "Enter: Save  Tab: Browse  Esc: Cancel"
 	}

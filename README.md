@@ -13,7 +13,8 @@ Festivus is a terminal-based text editor inspired by the classic DOS EDIT, built
 - **Modern keyboard shortcuts** - Ctrl+S, Ctrl+C, Ctrl+V, Ctrl+Z, etc.
 - **Configurable keybindings** - Customize shortcuts via Options menu
 - **Multiple buffers** - Edit multiple files with fast switching (Alt+< / Alt+>)
-- **Recent files** - Quick access to recently opened files (Ctrl+R)
+- **Recent files & directories** - Quick access to recently opened files and directories
+- **Favorites** - Star frequently-used files/directories for quick access
 - **Mouse support** - Click to position cursor, drag to select, scroll wheel
 - **Shift+Arrow selection** - Select text the modern way
 - **Word wrap** - Toggle via Options menu
@@ -63,6 +64,7 @@ Without these tools, copy/paste will only work within Festivus.
 | New | Ctrl+N |
 | Open | Ctrl+O |
 | Recent Files | Ctrl+R |
+| Recent Dirs | (File menu) |
 | Save | Ctrl+S |
 | Close | Ctrl+W |
 | Quit | Ctrl+Q |
@@ -125,6 +127,25 @@ Without these tools, copy/paste will only work within Festivus.
 - Enter to select, Escape to close
 
 All keyboard shortcuts can be customized via **Options → Keybindings**.
+
+## File Browser
+
+The file browser (Ctrl+O to open, or File → Save As) supports:
+
+| Key | Action |
+|-----|--------|
+| Enter | Open file or enter directory |
+| F | Toggle favorite on selected item |
+| Backspace | Go to parent directory |
+| Esc | Cancel |
+
+### Favorites
+
+Press **F** on any file or directory to add it to your favorites. Favorited items show a star (★) next to their name.
+
+When you have favorites, a **★ Favorites** entry appears at the top of every directory listing. Enter it to see all your favorited files and directories in one place - a quick way to jump to frequently-used locations.
+
+Favorites are saved in your config file and persist across sessions.
 
 ## Status Bar
 

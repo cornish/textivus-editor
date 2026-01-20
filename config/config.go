@@ -9,10 +9,12 @@ import (
 
 // Config holds the editor configuration
 type Config struct {
-	Editor      EditorConfig `toml:"editor"`
-	Theme       ThemeConfig  `toml:"theme"`
-	RecentFiles []string     `toml:"recent_files,omitempty"` // Recently opened files (max 10)
-	RecentDirs  []string     `toml:"recent_dirs,omitempty"`  // Recently visited directories (max 10)
+	Editor        EditorConfig `toml:"editor"`
+	Theme         ThemeConfig  `toml:"theme"`
+	RecentFiles   []string     `toml:"recent_files,omitempty"`   // Recently opened files (max 10)
+	RecentDirs    []string     `toml:"recent_dirs,omitempty"`    // Recently visited directories (max 10)
+	FavoriteFiles []string     `toml:"favorite_files,omitempty"` // User-favorited files (max 50)
+	FavoriteDirs  []string     `toml:"favorite_dirs,omitempty"`  // User-favorited directories (max 50)
 }
 
 // MaxRecentFiles is the maximum number of recent files to track
@@ -20,6 +22,9 @@ const MaxRecentFiles = 10
 
 // MaxRecentDirs is the maximum number of recent directories to track
 const MaxRecentDirs = 10
+
+// MaxFavorites is the maximum number of favorite files or directories
+const MaxFavorites = 50
 
 // AddRecentFile adds a file to the recent files list
 func (c *Config) AddRecentFile(path string) {
@@ -69,6 +74,129 @@ func (c *Config) AddRecentDir(path string) {
 	if len(c.RecentDirs) > MaxRecentDirs {
 		c.RecentDirs = c.RecentDirs[:MaxRecentDirs]
 	}
+}
+
+// AddFavoriteFile adds a file to favorites (if not already present)
+func (c *Config) AddFavoriteFile(path string) bool {
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		absPath = path
+	}
+
+	// Check if already favorited
+	for _, f := range c.FavoriteFiles {
+		if f == absPath {
+			return false // Already exists
+		}
+	}
+
+	// Check max limit
+	if len(c.FavoriteFiles) >= MaxFavorites {
+		return false // At limit
+	}
+
+	c.FavoriteFiles = append(c.FavoriteFiles, absPath)
+	return true
+}
+
+// RemoveFavoriteFile removes a file from favorites
+func (c *Config) RemoveFavoriteFile(path string) bool {
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		absPath = path
+	}
+
+	for i, f := range c.FavoriteFiles {
+		if f == absPath {
+			c.FavoriteFiles = append(c.FavoriteFiles[:i], c.FavoriteFiles[i+1:]...)
+			return true
+		}
+	}
+	return false
+}
+
+// IsFavoriteFile checks if a file is in favorites
+func (c *Config) IsFavoriteFile(path string) bool {
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		absPath = path
+	}
+
+	for _, f := range c.FavoriteFiles {
+		if f == absPath {
+			return true
+		}
+	}
+	return false
+}
+
+// AddFavoriteDir adds a directory to favorites (if not already present)
+func (c *Config) AddFavoriteDir(path string) bool {
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		absPath = path
+	}
+
+	// Check if already favorited
+	for _, d := range c.FavoriteDirs {
+		if d == absPath {
+			return false // Already exists
+		}
+	}
+
+	// Check max limit
+	if len(c.FavoriteDirs) >= MaxFavorites {
+		return false // At limit
+	}
+
+	c.FavoriteDirs = append(c.FavoriteDirs, absPath)
+	return true
+}
+
+// RemoveFavoriteDir removes a directory from favorites
+func (c *Config) RemoveFavoriteDir(path string) bool {
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		absPath = path
+	}
+
+	for i, d := range c.FavoriteDirs {
+		if d == absPath {
+			c.FavoriteDirs = append(c.FavoriteDirs[:i], c.FavoriteDirs[i+1:]...)
+			return true
+		}
+	}
+	return false
+}
+
+// IsFavoriteDir checks if a directory is in favorites
+func (c *Config) IsFavoriteDir(path string) bool {
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		absPath = path
+	}
+
+	for _, d := range c.FavoriteDirs {
+		if d == absPath {
+			return true
+		}
+	}
+	return false
+}
+
+// ToggleFavorite toggles favorite status for a file or directory
+// Returns (isNowFavorite, wasChanged)
+func (c *Config) ToggleFavorite(path string, isDir bool) (bool, bool) {
+	if isDir {
+		if c.IsFavoriteDir(path) {
+			return false, c.RemoveFavoriteDir(path)
+		}
+		return true, c.AddFavoriteDir(path)
+	}
+	if c.IsFavoriteFile(path) {
+		return false, c.RemoveFavoriteFile(path)
+	}
+	return true, c.AddFavoriteFile(path)
 }
 
 // EditorConfig holds editor-specific settings
