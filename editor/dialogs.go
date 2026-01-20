@@ -120,16 +120,17 @@ func (e *Editor) overlayAboutDialog(viewportContent string) string {
 		quote = "A Festivus for the rest of us!"
 	}
 
-	// ASCII art from festivus.txt - art is 62 chars, box is 64 for padding
-	boxWidth := 64
+	// Box dimensions - content is 64 chars, plus 2 for borders = 66
+	boxWidth := 66
+	innerWidth := boxWidth - 2
 	centerText := func(s string) string {
-		sLen := len(s)
-		if sLen >= boxWidth {
-			// Truncate if too long
-			return s[:boxWidth]
+		sLen := runewidth.StringWidth(s) // Use visual width for Unicode
+		if sLen >= innerWidth {
+			// Truncate by visual width
+			return runewidth.Truncate(s, innerWidth, "")
 		}
-		padLeft := (boxWidth - sLen) / 2
-		padRight := boxWidth - sLen - padLeft
+		padLeft := (innerWidth - sLen) / 2
+		padRight := innerWidth - sLen - padLeft
 		return strings.Repeat(" ", padLeft) + s + strings.Repeat(" ", padRight)
 	}
 
@@ -167,7 +168,7 @@ func (e *Editor) overlayAboutDialog(viewportContent string) string {
 	// Choose logo based on ASCII mode
 	var logoLines []string
 	if e.box.Lock == "*" {
-		// ASCII mode - use asterisk art (64 chars wide to match boxWidth)
+		// ASCII mode - use asterisk art
 		logoLines = []string{
 			"      *****  *****   ****  *****  ***  *   *  *   *   ****      ",
 			"      *      *      *        *     *   *   *  *   *  *          ",
@@ -188,23 +189,47 @@ func (e *Editor) overlayAboutDialog(viewportContent string) string {
 		}
 	}
 
-	aboutLines := []string{strings.Repeat(" ", boxWidth)}
-	aboutLines = append(aboutLines, logoLines...)
+	var aboutLines []string
+
+	// Top border with title
+	title := " About Festivus "
+	titlePadLeft := (innerWidth - len(title)) / 2
+	titlePadRight := innerWidth - len(title) - titlePadLeft
+	aboutLines = append(aboutLines, e.box.TopLeft+strings.Repeat(e.box.Horizontal, titlePadLeft)+title+strings.Repeat(e.box.Horizontal, titlePadRight)+e.box.TopRight)
+
+	// Empty line
+	aboutLines = append(aboutLines, e.box.Vertical+strings.Repeat(" ", innerWidth)+e.box.Vertical)
+
+	// Logo lines
+	for _, logoLine := range logoLines {
+		aboutLines = append(aboutLines, e.box.Vertical+centerText(logoLine)+e.box.Vertical)
+	}
+
+	// Content lines
 	aboutLines = append(aboutLines,
-		strings.Repeat(" ", boxWidth),
-		centerText("A Text Editor for the Rest of Us"),
-		strings.Repeat(" ", boxWidth),
-		centerText("Version 0.1.0"),
-		centerText("github.com/cornish/festivus"),
-		centerText("Copyright (c) 2025"),
-		strings.Repeat(" ", boxWidth),
+		e.box.Vertical+strings.Repeat(" ", innerWidth)+e.box.Vertical,
+		e.box.Vertical+centerText("A Text Editor for the Rest of Us")+e.box.Vertical,
+		e.box.Vertical+strings.Repeat(" ", innerWidth)+e.box.Vertical,
+		e.box.Vertical+centerText("Version 0.1.0")+e.box.Vertical,
+		e.box.Vertical+centerText("github.com/cornish/festivus")+e.box.Vertical,
+		e.box.Vertical+centerText("Copyright (c) 2025")+e.box.Vertical,
+		e.box.Vertical+strings.Repeat(" ", innerWidth)+e.box.Vertical,
 	)
-	aboutLines = append(aboutLines, quoteLines...)
+
+	// Quote lines
+	for _, quoteLine := range quoteLines {
+		aboutLines = append(aboutLines, e.box.Vertical+quoteLine+e.box.Vertical)
+	}
+
+	// Footer
 	aboutLines = append(aboutLines,
-		strings.Repeat(" ", boxWidth),
-		centerText("Press any key to continue..."),
-		strings.Repeat(" ", boxWidth),
+		e.box.Vertical+strings.Repeat(" ", innerWidth)+e.box.Vertical,
+		e.box.Vertical+centerText("Press any key or click to close...")+e.box.Vertical,
 	)
+
+	// Bottom border
+	aboutLines = append(aboutLines, e.box.BottomLeft+strings.Repeat(e.box.Horizontal, innerWidth)+e.box.BottomRight)
+
 	boxHeight := len(aboutLines)
 
 	// Calculate centering

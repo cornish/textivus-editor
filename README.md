@@ -11,6 +11,9 @@ Festivus is a terminal-based text editor inspired by the classic DOS EDIT, built
 - **Instant startup** - No bloat, just editing
 - **Classic DOS EDIT styling** - Dark blue menu bar and status bar with cyan highlights
 - **Modern keyboard shortcuts** - Ctrl+S, Ctrl+C, Ctrl+V, Ctrl+Z, etc.
+- **Configurable keybindings** - Customize shortcuts via Options menu
+- **Multiple buffers** - Edit multiple files with fast switching (Alt+< / Alt+>)
+- **Recent files** - Quick access to recently opened files (Ctrl+R)
 - **Mouse support** - Click to position cursor, drag to select, scroll wheel
 - **Shift+Arrow selection** - Select text the modern way
 - **Word wrap** - Toggle via Options menu
@@ -59,9 +62,17 @@ Without these tools, copy/paste will only work within Festivus.
 |--------|----------|
 | New | Ctrl+N |
 | Open | Ctrl+O |
+| Recent Files | Ctrl+R |
 | Save | Ctrl+S |
 | Close | Ctrl+W |
 | Quit | Ctrl+Q |
+
+### Buffers
+| Action | Shortcut |
+|--------|----------|
+| Previous Buffer | Alt+< |
+| Next Buffer | Alt+> |
+| Buffer 1-9 | Alt+1 through Alt+9 |
 
 ### Editing
 | Action | Shortcut |
@@ -108,10 +119,12 @@ Without these tools, copy/paste will only work within Festivus.
 ## Menu Navigation
 
 - **F10** or click to open File menu
-- **Alt+F** File, **Alt+E** Edit, **Alt+S** Search, **Alt+O** Options, **Alt+H** Help
+- **Alt+F** File, **Alt+B** Buffers, **Alt+E** Edit, **Alt+S** Search, **Alt+O** Options, **Alt+H** Help
 - Arrow keys to navigate within menus
 - Press underlined letter to select item
 - Enter to select, Escape to close
+
+All keyboard shortcuts can be customized via **Options → Keybindings**.
 
 ## Status Bar
 
@@ -131,11 +144,25 @@ Festivus stores its configuration in `~/.config/festivus/config.toml`:
 word_wrap = false
 line_numbers = false
 syntax_highlight = true
-true_color = true   # Set to false for older terminals
-backup_count = 0    # 0=disabled, 1=filename~, 2+=numbered (filename~1~ newest)
+true_color = true    # Set to false for older terminals
+backup_count = 0     # 0=disabled, 1=filename~, 2+=numbered (filename~1~ newest)
+max_buffers = 20     # Maximum open buffers (0=unlimited)
 
 [theme]
 name = "default"  # or "dark", "light", "monokai", "nord", "dracula", "gruvbox", "solarized", "catppuccin"
+```
+
+### Keybindings
+
+Keybindings are stored in `~/.config/festivus/keybindings.toml` and can be edited via **Options → Keybindings**. Each action supports a primary and alternate binding:
+
+```toml
+[save]
+primary = "ctrl+s"
+
+[find]
+primary = "ctrl+f"
+alternate = "f3"
 ```
 
 ## Themes
@@ -152,6 +179,8 @@ Festivus supports color themes with 9 built-in options:
 - **catppuccin** - Soothing pastel theme (Mocha)
 
 Switch themes at runtime via the **Options** menu, or set the default in your config file.
+
+In the theme dialog, press **E** to edit a theme or **C** to copy it with a new name - the theme file will open directly in Festivus for editing.
 
 ### Custom Themes
 

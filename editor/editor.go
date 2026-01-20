@@ -876,6 +876,12 @@ func (e *Editor) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if e.mode == ModeKeybindings {
 			return e.handleKeybindingsMouse(msg)
 		}
+		if e.mode == ModeHelp {
+			return e.handleHelpMouse(msg)
+		}
+		if e.mode == ModeAbout {
+			return e.handleAboutMouse(msg)
+		}
 		return e.handleMouse(msg)
 	}
 
@@ -1544,7 +1550,12 @@ func (e *Editor) executePrompt() {
 		if err != nil {
 			e.statusbar.SetMessage("Error copying theme: "+err.Error(), "error")
 		} else {
-			e.statusbar.SetMessage("Theme saved to: "+path, "success")
+			// Open the theme file in a buffer for editing
+			if err := e.LoadFile(path); err != nil {
+				e.statusbar.SetMessage("Theme saved but couldn't open: "+err.Error(), "error")
+			} else {
+				e.statusbar.SetMessage("Theme saved and opened for editing: "+path, "success")
+			}
 		}
 		e.themeExportName = ""
 	}
@@ -1984,7 +1995,7 @@ func (e *Editor) handleThemeKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	case tea.KeyRunes:
 		switch string(msg.Runes) {
 		case "e", "E":
-			// Edit: export theme to file
+			// Edit: export theme to file and open in buffer
 			if e.themeIndex >= 0 && e.themeIndex < len(e.themeList) {
 				themeName := e.themeList[e.themeIndex]
 				theme := config.GetTheme(themeName)
@@ -1992,7 +2003,12 @@ func (e *Editor) handleThemeKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 				if err != nil {
 					e.statusbar.SetMessage("Error exporting theme: "+err.Error(), "error")
 				} else {
-					e.statusbar.SetMessage("Theme saved to: "+path, "success")
+					// Open the theme file in a buffer for editing
+					if err := e.LoadFile(path); err != nil {
+						e.statusbar.SetMessage("Theme saved but couldn't open: "+err.Error(), "error")
+					} else {
+						e.statusbar.SetMessage("Theme exported and opened for editing", "success")
+					}
 				}
 				e.mode = ModeNormal
 			}
@@ -2441,6 +2457,72 @@ func (e *Editor) handleKeybindingsMouse(msg tea.MouseMsg) (tea.Model, tea.Cmd) {
 			e.kbDialogIndex++
 			e.ensureKbDialogVisible()
 		}
+	}
+
+	return e, nil
+}
+
+// handleHelpMouse handles mouse input in help mode
+func (e *Editor) handleHelpMouse(msg tea.MouseMsg) (tea.Model, tea.Cmd) {
+	// Help dialog dimensions (must match overlayHelpDialog)
+	boxWidth := 72
+	// Height: top border + empty + 21 rows + empty + 2 options + empty + footer + bottom
+	boxHeight := 29
+
+	startX := (e.width - boxWidth) / 2
+	startY := (e.viewport.Height() - boxHeight) / 2
+
+	// Adjust mouse Y for menu bar
+	mouseY := msg.Y - 1
+
+	// Calculate relative position within dialog
+	relX := msg.X - startX
+	relY := mouseY - startY
+
+	// Check if click is outside dialog - close it
+	if relX < 0 || relX >= boxWidth || relY < 0 || relY >= boxHeight {
+		if msg.Button == tea.MouseButtonLeft && msg.Action == tea.MouseActionPress {
+			e.mode = ModeNormal
+		}
+		return e, nil
+	}
+
+	// Any click inside the dialog also closes it
+	if msg.Button == tea.MouseButtonLeft && msg.Action == tea.MouseActionPress {
+		e.mode = ModeNormal
+	}
+
+	return e, nil
+}
+
+// handleAboutMouse handles mouse input in about mode
+func (e *Editor) handleAboutMouse(msg tea.MouseMsg) (tea.Model, tea.Cmd) {
+	// About dialog dimensions (must match overlayAboutDialog)
+	boxWidth := 66
+	// Height: top border + empty + 6 logo + 7 content + 2 quote + 2 footer + bottom
+	boxHeight := 20
+
+	startX := (e.width - boxWidth) / 2
+	startY := (e.viewport.Height() - boxHeight) / 2
+
+	// Adjust mouse Y for menu bar
+	mouseY := msg.Y - 1
+
+	// Calculate relative position within dialog
+	relX := msg.X - startX
+	relY := mouseY - startY
+
+	// Check if click is outside dialog - close it
+	if relX < 0 || relX >= boxWidth || relY < 0 || relY >= boxHeight {
+		if msg.Button == tea.MouseButtonLeft && msg.Action == tea.MouseActionPress {
+			e.mode = ModeNormal
+		}
+		return e, nil
+	}
+
+	// Any click inside the dialog also closes it
+	if msg.Button == tea.MouseButtonLeft && msg.Action == tea.MouseActionPress {
+		e.mode = ModeNormal
 	}
 
 	return e, nil
