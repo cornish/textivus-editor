@@ -23,7 +23,7 @@
 
 - [x] Multiple buffers + fast buffer switching
 - [x] External file change detection (warn if file modified on disk)
-- [ ] Test suite
+- [x] Test suite
 - [ ] Tab support (tabs vs spaces, configurable tab width)
 - [ ] Encoding handling (detect and convert non-UTF-8 files)
 
