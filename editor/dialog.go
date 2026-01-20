@@ -10,9 +10,9 @@ import (
 // DialogBuilder helps construct consistent dialogs
 type DialogBuilder struct {
 	box        BoxChars
-	width      int       // Total box width including borders
-	innerWidth int       // Width inside borders
-	lines      []string  // Built dialog lines
+	width      int      // Total box width including borders
+	innerWidth int      // Width inside borders
+	lines      []string // Built dialog lines
 	themeUI    *themeColors
 }
 

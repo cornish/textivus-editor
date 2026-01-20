@@ -35,16 +35,16 @@ type KeybindingsConfig struct {
 	SelectAll KeyBinding `toml:"select_all"`
 
 	// Search operations
-	Find      KeyBinding `toml:"find"`
-	FindNext  KeyBinding `toml:"find_next"`
-	Replace   KeyBinding `toml:"replace"`
-	GoToLine  KeyBinding `toml:"goto_line"`
+	Find     KeyBinding `toml:"find"`
+	FindNext KeyBinding `toml:"find_next"`
+	Replace  KeyBinding `toml:"replace"`
+	GoToLine KeyBinding `toml:"goto_line"`
 
 	// Navigation
-	WordLeft    KeyBinding `toml:"word_left"`
-	WordRight   KeyBinding `toml:"word_right"`
-	DocStart    KeyBinding `toml:"doc_start"`
-	DocEnd      KeyBinding `toml:"doc_end"`
+	WordLeft  KeyBinding `toml:"word_left"`
+	WordRight KeyBinding `toml:"word_right"`
+	DocStart  KeyBinding `toml:"doc_start"`
+	DocEnd    KeyBinding `toml:"doc_end"`
 
 	// Buffer operations
 	NextBuffer KeyBinding `toml:"next_buffer"`

@@ -1,8 +1,8 @@
 package editor
 
 import (
-	"github.com/cornish/textivus-editor/ui"
 	"fmt"
+	"github.com/cornish/textivus-editor/ui"
 	"os"
 	"path/filepath"
 	"sort"
@@ -618,7 +618,7 @@ func (e *Editor) showSaveAs() {
 	e.fileBrowserSelected = 0
 	e.fileBrowserScroll = 0
 	e.fileBrowserFavorites = false
-	e.fileBrowserError = "" // Clear any previous error
+	e.fileBrowserError = ""      // Clear any previous error
 	e.saveAsFocusBrowser = false // Start with focus on filename field
 	e.loadDirectory(startDir)
 	e.mode = ModeSaveAs

@@ -326,9 +326,9 @@ func DefaultConfig() *Config {
 		Editor: EditorConfig{
 			WordWrap:        false,
 			LineNumbers:     false,
-			SyntaxHighlight: true, // Enabled by default
-			MaxBuffers:      20,   // Default max open buffers
-			TabWidth:        4,    // Default tab width
+			SyntaxHighlight: true,  // Enabled by default
+			MaxBuffers:      20,    // Default max open buffers
+			TabWidth:        4,     // Default tab width
 			TabsToSpaces:    false, // Use real tabs by default
 		},
 		Theme: ThemeConfig{

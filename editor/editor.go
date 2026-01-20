@@ -177,9 +177,9 @@ type Document struct {
 	undoStack   *UndoStack
 	filename    string
 	modified    bool
-	scrollY     int       // viewport scroll position for this document
+	scrollY     int // viewport scroll position for this document
 	highlighter *syntax.Highlighter
-	modTime     time.Time // file modification time when loaded/saved
+	modTime     time.Time     // file modification time when loaded/saved
 	encoding    *enc.Encoding // detected file encoding
 }
 
@@ -276,14 +276,14 @@ type Editor struct {
 	configErrorChoice int    // 0=Edit, 1=Defaults, 2=Quit
 
 	// Settings dialog state
-	settingsIndex       int  // Selected row in settings dialog
-	settingsWordWrap    bool // Temporary value while editing
-	settingsLineNumbers bool
-	settingsSyntax      bool
-	settingsScrollbar   bool
-	settingsBackupCount int
-	settingsMaxBuffers  int
-	settingsTabWidth    int
+	settingsIndex        int  // Selected row in settings dialog
+	settingsWordWrap     bool // Temporary value while editing
+	settingsLineNumbers  bool
+	settingsSyntax       bool
+	settingsScrollbar    bool
+	settingsBackupCount  int
+	settingsMaxBuffers   int
+	settingsTabWidth     int
 	settingsTabsToSpaces bool
 
 	// Encoding dialog state
@@ -613,7 +613,6 @@ func NewWithConfig(cfg *config.Config) *Editor {
 
 	return e
 }
-
 
 // LoadFile loads a file into the editor
 func (e *Editor) LoadFile(filename string) error {
@@ -4518,4 +4517,3 @@ func (e *Editor) SetConfigError(filePath, errMsg string) {
 	e.configErrorChoice = 1 // Default to "Use Defaults"
 	e.mode = ModeConfigError
 }
-

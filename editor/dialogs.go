@@ -1,10 +1,10 @@
 package editor
 
 import (
+	"fmt"
 	"github.com/cornish/textivus-editor/config"
 	enc "github.com/cornish/textivus-editor/encoding"
 	"github.com/cornish/textivus-editor/ui"
-	"fmt"
 	"strings"
 
 	"github.com/mattn/go-runewidth"

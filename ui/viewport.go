@@ -11,14 +11,14 @@ import (
 
 // Viewport handles the scrollable view of the text
 type Viewport struct {
-	width        int
-	height       int
-	scrollY      int  // First visible line
-	scrollX      int  // First visible column (for horizontal scrolling)
-	showLineNum  bool
-	wordWrap     bool
-	scrollbarWidth int  // Width reserved for scrollbar (0 if disabled)
-	styles       Styles
+	width          int
+	height         int
+	scrollY        int // First visible line
+	scrollX        int // First visible column (for horizontal scrolling)
+	showLineNum    bool
+	wordWrap       bool
+	scrollbarWidth int // Width reserved for scrollbar (0 if disabled)
+	styles         Styles
 }
 
 // NewViewport creates a new viewport

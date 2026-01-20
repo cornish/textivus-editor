@@ -9,9 +9,9 @@ import (
 type ColorMode int
 
 const (
-	Color16      ColorMode = iota // Basic 16 colors
-	Color256                      // 256 color palette
-	ColorTrueColor                // 24-bit true color
+	Color16        ColorMode = iota // Basic 16 colors
+	Color256                        // 256 color palette
+	ColorTrueColor                  // 24-bit true color
 )
 
 // TermCapabilities holds detected terminal capabilities

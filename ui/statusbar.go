@@ -8,21 +8,21 @@ import (
 
 // StatusBar represents the bottom status bar
 type StatusBar struct {
-	filename           string
-	modified           bool
-	line               int
-	col                int
-	totalLines         int
-	encoding           string
-	encodingSupported  bool // Whether the encoding is fully supported
-	wordCount          int
-	charCount          int
-	message            string // Temporary message to display
-	messageType        string // "info", "error", "success"
-	width              int
-	styles             Styles
-	bufferIndex        int // Current buffer index (0-based)
-	bufferCount        int // Total number of open buffers
+	filename          string
+	modified          bool
+	line              int
+	col               int
+	totalLines        int
+	encoding          string
+	encodingSupported bool // Whether the encoding is fully supported
+	wordCount         int
+	charCount         int
+	message           string // Temporary message to display
+	messageType       string // "info", "error", "success"
+	width             int
+	styles            Styles
+	bufferIndex       int // Current buffer index (0-based)
+	bufferCount       int // Total number of open buffers
 }
 
 // NewStatusBar creates a new status bar

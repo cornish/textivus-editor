@@ -73,8 +73,8 @@ const (
 // MenuItem represents a single menu option
 type MenuItem struct {
 	Label    string
-	Shortcut string     // Keyboard shortcut displayed (e.g., "Ctrl+S")
-	HotKey   rune       // Single letter hotkey when menu is open (e.g., 'S')
+	Shortcut string // Keyboard shortcut displayed (e.g., "Ctrl+S")
+	HotKey   rune   // Single letter hotkey when menu is open (e.g., 'S')
 	Action   MenuAction
 	Disabled bool
 }

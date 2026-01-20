@@ -53,9 +53,9 @@ func TestGetEncodingByID(t *testing.T) {
 
 func TestGetEncodingByName(t *testing.T) {
 	tests := []struct {
-		name     string
-		wantID   string
-		wantNil  bool
+		name    string
+		wantID  string
+		wantNil bool
 	}{
 		{"UTF-8", "utf-8", false},
 		{"utf8", "utf-8", false},
