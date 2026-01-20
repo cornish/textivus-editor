@@ -492,11 +492,9 @@ func NewWithConfig(cfg *config.Config) *Editor {
 	theme := cfg.Theme.GetResolved()
 	styles := ui.NewStyles(theme)
 
-	// Determine ASCII mode: config override or auto-detect
-	asciiMode := !detectUTF8Support()
-	if cfg != nil && cfg.Editor.AsciiMode != nil {
-		asciiMode = *cfg.Editor.AsciiMode
-	}
+	// Determine ASCII mode: config override or auto-detect from capabilities
+	caps := config.GetCapabilities()
+	asciiMode := caps.ShouldUseASCII(cfg.Editor.AsciiMode)
 
 	box := UnicodeBoxChars
 	if asciiMode {
@@ -583,17 +581,6 @@ func NewWithConfig(cfg *config.Config) *Editor {
 	return e
 }
 
-// detectUTF8Support checks if the terminal likely supports UTF-8
-func detectUTF8Support() bool {
-	// Check LANG and LC_ALL environment variables for UTF-8
-	for _, env := range []string{"LC_ALL", "LC_CTYPE", "LANG"} {
-		val := strings.ToUpper(os.Getenv(env))
-		if strings.Contains(val, "UTF-8") || strings.Contains(val, "UTF8") {
-			return true
-		}
-	}
-	return false
-}
 
 // LoadFile loads a file into the editor
 func (e *Editor) LoadFile(filename string) error {

@@ -36,6 +36,9 @@ func main() {
 		}
 	}
 
+	// Detect terminal capabilities early
+	config.InitCapabilities()
+
 	// Load configuration
 	cfg, _ := config.Load() // Ignore error, defaults are fine
 
