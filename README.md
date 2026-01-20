@@ -42,6 +42,7 @@ Textivus is for people who want a **comfortable, familiar editor in the terminal
 - **Customizable theming** — built-in DOS EDIT, light, dark and other themes; fully customizable
 - **Modern keyboard shortcuts** — Ctrl+S, Ctrl+C, Ctrl+V, Ctrl+Z, etc.
 - **Configurable keybindings** — customize shortcuts via Options menu
+- **Multiple encodings supported** — UTF-8/UTF-16, Western European, and CJK encodings (Shift-JIS, EUC-JP, GBK/GB18030, EUC-KR)
 - **Multiple buffers** — edit multiple files with fast switching (Alt+< / Alt+>)
 - **Recent files & directories** — quick access from menus
 - **Favorites** — star frequently-used files/directories
@@ -61,6 +62,27 @@ Textivus is for people who want a **comfortable, familiar editor in the terminal
     - macOS: `pbcopy` / `pbpaste` *(built-in)*
   - **OSC52 clipboard** support for remote SSH sessions
 - **Undo/Redo** — Ctrl+Z / Ctrl+Y with full history
+
+---
+
+## Supported encodings
+
+Textivus can open and save files in the following encodings:
+
+| Encoding | ID | Notes / Aliases |
+|---|---|---|
+| UTF-8 | `utf-8` | Default |
+| UTF-8 BOM | `utf-8-bom` | UTF-8 with byte order mark |
+| UTF-16 LE | `utf-16-le` | `UTF-16LE` |
+| UTF-16 BE | `utf-16-be` | `UTF-16BE` |
+| ISO-8859-1 (Latin-1) | `iso-8859-1` | `latin1` |
+| Windows-1252 | `windows-1252` | `CP1252` |
+| ISO-8859-15 (Latin-9) | `iso-8859-15` | Includes `€` |
+| Shift-JIS | `shift-jis` | `SJIS`, `MS_Kanji` |
+| EUC-JP | `euc-jp` |  |
+| GBK | `gbk` | `GB2312` |
+| GB18030 | `gb18030` |  |
+| EUC-KR | `euc-kr` |  |
 
 ---
 
