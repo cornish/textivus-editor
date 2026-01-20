@@ -7,6 +7,8 @@
 
 > **A text editor for the rest of us!**
 
+**Status:** Early but usable. Expect breaking changes, but minor ones, before v1.0 (especially to defaults and configuration). See the changelog for upgrade notes.
+
 ![Textivus terminal text editor screenshot](docs/screenshot.png)
 
 ---
