@@ -44,6 +44,9 @@ type UIColors struct {
 	DialogTitle    string `toml:"dialog_title"`
 	DialogButton   string `toml:"dialog_button"`
 	DialogButtonFg string `toml:"dialog_button_fg"`
+	// Scrollbar colors
+	ScrollbarTrack string `toml:"scrollbar_track"` // Scrollbar track color
+	ScrollbarThumb string `toml:"scrollbar_thumb"` // Scrollbar thumb color
 }
 
 // SyntaxColors holds syntax highlighting color settings
@@ -83,6 +86,8 @@ var builtinThemes = map[string]Theme{
 			DialogTitle:      "4",  // Blue
 			DialogButton:     "2",  // Green
 			DialogButtonFg:   "15", // White
+			ScrollbarTrack:   "8",  // Gray
+			ScrollbarThumb:   "6",  // Cyan
 		},
 		Syntax: SyntaxColors{
 			Keyword:  "14", // Bright cyan
@@ -118,6 +123,8 @@ var builtinThemes = map[string]Theme{
 			DialogTitle:      "43",  // Teal
 			DialogButton:     "24",  // Dark cyan
 			DialogButtonFg:   "15",  // White
+			ScrollbarTrack:   "240", // Medium gray
+			ScrollbarThumb:   "43",  // Teal
 		},
 		Syntax: SyntaxColors{
 			Keyword:  "176", // Purple
@@ -153,6 +160,8 @@ var builtinThemes = map[string]Theme{
 			DialogTitle:      "26",  // Blue
 			DialogButton:     "32",  // Blue
 			DialogButtonFg:   "15",  // White
+			ScrollbarTrack:   "249", // Medium gray
+			ScrollbarThumb:   "32",  // Blue
 		},
 		Syntax: SyntaxColors{
 			Keyword:  "26",  // Blue
@@ -188,6 +197,8 @@ var builtinThemes = map[string]Theme{
 			DialogTitle:      "208", // Orange
 			DialogButton:     "64",  // Olive green
 			DialogButtonFg:   "231", // White
+			ScrollbarTrack:   "59",  // Gray
+			ScrollbarThumb:   "208", // Orange
 		},
 		Syntax: SyntaxColors{
 			Keyword:  "197", // Pink-red
@@ -223,6 +234,8 @@ var builtinThemes = map[string]Theme{
 			DialogTitle:      "#88C0D0", // nord8
 			DialogButton:     "#5E81AC", // nord10
 			DialogButtonFg:   "#ECEFF4", // nord6
+			ScrollbarTrack:   "#4C566A", // nord3
+			ScrollbarThumb:   "#5E81AC", // nord10
 		},
 		Syntax: SyntaxColors{
 			Keyword:  "#81A1C1", // nord9
@@ -258,6 +271,8 @@ var builtinThemes = map[string]Theme{
 			DialogTitle:      "#BD93F9", // purple
 			DialogButton:     "#50FA7B", // green
 			DialogButtonFg:   "#282A36", // background
+			ScrollbarTrack:   "#6272A4", // comment
+			ScrollbarThumb:   "#BD93F9", // purple
 		},
 		Syntax: SyntaxColors{
 			Keyword:  "#FF79C6", // pink
@@ -293,6 +308,8 @@ var builtinThemes = map[string]Theme{
 			DialogTitle:      "#FABD2F", // bright yellow
 			DialogButton:     "#98971A", // green
 			DialogButtonFg:   "#EBDBB2", // fg1
+			ScrollbarTrack:   "#665C54", // bg3
+			ScrollbarThumb:   "#D79921", // yellow
 		},
 		Syntax: SyntaxColors{
 			Keyword:  "#FB4934", // bright red
@@ -328,6 +345,8 @@ var builtinThemes = map[string]Theme{
 			DialogTitle:      "#268BD2", // blue
 			DialogButton:     "#2AA198", // cyan
 			DialogButtonFg:   "#FDF6E3", // base3
+			ScrollbarTrack:   "#586E75", // base01
+			ScrollbarThumb:   "#268BD2", // blue
 		},
 		Syntax: SyntaxColors{
 			Keyword:  "#859900", // green
@@ -363,6 +382,8 @@ var builtinThemes = map[string]Theme{
 			DialogTitle:      "#CBA6F7", // mauve
 			DialogButton:     "#89B4FA", // blue
 			DialogButtonFg:   "#1E1E2E", // base
+			ScrollbarTrack:   "#6C7086", // overlay0
+			ScrollbarThumb:   "#CBA6F7", // mauve
 		},
 		Syntax: SyntaxColors{
 			Keyword:  "#CBA6F7", // mauve
@@ -425,8 +446,13 @@ func loadUserTheme(name string) (Theme, error) {
 }
 
 // mergeWithDefault fills in any missing theme values with defaults
+// If a built-in theme with the same name exists, use it for defaults
 func mergeWithDefault(theme Theme) Theme {
-	def := DefaultTheme()
+	// Try to find a built-in theme with the same name first
+	def, exists := builtinThemes[theme.Name]
+	if !exists {
+		def = DefaultTheme()
+	}
 
 	if theme.Name == "" {
 		theme.Name = def.Name
@@ -490,6 +516,12 @@ func mergeWithDefault(theme Theme) Theme {
 	if theme.UI.DialogButtonFg == "" {
 		theme.UI.DialogButtonFg = def.UI.DialogButtonFg
 	}
+	if theme.UI.ScrollbarTrack == "" {
+		theme.UI.ScrollbarTrack = def.UI.ScrollbarTrack
+	}
+	if theme.UI.ScrollbarThumb == "" {
+		theme.UI.ScrollbarThumb = def.UI.ScrollbarThumb
+	}
 
 	// Syntax colors
 	if theme.Syntax.Keyword == "" {
@@ -545,4 +577,70 @@ func ListUserThemes() []string {
 		}
 	}
 	return themes
+}
+
+// ExportTheme saves a theme to the user's themes directory as a TOML file
+// Returns the full path to the saved file
+func ExportTheme(theme Theme, filename string) (string, error) {
+	themesDir, err := ThemesDir()
+	if err != nil {
+		return "", err
+	}
+
+	// Create themes directory if it doesn't exist
+	if err := os.MkdirAll(themesDir, 0755); err != nil {
+		return "", err
+	}
+
+	// Ensure filename has .toml extension
+	if filepath.Ext(filename) != ".toml" {
+		filename = filename + ".toml"
+	}
+
+	themePath := filepath.Join(themesDir, filename)
+
+	// Create/overwrite the file
+	f, err := os.Create(themePath)
+	if err != nil {
+		return "", err
+	}
+	defer f.Close()
+
+	// Encode theme as TOML
+	encoder := toml.NewEncoder(f)
+	if err := encoder.Encode(theme); err != nil {
+		return "", err
+	}
+
+	return themePath, nil
+}
+
+// GetTheme returns a theme by name (built-in or user), without applying it
+func GetTheme(name string) Theme {
+	// Try user themes first
+	theme, err := loadUserTheme(name)
+	if err == nil {
+		return theme
+	}
+
+	// Fall back to built-in
+	if builtin, ok := builtinThemes[name]; ok {
+		return builtin
+	}
+
+	return DefaultTheme()
+}
+
+// ThemeFilePath returns the path to a user theme file, or empty if it doesn't exist
+func ThemeFilePath(name string) string {
+	themesDir, err := ThemesDir()
+	if err != nil {
+		return ""
+	}
+
+	themePath := filepath.Join(themesDir, name+".toml")
+	if _, err := os.Stat(themePath); os.IsNotExist(err) {
+		return ""
+	}
+	return themePath
 }

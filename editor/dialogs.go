@@ -1,6 +1,7 @@
 package editor
 
 import (
+	"festivus/ui"
 	"strings"
 
 	"github.com/mattn/go-runewidth"
@@ -219,7 +220,7 @@ func (e *Editor) overlayAboutDialog(viewportContent string) string {
 
 	// Get theme dialog colors
 	themeUI := e.styles.Theme.UI
-	dialogStyle := "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m"
+	dialogStyle := ui.ColorToANSI(themeUI.DialogFg, themeUI.DialogBg)
 	resetStyle := "\033[0m"
 
 	for i, aboutLine := range aboutLines {
@@ -371,7 +372,7 @@ func (e *Editor) overlayHelpDialog(viewportContent string) string {
 
 	// Get theme dialog colors
 	themeUI := e.styles.Theme.UI
-	dialogStyle := "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m"
+	dialogStyle := ui.ColorToANSI(themeUI.DialogFg, themeUI.DialogBg)
 	resetStyle := "\033[0m"
 
 	for i, helpLine := range helpLines {
@@ -416,9 +417,9 @@ func (e *Editor) overlayThemeDialog(viewportContent string) string {
 
 	// Get the theme colors for the dialog
 	themeUI := e.styles.Theme.UI
-	dialogStyle := "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m"
-	selectedStyle := "\033[" + colorToSGR(themeUI.DialogButtonFg, themeUI.DialogButton) + "m"
-	dialogResetStyle := "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m"
+	dialogStyle := ui.ColorToANSI(themeUI.DialogFg, themeUI.DialogBg)
+	selectedStyle := ui.ColorToANSI(themeUI.DialogButtonFg, themeUI.DialogButton)
+	dialogResetStyle := ui.ColorToANSI(themeUI.DialogFg, themeUI.DialogBg)
 	resetStyle := "\033[0m"
 
 	// Current theme name for marking
@@ -463,7 +464,7 @@ func (e *Editor) overlayThemeDialog(viewportContent string) string {
 	dialogLines = append(dialogLines, e.box.Vertical+strings.Repeat(" ", innerWidth)+e.box.Vertical)
 
 	// Footer
-	footerText := centerText("[Enter] Select  [Esc] Cancel", innerWidth)
+	footerText := centerText("[Enter] Select [E]dit [C]opy [Esc]", innerWidth)
 	dialogLines = append(dialogLines, e.box.Vertical+footerText+e.box.Vertical)
 
 	// Bottom border
@@ -498,97 +499,6 @@ func (e *Editor) overlayThemeDialog(viewportContent string) string {
 	}
 
 	return strings.Join(viewportLines, "\n")
-}
-
-// colorToSGR converts a theme color string to SGR parameters (without the leading \033[ and trailing m)
-// Returns fg;bg format for combined use
-func colorToSGR(fg, bg string) string {
-	fgCode := colorToSGRSingle(fg, true)
-	bgCode := colorToSGRSingle(bg, false)
-	return fgCode + ";" + bgCode
-}
-
-// colorToSGRSingle converts a single color to SGR parameter
-func colorToSGRSingle(color string, isForeground bool) string {
-	if strings.HasPrefix(color, "#") {
-		// Hex color
-		r, g, b := parseHexColor(color)
-		if isForeground {
-			return "38;2;" + itoa(r) + ";" + itoa(g) + ";" + itoa(b)
-		}
-		return "48;2;" + itoa(r) + ";" + itoa(g) + ";" + itoa(b)
-	}
-	// Numeric color
-	n := atoi(color)
-	if n < 16 {
-		// Basic colors
-		if isForeground {
-			if n < 8 {
-				return itoa(30 + n)
-			}
-			return itoa(90 + n - 8)
-		}
-		if n < 8 {
-			return itoa(40 + n)
-		}
-		return itoa(100 + n - 8)
-	}
-	// 256 color
-	if isForeground {
-		return "38;5;" + color
-	}
-	return "48;5;" + color
-}
-
-// parseHexColor parses #RGB or #RRGGBB to r, g, b values
-func parseHexColor(hex string) (int, int, int) {
-	hex = strings.TrimPrefix(hex, "#")
-	if len(hex) == 3 {
-		r := hexDigit(hex[0]) * 17
-		g := hexDigit(hex[1]) * 17
-		b := hexDigit(hex[2]) * 17
-		return r, g, b
-	}
-	if len(hex) == 6 {
-		r := hexDigit(hex[0])*16 + hexDigit(hex[1])
-		g := hexDigit(hex[2])*16 + hexDigit(hex[3])
-		b := hexDigit(hex[4])*16 + hexDigit(hex[5])
-		return r, g, b
-	}
-	return 255, 255, 255
-}
-
-func hexDigit(c byte) int {
-	if c >= '0' && c <= '9' {
-		return int(c - '0')
-	}
-	if c >= 'a' && c <= 'f' {
-		return int(c - 'a' + 10)
-	}
-	if c >= 'A' && c <= 'F' {
-		return int(c - 'A' + 10)
-	}
-	return 0
-}
-
-func itoa(n int) string {
-	if n < 0 {
-		return "-" + itoa(-n)
-	}
-	if n < 10 {
-		return string(byte('0' + n))
-	}
-	return itoa(n/10) + string(byte('0'+n%10))
-}
-
-func atoi(s string) int {
-	n := 0
-	for _, c := range s {
-		if c >= '0' && c <= '9' {
-			n = n*10 + int(c-'0')
-		}
-	}
-	return n
 }
 
 // overlayRecentFilesDialog overlays the recent files dialog using DialogBuilder

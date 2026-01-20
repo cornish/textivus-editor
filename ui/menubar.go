@@ -37,7 +37,8 @@ const (
 	ActionWordWrap
 	ActionLineNumbers
 	ActionSyntaxHighlight
-	ActionTheme // Opens theme selection dialog
+	ActionScrollbar // Toggle scrollbar
+	ActionTheme   // Opens theme selection dialog
 	// Help menu
 	ActionHelp
 	ActionAbout
@@ -112,6 +113,7 @@ func NewMenuBar(styles Styles) *MenuBar {
 					{Label: "[ ] Word Wrap", Shortcut: "", HotKey: 'W', Action: ActionWordWrap},
 					{Label: "[ ] Line Numbers", Shortcut: "Ctrl+L", HotKey: 'L', Action: ActionLineNumbers},
 					{Label: "[x] Syntax Highlight", Shortcut: "", HotKey: 'S', Action: ActionSyntaxHighlight},
+					{Label: "[ ] Scrollbar", Shortcut: "", HotKey: 'B', Action: ActionScrollbar},
 					{Label: "Theme...", Shortcut: "", HotKey: 'T', Action: ActionTheme},
 				},
 			},

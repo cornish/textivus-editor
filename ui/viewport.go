@@ -11,13 +11,14 @@ import (
 
 // Viewport handles the scrollable view of the text
 type Viewport struct {
-	width       int
-	height      int
-	scrollY     int  // First visible line
-	scrollX     int  // First visible column (for horizontal scrolling)
-	showLineNum bool
-	wordWrap    bool
-	styles      Styles
+	width        int
+	height       int
+	scrollY      int  // First visible line
+	scrollX      int  // First visible column (for horizontal scrolling)
+	showLineNum  bool
+	wordWrap     bool
+	scrollbarWidth int  // Width reserved for scrollbar (0 if disabled)
+	styles       Styles
 }
 
 // NewViewport creates a new viewport
@@ -274,9 +275,87 @@ func (v *Viewport) LineNumberWidth() int {
 	return 0
 }
 
-// TextWidth returns the width available for text (viewport width minus line numbers)
+// SetScrollbarWidth sets the width reserved for the scrollbar
+func (v *Viewport) SetScrollbarWidth(width int) {
+	if width < 0 {
+		width = 0
+	}
+	v.scrollbarWidth = width
+}
+
+// ScrollbarWidth returns the width reserved for the scrollbar
+func (v *Viewport) ScrollbarWidth() int {
+	return v.scrollbarWidth
+}
+
+// TextWidth returns the width available for text (viewport width minus line numbers and scrollbar)
 func (v *Viewport) TextWidth() int {
-	return v.width - v.LineNumberWidth()
+	return v.width - v.LineNumberWidth() - v.scrollbarWidth
+}
+
+// CountVisualLines returns the total number of visual lines when word wrap is enabled
+func (v *Viewport) CountVisualLines(lines []string) int {
+	if !v.wordWrap {
+		return len(lines)
+	}
+
+	textWidth := v.TextWidth()
+	if textWidth <= 0 {
+		return len(lines)
+	}
+
+	total := 0
+	for _, line := range lines {
+		lineLen := len([]rune(line))
+		if lineLen == 0 {
+			total++
+		} else {
+			total += (lineLen + textWidth - 1) / textWidth
+		}
+	}
+	return total
+}
+
+// VisualLineToBufferLine converts a visual line index to a buffer line index
+// Returns the buffer line and the wrap offset within that line
+func (v *Viewport) VisualLineToBufferLine(lines []string, visualLine int) (bufferLine int, wrapOffset int) {
+	if !v.wordWrap || visualLine < 0 {
+		if visualLine >= len(lines) {
+			return len(lines) - 1, 0
+		}
+		if visualLine < 0 {
+			return 0, 0
+		}
+		return visualLine, 0
+	}
+
+	textWidth := v.TextWidth()
+	if textWidth <= 0 {
+		return visualLine, 0
+	}
+
+	currentVisual := 0
+	for i, line := range lines {
+		lineLen := len([]rune(line))
+		var linesForThis int
+		if lineLen == 0 {
+			linesForThis = 1
+		} else {
+			linesForThis = (lineLen + textWidth - 1) / textWidth
+		}
+
+		if currentVisual+linesForThis > visualLine {
+			// The visual line is within this buffer line
+			return i, visualLine - currentVisual
+		}
+		currentVisual += linesForThis
+	}
+
+	// Past the end - return last line
+	if len(lines) > 0 {
+		return len(lines) - 1, 0
+	}
+	return 0, 0
 }
 
 // RenderLine renders a single line with optional selection highlighting
@@ -335,6 +414,7 @@ func (v *Viewport) renderNoWrap(lines []string, cursorLine, cursorCol int, selec
 	}
 
 	// Fill remaining lines if buffer is shorter than viewport
+	textWidth := v.TextWidth()
 	for lineIdx := endLine; lineIdx < v.scrollY+v.height; lineIdx++ {
 		if lineIdx > v.scrollY || endLine > v.scrollY {
 			sb.WriteString("\n")
@@ -342,7 +422,11 @@ func (v *Viewport) renderNoWrap(lines []string, cursorLine, cursorCol int, selec
 		if v.showLineNum {
 			sb.WriteString(v.styles.LineNumber.Render("    "))
 		}
+		// Render ~ and pad to full width
 		sb.WriteString(v.styles.Subtle.Render("~"))
+		if textWidth > 1 {
+			sb.WriteString(strings.Repeat(" ", textWidth-1))
+		}
 	}
 
 	return sb.String()
@@ -437,7 +521,11 @@ func (v *Viewport) renderWrapped(lines []string, cursorLine, cursorCol int, sele
 		if v.showLineNum {
 			sb.WriteString(v.styles.LineNumber.Render("    "))
 		}
+		// Render ~ and pad to full width
 		sb.WriteString(v.styles.Subtle.Render("~"))
+		if textWidth > 1 {
+			sb.WriteString(strings.Repeat(" ", textWidth-1))
+		}
 		visualLineCount++
 	}
 
@@ -511,17 +599,23 @@ func (v *Viewport) renderWrappedSegment(segment string, lineIdx, segmentStartCol
 
 	// Cursor at end of segment
 	segmentEndCol := segmentStartCol + len(runes)
+	renderedCursorAtEnd := false
 	if lineIdx == cursorLine && cursorCol == segmentEndCol && segmentEndCol%textWidth == 0 && len(runes) == textWidth {
 		// Cursor is at wrap point, don't show here
 	} else if lineIdx == cursorLine && cursorCol >= segmentStartCol && cursorCol <= segmentEndCol && len(runes) < textWidth {
 		if cursorCol == segmentEndCol {
 			sb.WriteString(v.styles.Cursor.Render(" "))
+			renderedCursorAtEnd = true
 		}
 	}
 
-	// Pad to full width
-	if len(runes) < textWidth {
-		sb.WriteString(strings.Repeat(" ", textWidth-len(runes)))
+	// Pad to full width (account for cursor space if rendered)
+	contentLen := len(runes)
+	if renderedCursorAtEnd {
+		contentLen++
+	}
+	if contentLen < textWidth {
+		sb.WriteString(strings.Repeat(" ", textWidth-contentLen))
 	}
 
 	return v.styles.Editor.Render(sb.String())

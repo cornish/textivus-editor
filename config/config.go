@@ -47,9 +47,10 @@ type EditorConfig struct {
 	WordWrap        bool  `toml:"word_wrap"`
 	LineNumbers     bool  `toml:"line_numbers"`
 	SyntaxHighlight bool  `toml:"syntax_highlight"`
-	TrueColor       *bool `toml:"true_color"`    // nil = auto (true), false = force 256-color
-	AsciiMode       *bool `toml:"ascii_mode"`    // nil = auto-detect, true/false = override
-	BackupCount     int   `toml:"backup_count"`  // 0=disabled, 1=filename~, >1=filename~1~ through filename~N~
+	TrueColor       *bool `toml:"true_color"`     // nil = auto (true), false = force 256-color
+	AsciiMode       *bool `toml:"ascii_mode"`     // nil = auto-detect, true/false = override
+	BackupCount     int   `toml:"backup_count"`   // 0=disabled, 1=filename~, >1=filename~1~ through filename~N~
+	Scrollbar       bool  `toml:"scrollbar"`      // Show scrollbar
 }
 
 // ThemeConfig holds the theme reference in the main config

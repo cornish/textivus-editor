@@ -1,6 +1,7 @@
 package editor
 
 import (
+	"festivus/ui"
 	"strings"
 
 	"github.com/mattn/go-runewidth"
@@ -32,9 +33,9 @@ func (e *Editor) NewDialogBuilder(width int) *DialogBuilder {
 		innerWidth: width - 2,
 		lines:      make([]string, 0),
 		themeUI: &themeColors{
-			dialogStyle:      "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m",
-			selectedStyle:    "\033[" + colorToSGR(themeUI.DialogButtonFg, themeUI.DialogButton) + "m",
-			dialogResetStyle: "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m",
+			dialogStyle:      ui.ColorToANSI(themeUI.DialogFg, themeUI.DialogBg),
+			selectedStyle:    ui.ColorToANSI(themeUI.DialogButtonFg, themeUI.DialogButton),
+			dialogResetStyle: ui.ColorToANSI(themeUI.DialogFg, themeUI.DialogBg),
 			resetStyle:       "\033[0m",
 		},
 	}

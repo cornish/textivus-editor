@@ -97,6 +97,7 @@ const (
 	PromptConfirmQuit
 	PromptConfirmOverwrite
 	PromptGoToLine
+	PromptThemeCopyName
 )
 
 // FestivusQuotes are displayed randomly in the About dialog.
@@ -158,6 +159,7 @@ type Editor struct {
 	menubar   *ui.MenuBar
 	statusbar *ui.StatusBar
 	viewport  *ui.Viewport
+	scrollbar   *ui.Scrollbar
 	styles    ui.Styles
 	box       BoxChars // Characters for drawing dialog boxes
 
@@ -212,8 +214,9 @@ type Editor struct {
 	highlighter *syntax.Highlighter
 
 	// Theme selection state
-	themeList  []string // Available themes
-	themeIndex int      // Selected theme index
+	themeList       []string // Available themes
+	themeIndex      int      // Selected theme index
+	themeExportName string   // Theme name being exported/copied
 
 	// Recent files dialog state
 	recentFilesIndex int // Selected index in recent files dialog
@@ -254,6 +257,7 @@ func NewWithConfig(cfg *config.Config) *Editor {
 		menubar:     ui.NewMenuBar(styles),
 		statusbar:   ui.NewStatusBar(styles),
 		viewport:    ui.NewViewport(styles),
+		scrollbar:     ui.NewScrollbar(styles),
 		highlighter: syntax.New(""), // Initialize with no file
 		styles:      styles,
 		box:         box,
@@ -288,6 +292,14 @@ func NewWithConfig(cfg *config.Config) *Editor {
 		if cfg.Editor.TrueColor != nil && !*cfg.Editor.TrueColor {
 			ui.UseTrueColor = false
 		}
+
+		// Apply scrollbar setting
+		if cfg.Editor.Scrollbar {
+			e.scrollbar.SetEnabled(true)
+			e.menubar.SetItemLabel(ui.ActionScrollbar, "[x] Scrollbar")
+		}
+		// Update viewport to account for scrollbar width
+		e.viewport.SetScrollbarWidth(e.scrollbar.Width())
 
 		// Apply theme syntax colors
 		e.highlighter.SetColors(syntax.SyntaxColors{
@@ -334,6 +346,7 @@ func (e *Editor) LoadFile(filename string) error {
 	e.cursor = NewCursor(e.buffer)
 	e.selection.Clear()
 	e.undoStack.Clear()
+	e.viewport.SetScrollY(0) // Reset scroll position for new file
 	e.filename = absPath
 	e.modified = false
 	e.updateTitle()
@@ -556,6 +569,7 @@ func (e *Editor) updateViewportSize() {
 	}
 
 	e.viewport.SetSize(e.width, viewportHeight)
+	e.scrollbar.SetHeight(viewportHeight)
 }
 
 // handleKey handles keyboard input
@@ -1299,6 +1313,22 @@ func (e *Editor) executePrompt() {
 		e.selection.Clear()
 		e.viewport.EnsureCursorVisibleWrapped(e.buffer.Lines(), e.cursor.Line(), e.cursor.Col())
 		e.statusbar.SetMessage(fmt.Sprintf("Jumped to line %d", lineNum), "info")
+
+	case PromptThemeCopyName:
+		if input == "" {
+			e.statusbar.SetMessage("Cancelled - no name provided", "info")
+			return
+		}
+		// Get the source theme and export with new name
+		theme := config.GetTheme(e.themeExportName)
+		theme.Name = input // Update theme name
+		path, err := config.ExportTheme(theme, input)
+		if err != nil {
+			e.statusbar.SetMessage("Error copying theme: "+err.Error(), "error")
+		} else {
+			e.statusbar.SetMessage("Theme saved to: "+path, "success")
+		}
+		e.themeExportName = ""
 	}
 }
 
@@ -1375,6 +1405,36 @@ func (e *Editor) handleMouse(msg tea.MouseMsg) (tea.Model, tea.Cmd) {
 				e.menubar.Close()
 				e.mode = ModeNormal
 				e.updateViewportSize()
+			}
+
+			// Check if click is on scrollbar
+			if e.scrollbar.IsEnabled() && y >= 0 && y < e.viewport.Height() {
+				scrollbarStartX := e.width - e.scrollbar.Width()
+				if msg.X >= scrollbarStartX {
+					lines := e.buffer.Lines()
+
+					// Calculate total lines - use visual lines if word wrap is enabled
+					totalLines := len(lines)
+					if e.viewport.WordWrap() {
+						totalLines = e.viewport.CountVisualLines(lines)
+					}
+
+					// Convert scrollbar row to visual line
+					visualLine := e.scrollbar.RowToLine(y, totalLines, e.viewport.Height())
+
+					// Convert visual line to buffer line
+					var targetLine int
+					if e.viewport.WordWrap() {
+						targetLine, _ = e.viewport.VisualLineToBufferLine(lines, visualLine)
+					} else {
+						targetLine = visualLine
+					}
+
+					e.cursor.SetPosition(targetLine, 0)
+					e.selection.Clear()
+					e.viewport.EnsureCursorVisibleWrapped(lines, e.cursor.Line(), e.cursor.Col())
+					return e, nil
+				}
 			}
 
 			// Handle click in editor area
@@ -1462,6 +1522,8 @@ func (e *Editor) executeAction(action ui.MenuAction) (tea.Model, tea.Cmd) {
 		e.toggleLineNumbers()
 	case ui.ActionSyntaxHighlight:
 		e.toggleSyntaxHighlight()
+	case ui.ActionScrollbar:
+		e.toggleScrollbar()
 	case ui.ActionTheme:
 		e.showThemeDialog()
 	case ui.ActionHelp:
@@ -1532,6 +1594,29 @@ func (e *Editor) toggleSyntaxHighlight() {
 	e.saveConfig()
 }
 
+// toggleScrollbar toggles the code scrollbar on/off
+func (e *Editor) toggleScrollbar() {
+	enabled := e.scrollbar.Toggle()
+
+	// Update viewport to account for scrollbar width change
+	e.viewport.SetScrollbarWidth(e.scrollbar.Width())
+
+	// Update menu checkbox
+	if enabled {
+		e.menubar.SetItemLabel(ui.ActionScrollbar, "[x] Scrollbar")
+		e.statusbar.SetMessage("Scrollbar enabled", "info")
+	} else {
+		e.menubar.SetItemLabel(ui.ActionScrollbar, "[ ] Scrollbar")
+		e.statusbar.SetMessage("Scrollbar disabled", "info")
+	}
+
+	// Ensure cursor stays visible after toggle (text width changes)
+	e.viewport.EnsureCursorVisibleWrapped(e.buffer.Lines(), e.cursor.Line(), e.cursor.Col())
+
+	// Save to config
+	e.saveConfig()
+}
+
 // saveConfig saves the current settings to the config file
 func (e *Editor) saveConfig() {
 	if e.config == nil {
@@ -1540,6 +1625,7 @@ func (e *Editor) saveConfig() {
 	e.config.Editor.WordWrap = e.viewport.WordWrap()
 	e.config.Editor.LineNumbers = e.viewport.ShowLineNum()
 	e.config.Editor.SyntaxHighlight = e.highlighter.Enabled()
+	e.config.Editor.Scrollbar = e.scrollbar.IsEnabled()
 	// Save in background - don't block the UI
 	go e.config.Save()
 }
@@ -1556,6 +1642,7 @@ func (e *Editor) applyTheme(themeName string) {
 	e.menubar.SetStyles(styles)
 	e.statusbar.SetStyles(styles)
 	e.viewport.SetStyles(styles)
+	e.scrollbar.SetStyles(styles)
 	e.styles = styles
 
 	// Update syntax highlighter colors
@@ -1634,6 +1721,31 @@ func (e *Editor) handleThemeKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	case tea.KeyEsc:
 		// Cancel - just close dialog
 		e.mode = ModeNormal
+	case tea.KeyRunes:
+		switch string(msg.Runes) {
+		case "e", "E":
+			// Edit: export theme to file
+			if e.themeIndex >= 0 && e.themeIndex < len(e.themeList) {
+				themeName := e.themeList[e.themeIndex]
+				theme := config.GetTheme(themeName)
+				path, err := config.ExportTheme(theme, themeName)
+				if err != nil {
+					e.statusbar.SetMessage("Error exporting theme: "+err.Error(), "error")
+				} else {
+					e.statusbar.SetMessage("Theme saved to: "+path, "success")
+				}
+				e.mode = ModeNormal
+			}
+		case "c", "C":
+			// Copy: prompt for new name
+			if e.themeIndex >= 0 && e.themeIndex < len(e.themeList) {
+				e.themeExportName = e.themeList[e.themeIndex]
+				e.promptText = "New theme name: "
+				e.promptInput = e.themeExportName + "_copy"
+				e.promptAction = PromptThemeCopyName
+				e.mode = ModePrompt
+			}
+		}
 	}
 	return e, nil
 }
@@ -2456,6 +2568,30 @@ func (e *Editor) View() string {
 
 	viewportContent := e.viewport.Render(lines, e.cursor.Line(), e.cursor.Col(), selectionMap, lineColors)
 
+	// Append scrollbar to viewport lines if enabled
+	if e.scrollbar.IsEnabled() {
+		viewportStart := e.viewport.ScrollY()
+		viewportHeight := e.viewport.Height()
+
+		// Calculate total lines - use visual lines if word wrap is enabled
+		totalLines := len(lines)
+		if e.viewport.WordWrap() {
+			totalLines = e.viewport.CountVisualLines(lines)
+		}
+
+		scrollbarLines := e.scrollbar.Render(viewportStart, viewportHeight, totalLines)
+
+		if len(scrollbarLines) > 0 {
+			viewportLines := strings.Split(viewportContent, "\n")
+			for i, scrollbarLine := range scrollbarLines {
+				if i < len(viewportLines) {
+					viewportLines[i] = viewportLines[i] + scrollbarLine
+				}
+			}
+			viewportContent = strings.Join(viewportLines, "\n")
+		}
+	}
+
 	// If menu dropdown is open, overlay it on top of the viewport
 	if e.menubar.IsOpen() {
 		dropdownLines, offset := e.menubar.RenderDropdown()
@@ -2509,47 +2645,60 @@ func (e *Editor) View() string {
 
 	// Find bar if active
 	if e.mode == ModeFind {
-		findContent := "Find: " + e.findQuery + "_"
-		padding := e.width - len(findContent)
+		findContent := "Find: " + e.findQuery
+		cursor := "▄" // Lower half block cursor
+		padding := e.width - len(findContent) - 1
 		if padding < 0 {
 			padding = 0
 		}
 		sb.WriteString(barColor)
 		sb.WriteString(findContent)
+		sb.WriteString(cursor)
 		sb.WriteString(strings.Repeat(" ", padding))
 		sb.WriteString("\033[0m\n")
 	}
 
 	// Find/Replace bar if active (two lines)
 	if e.mode == ModeFindReplace {
+		cursor := "▄" // Lower half block cursor
+
 		// Line 1: Find field
-		findCursor := ""
-		replaceCursor := ""
+		findLine := "Find: " + e.findQuery
+		findCursorStr := ""
 		if !e.replaceFocus {
-			findCursor = "_"
-		} else {
-			replaceCursor = "_"
+			findCursorStr = cursor
 		}
-		findLine := "Find: " + e.findQuery + findCursor
-		findPadding := e.width - len(findLine) + len(findCursor) // adjust for cursor char
+		findPadding := e.width - len(findLine) - 1
 		if findPadding < 0 {
 			findPadding = 0
 		}
 		sb.WriteString(barColor)
 		sb.WriteString(findLine)
+		sb.WriteString(findCursorStr)
+		if e.replaceFocus {
+			sb.WriteString(" ") // Space where cursor would be
+		}
 		sb.WriteString(strings.Repeat(" ", findPadding))
 		sb.WriteString("\033[0m\n")
 
 		// Line 2: Replace field with hints
-		replaceLine := "Replace: " + e.replaceQuery + replaceCursor
+		replaceLine := "Replace: " + e.replaceQuery
+		replaceCursorStr := ""
+		if e.replaceFocus {
+			replaceCursorStr = cursor
+		}
 		hints := " [Tab] Switch [Enter] Replace [Ctrl+A] All"
-		availSpace := e.width - len(replaceLine) + len(replaceCursor) - len(hints)
+		availSpace := e.width - len(replaceLine) - 1 - len(hints)
 		if availSpace < 0 {
 			availSpace = 0
 			hints = ""
 		}
 		sb.WriteString(barColor)
 		sb.WriteString(replaceLine)
+		sb.WriteString(replaceCursorStr)
+		if !e.replaceFocus {
+			sb.WriteString(" ") // Space where cursor would be
+		}
 		sb.WriteString(strings.Repeat(" ", availSpace))
 		sb.WriteString(hints)
 		sb.WriteString("\033[0m\n")
@@ -2557,13 +2706,15 @@ func (e *Editor) View() string {
 
 	// Prompt bar if active
 	if e.mode == ModePrompt {
-		promptContent := e.promptText + e.promptInput + "_"
-		padding := e.width - len(promptContent)
+		promptContent := e.promptText + e.promptInput
+		cursor := "▄" // Lower half block cursor
+		padding := e.width - len(promptContent) - 1
 		if padding < 0 {
 			padding = 0
 		}
 		sb.WriteString(barColor)
 		sb.WriteString(promptContent)
+		sb.WriteString(cursor)
 		sb.WriteString(strings.Repeat(" ", padding))
 		sb.WriteString("\033[0m\n")
 	}

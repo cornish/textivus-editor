@@ -1,6 +1,7 @@
 package editor
 
 import (
+	"festivus/ui"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -644,9 +645,9 @@ func (e *Editor) overlayFileBrowser(viewportContent string) string {
 
 	// Get theme colors for internal styling
 	themeUI := e.styles.Theme.UI
-	selectedStyle := "\033[" + colorToSGR(themeUI.DialogButtonFg, themeUI.DialogButton) + "m"
-	dialogResetStyle := "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m"
-	errorStyle := "\033[" + colorToSGRSingle(themeUI.ErrorFg, true) + "m"
+	selectedStyle := ui.ColorToANSI(themeUI.DialogButtonFg, themeUI.DialogButton)
+	dialogResetStyle := ui.ColorToANSI(themeUI.DialogFg, themeUI.DialogBg)
+	errorStyle := ui.ColorToANSIFg(themeUI.ErrorFg)
 
 	// Helper to pad/truncate text to exact display width (Unicode-aware)
 	innerWidth := boxWidth - 2 // Account for left and right borders
@@ -815,9 +816,9 @@ func (e *Editor) overlaySaveAs(viewportContent string) string {
 
 	// Get theme colors for internal styling
 	themeUI := e.styles.Theme.UI
-	selectedStyle := "\033[" + colorToSGR(themeUI.DialogButtonFg, themeUI.DialogButton) + "m"
-	dialogResetStyle := "\033[" + colorToSGR(themeUI.DialogFg, themeUI.DialogBg) + "m"
-	errorStyle := "\033[" + colorToSGRSingle(themeUI.ErrorFg, true) + "m"
+	selectedStyle := ui.ColorToANSI(themeUI.DialogButtonFg, themeUI.DialogButton)
+	dialogResetStyle := ui.ColorToANSI(themeUI.DialogFg, themeUI.DialogBg)
+	errorStyle := ui.ColorToANSIFg(themeUI.ErrorFg)
 
 	// Helper to pad/truncate text to exact display width (Unicode-aware)
 	innerWidth := boxWidth - 2 // Account for left and right borders
