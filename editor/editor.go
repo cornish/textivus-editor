@@ -98,7 +98,21 @@ const (
 	PromptConfirmOverwrite
 	PromptGoToLine
 	PromptThemeCopyName
+	PromptFileChanged // File changed on disk - reload?
 )
+
+// fileCheckMsg is sent periodically to check for external file changes
+type fileCheckMsg struct{}
+
+// fileCheckInterval is how often to check for external file changes
+const fileCheckInterval = 30 * time.Second
+
+// fileCheckCmd returns a command that sends a fileCheckMsg after the interval
+func fileCheckCmd() tea.Cmd {
+	return tea.Tick(fileCheckInterval, func(t time.Time) tea.Msg {
+		return fileCheckMsg{}
+	})
+}
 
 // FestivusQuotes are displayed randomly in the About dialog.
 // Feel free to add more Seinfeld Festivus quotes!
@@ -154,8 +168,9 @@ type Document struct {
 	undoStack   *UndoStack
 	filename    string
 	modified    bool
-	scrollY     int // viewport scroll position for this document
+	scrollY     int       // viewport scroll position for this document
 	highlighter *syntax.Highlighter
+	modTime     time.Time // file modification time when loaded/saved
 }
 
 // Editor is the main Bubbletea model for the text editor
@@ -257,7 +272,13 @@ func (e *Editor) switchToBuffer(idx int) {
 	// Update title, menu, and status
 	e.updateTitle()
 	e.updateMenuState()
-	e.statusbar.SetMessage("", "")
+
+	// Check if file changed on disk
+	if e.fileChangedOnDisk() {
+		e.statusbar.SetMessage("Warning: File changed on disk!", "error")
+	} else {
+		e.statusbar.SetMessage("", "")
+	}
 }
 
 // nextBuffer switches to the next buffer (wraps around)
@@ -291,6 +312,19 @@ func (e *Editor) findBufferByFilename(filename string) int {
 		}
 	}
 	return -1
+}
+
+// fileChangedOnDisk checks if the file has been modified externally since last load/save
+func (e *Editor) fileChangedOnDisk() bool {
+	doc := e.activeDoc()
+	if doc.filename == "" || doc.modTime.IsZero() {
+		return false
+	}
+	fileInfo, err := os.Stat(doc.filename)
+	if err != nil {
+		return false // File doesn't exist or can't be read
+	}
+	return fileInfo.ModTime().After(doc.modTime)
 }
 
 // New creates a new editor instance with default config
@@ -421,10 +455,15 @@ func (e *Editor) LoadFile(filename string) error {
 		return nil
 	}
 
-	// Read file content
+	// Read file content and get mod time
 	content, err := os.ReadFile(filename)
 	if err != nil {
 		return err
+	}
+	fileInfo, err := os.Stat(absPath)
+	var modTime time.Time
+	if err == nil {
+		modTime = fileInfo.ModTime()
 	}
 
 	// Decide whether to reuse current buffer or create new one
@@ -444,11 +483,11 @@ func (e *Editor) LoadFile(filename string) error {
 		currentDoc.scrollY = 0
 		currentDoc.filename = absPath
 		currentDoc.modified = false
+		currentDoc.modTime = modTime
 		currentDoc.highlighter.SetFile(filename)
 	} else {
 		// Create new document
-		buf := NewBuffer()
-		buf = NewBufferFromString(string(content))
+		buf := NewBufferFromString(string(content))
 		doc := &Document{
 			buffer:      buf,
 			cursor:      NewCursor(buf),
@@ -458,6 +497,7 @@ func (e *Editor) LoadFile(filename string) error {
 			filename:    absPath,
 			modified:    false,
 			scrollY:     0,
+			modTime:     modTime,
 		}
 		e.documents = append(e.documents, doc)
 		e.activeIdx = len(e.documents) - 1
@@ -485,6 +525,12 @@ func (e *Editor) SaveFile() bool {
 		return false
 	}
 
+	// Check for external changes
+	if e.fileChangedOnDisk() {
+		e.showPrompt("File changed on disk. Overwrite? (y/n): ", PromptFileChanged)
+		return false
+	}
+
 	return e.doSave()
 }
 
@@ -506,6 +552,11 @@ func (e *Editor) doSave() bool {
 		errMsg = strings.TrimPrefix(errMsg, "open ")
 		e.statusbar.SetMessage("Save failed: "+errMsg, "error")
 		return false
+	}
+
+	// Update stored mod time after successful save
+	if fileInfo, err := os.Stat(e.activeDoc().filename); err == nil {
+		e.activeDoc().modTime = fileInfo.ModTime()
 	}
 
 	e.activeDoc().modified = false
@@ -612,6 +663,7 @@ func (e *Editor) Init() tea.Cmd {
 	return tea.Batch(
 		tea.EnterAltScreen,
 		tea.EnableMouseAllMotion,
+		fileCheckCmd(), // Start periodic file change detection
 	)
 }
 
@@ -630,6 +682,13 @@ func (e *Editor) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		e.statusbar.SetWidth(msg.Width)
 		e.updateViewportSize()
 		return e, nil
+
+	case fileCheckMsg:
+		// Periodic check for external file changes
+		if e.fileChangedOnDisk() && e.mode == ModeNormal {
+			e.statusbar.SetMessage("File changed on disk!", "error")
+		}
+		return e, fileCheckCmd() // Schedule next check
 
 	case tea.KeyMsg:
 		return e.handleKey(msg)
@@ -1431,6 +1490,13 @@ func (e *Editor) executePrompt() {
 			e.pendingQuit = true
 		} else {
 			e.statusbar.SetMessage("Cancelled", "info")
+		}
+
+	case PromptFileChanged:
+		if strings.ToLower(input) == "y" || strings.ToLower(input) == "yes" {
+			e.doSave() // Overwrite the external changes
+		} else {
+			e.statusbar.SetMessage("Save cancelled", "info")
 		}
 
 	case PromptGoToLine:

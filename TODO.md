@@ -3,7 +3,7 @@
 ## Tier 1: MVP Gaps
 
 - [x] Multiple buffers + fast buffer switching
-- [ ] External file change detection (warn if file modified on disk)
+- [x] External file change detection (warn if file modified on disk)
 
 ## Tier 2: v1.1 Features
 
