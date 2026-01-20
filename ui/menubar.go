@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
@@ -38,7 +39,17 @@ const (
 	ActionLineNumbers
 	ActionSyntaxHighlight
 	ActionScrollbar // Toggle scrollbar
-	ActionTheme   // Opens theme selection dialog
+	ActionTheme     // Opens theme selection dialog
+	// Buffers menu
+	ActionBuffer1
+	ActionBuffer2
+	ActionBuffer3
+	ActionBuffer4
+	ActionBuffer5
+	ActionBuffer6
+	ActionBuffer7
+	ActionBuffer8
+	ActionBuffer9
 	// Help menu
 	ActionHelp
 	ActionAbout
@@ -84,6 +95,12 @@ func NewMenuBar(styles Styles) *MenuBar {
 					{Label: "Save As", Shortcut: "", HotKey: 'A', Action: ActionSaveAs},
 					{Label: "Revert", Shortcut: "", HotKey: 'R', Action: ActionRevert},
 					{Label: "Exit", Shortcut: "Ctrl+Q", HotKey: 'X', Action: ActionExit},
+				},
+			},
+			{
+				Label: "Buffers",
+				Items: []MenuItem{
+					{Label: "(no buffers)", Shortcut: "", HotKey: 0, Action: ActionNone, Disabled: true},
 				},
 			},
 			{
@@ -288,6 +305,52 @@ func (m *MenuBar) SetItemLabel(action MenuAction, label string) {
 			}
 		}
 	}
+}
+
+// SetBuffers updates the Buffers menu with current open buffers
+// names is a list of buffer display names, activeIdx is the currently active buffer
+func (m *MenuBar) SetBuffers(names []string, activeIdx int) {
+	// Find the Buffers menu
+	buffersMenuIdx := -1
+	for i, menu := range m.menus {
+		if menu.Label == "Buffers" {
+			buffersMenuIdx = i
+			break
+		}
+	}
+	if buffersMenuIdx < 0 {
+		return
+	}
+
+	// Build new items list
+	var items []MenuItem
+	actions := []MenuAction{ActionBuffer1, ActionBuffer2, ActionBuffer3, ActionBuffer4, ActionBuffer5, ActionBuffer6, ActionBuffer7, ActionBuffer8, ActionBuffer9}
+	hotkeys := []rune{'1', '2', '3', '4', '5', '6', '7', '8', '9'}
+
+	for i, name := range names {
+		if i >= 9 {
+			break // Max 9 buffers in menu
+		}
+		// Format: "1• filename" or "2  filename"
+		var label string
+		if i == activeIdx {
+			label = fmt.Sprintf("%d• %s", i+1, name)
+		} else {
+			label = fmt.Sprintf("%d  %s", i+1, name)
+		}
+		items = append(items, MenuItem{
+			Label:    label,
+			Shortcut: "",
+			HotKey:   hotkeys[i],
+			Action:   actions[i],
+		})
+	}
+
+	if len(items) == 0 {
+		items = []MenuItem{{Label: "(no buffers)", Shortcut: "", HotKey: 0, Action: ActionNone, Disabled: true}}
+	}
+
+	m.menus[buffersMenuIdx].Items = items
 }
 
 // menuItemWidth returns the display width of a menu item

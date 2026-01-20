@@ -254,8 +254,9 @@ func (e *Editor) switchToBuffer(idx int) {
 	// Restore new doc's scroll position
 	e.viewport.SetScrollY(e.activeDoc().scrollY)
 
-	// Update title and status
+	// Update title, menu, and status
 	e.updateTitle()
+	e.updateMenuState()
 	e.statusbar.SetMessage("", "")
 }
 
@@ -1029,24 +1030,29 @@ func (e *Editor) handleKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 				e.menubar.OpenMenu(0) // File
 				e.updateViewportSize()
 				return e, nil
+			case 'b', 'B':
+				e.mode = ModeMenu
+				e.menubar.OpenMenu(1) // Buffers
+				e.updateViewportSize()
+				return e, nil
 			case 'e', 'E':
 				e.mode = ModeMenu
-				e.menubar.OpenMenu(1) // Edit
+				e.menubar.OpenMenu(2) // Edit
 				e.updateViewportSize()
 				return e, nil
 			case 's', 'S':
 				e.mode = ModeMenu
-				e.menubar.OpenMenu(2) // Search
+				e.menubar.OpenMenu(3) // Search
 				e.updateViewportSize()
 				return e, nil
 			case 'o', 'O':
 				e.mode = ModeMenu
-				e.menubar.OpenMenu(3) // Options
+				e.menubar.OpenMenu(4) // Options
 				e.updateViewportSize()
 				return e, nil
 			case 'h', 'H':
 				e.mode = ModeMenu
-				e.menubar.OpenMenu(4) // Help
+				e.menubar.OpenMenu(5) // Help
 				e.updateViewportSize()
 				return e, nil
 			case '<': // Alt+< (same as nano)
@@ -1077,24 +1083,29 @@ func (e *Editor) handleKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		e.menubar.OpenMenu(0) // File
 		e.updateViewportSize()
 		return e, nil
+	case "alt+b":
+		e.mode = ModeMenu
+		e.menubar.OpenMenu(1) // Buffers
+		e.updateViewportSize()
+		return e, nil
 	case "alt+e":
 		e.mode = ModeMenu
-		e.menubar.OpenMenu(1) // Edit
+		e.menubar.OpenMenu(2) // Edit
 		e.updateViewportSize()
 		return e, nil
 	case "alt+s":
 		e.mode = ModeMenu
-		e.menubar.OpenMenu(2) // Search
+		e.menubar.OpenMenu(3) // Search
 		e.updateViewportSize()
 		return e, nil
 	case "alt+o":
 		e.mode = ModeMenu
-		e.menubar.OpenMenu(3) // Options
+		e.menubar.OpenMenu(4) // Options
 		e.updateViewportSize()
 		return e, nil
 	case "alt+h":
 		e.mode = ModeMenu
-		e.menubar.OpenMenu(4) // Help
+		e.menubar.OpenMenu(5) // Help
 		e.updateViewportSize()
 		return e, nil
 	case "f10":
@@ -1659,6 +1670,24 @@ func (e *Editor) executeAction(action ui.MenuAction) (tea.Model, tea.Cmd) {
 		e.toggleScrollbar()
 	case ui.ActionTheme:
 		e.showThemeDialog()
+	case ui.ActionBuffer1:
+		e.switchToBuffer(0)
+	case ui.ActionBuffer2:
+		e.switchToBuffer(1)
+	case ui.ActionBuffer3:
+		e.switchToBuffer(2)
+	case ui.ActionBuffer4:
+		e.switchToBuffer(3)
+	case ui.ActionBuffer5:
+		e.switchToBuffer(4)
+	case ui.ActionBuffer6:
+		e.switchToBuffer(5)
+	case ui.ActionBuffer7:
+		e.switchToBuffer(6)
+	case ui.ActionBuffer8:
+		e.switchToBuffer(7)
+	case ui.ActionBuffer9:
+		e.switchToBuffer(8)
 	case ui.ActionHelp:
 		e.showHelp()
 	case ui.ActionAbout:
@@ -2459,6 +2488,20 @@ func (e *Editor) getTitle() string {
 func (e *Editor) updateMenuState() {
 	// Revert is disabled if there's no file to revert to
 	e.menubar.SetItemDisabled(ui.ActionRevert, e.activeDoc().filename == "")
+
+	// Update buffers menu
+	var names []string
+	for _, doc := range e.documents {
+		name := "[Untitled]"
+		if doc.filename != "" {
+			name = filepath.Base(doc.filename)
+		}
+		if doc.modified {
+			name = "*" + name
+		}
+		names = append(names, name)
+	}
+	e.menubar.SetBuffers(names, e.activeIdx)
 }
 
 // openFile prompts for a filename to open
@@ -2821,7 +2864,7 @@ func (e *Editor) View() string {
 	// Find bar if active
 	if e.mode == ModeFind {
 		findContent := "Find: " + e.findQuery
-		cursor := "▄" // Lower half block cursor
+		cursor := "▂" // Lower quarter block cursor
 		padding := e.width - len(findContent) - 1
 		if padding < 0 {
 			padding = 0
@@ -2835,7 +2878,7 @@ func (e *Editor) View() string {
 
 	// Find/Replace bar if active (two lines)
 	if e.mode == ModeFindReplace {
-		cursor := "▄" // Lower half block cursor
+		cursor := "▂" // Lower quarter block cursor
 
 		// Line 1: Find field
 		findLine := "Find: " + e.findQuery
@@ -2882,7 +2925,7 @@ func (e *Editor) View() string {
 	// Prompt bar if active
 	if e.mode == ModePrompt {
 		promptContent := e.promptText + e.promptInput
-		cursor := "▄" // Lower half block cursor
+		cursor := "▂" // Lower quarter block cursor
 		padding := e.width - len(promptContent) - 1
 		if padding < 0 {
 			padding = 0
