@@ -21,6 +21,7 @@ const (
 	ActionSave
 	ActionSaveAs
 	ActionRevert
+	ActionSetEncoding // Opens encoding selection dialog
 	ActionExit
 	// Edit menu
 	ActionUndo
@@ -109,6 +110,7 @@ func NewMenuBar(styles Styles) *MenuBar {
 					{Label: "Save", Shortcut: "Ctrl+S", HotKey: 'S', Action: ActionSave},
 					{Label: "Save As", Shortcut: "", HotKey: 'A', Action: ActionSaveAs},
 					{Label: "Revert", Shortcut: "", HotKey: 'R', Action: ActionRevert},
+					{Label: "Set Encoding", Shortcut: "", HotKey: 'E', Action: ActionSetEncoding},
 					{Label: "Exit", Shortcut: "Ctrl+Q", HotKey: 'X', Action: ActionExit},
 				},
 			},

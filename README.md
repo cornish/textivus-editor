@@ -86,6 +86,10 @@ Without these tools, copy/paste will only work within Festivus.
 | Paste | Ctrl+V |
 | Cut Line | Ctrl+K |
 | Select All | Ctrl+A |
+| Indent | Tab |
+| Dedent | Shift+Tab |
+| Block Indent | Tab (with selection) |
+| Block Dedent | Shift+Tab (with selection) |
 
 ### Search
 | Action | Shortcut |
@@ -168,6 +172,8 @@ syntax_highlight = true
 true_color = true    # Set to false for older terminals
 backup_count = 0     # 0=disabled, 1=filename~, 2+=numbered (filename~1~ newest)
 max_buffers = 20     # Maximum open buffers (0=unlimited)
+tab_width = 4        # Display width of tab characters
+tabs_to_spaces = false  # true = insert spaces, false = insert tab characters
 
 [theme]
 name = "default"  # or "dark", "light", "monokai", "nord", "dracula", "gruvbox", "solarized", "catppuccin"

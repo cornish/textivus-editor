@@ -8,32 +8,34 @@ import (
 
 // StatusBar represents the bottom status bar
 type StatusBar struct {
-	filename     string
-	modified     bool
-	line         int
-	col          int
-	totalLines   int
-	encoding     string
-	wordCount    int
-	charCount    int
-	message      string // Temporary message to display
-	messageType  string // "info", "error", "success"
-	width        int
-	styles       Styles
-	bufferIndex  int // Current buffer index (0-based)
-	bufferCount  int // Total number of open buffers
+	filename           string
+	modified           bool
+	line               int
+	col                int
+	totalLines         int
+	encoding           string
+	encodingSupported  bool // Whether the encoding is fully supported
+	wordCount          int
+	charCount          int
+	message            string // Temporary message to display
+	messageType        string // "info", "error", "success"
+	width              int
+	styles             Styles
+	bufferIndex        int // Current buffer index (0-based)
+	bufferCount        int // Total number of open buffers
 }
 
 // NewStatusBar creates a new status bar
 func NewStatusBar(styles Styles) *StatusBar {
 	return &StatusBar{
-		filename:   "",
-		modified:   false,
-		line:       1,
-		col:        1,
-		totalLines: 1,
-		encoding:   "UTF-8",
-		styles:     styles,
+		filename:          "",
+		modified:          false,
+		line:              1,
+		col:               1,
+		totalLines:        1,
+		encoding:          "UTF-8",
+		encodingSupported: true,
+		styles:            styles,
 	}
 }
 
@@ -58,9 +60,10 @@ func (s *StatusBar) SetTotalLines(total int) {
 	s.totalLines = total
 }
 
-// SetEncoding sets the file encoding
-func (s *StatusBar) SetEncoding(encoding string) {
+// SetEncoding sets the file encoding and whether it's supported
+func (s *StatusBar) SetEncoding(encoding string, supported bool) {
 	s.encoding = encoding
+	s.encodingSupported = supported
 }
 
 // SetCounts sets the word and character counts
@@ -133,7 +136,10 @@ func (s *StatusBar) View() string {
 	}
 
 	// Right side: word count, char count, line:col, encoding
-	right := fmt.Sprintf("W:%d C:%d | Ln %d, Col %d | %s", s.wordCount, s.charCount, s.line, s.col, s.encoding)
+	// Build encoding display (may need color)
+	encodingDisplay := s.encoding
+	rightBase := fmt.Sprintf("W:%d C:%d | Ln %d, Col %d | ", s.wordCount, s.charCount, s.line, s.col)
+	right := rightBase + encodingDisplay
 
 	// Calculate spacing
 	leftLen := len(filename) + len(bufferIndicator)
@@ -169,7 +175,15 @@ func (s *StatusBar) View() string {
 		sb.WriteString(strings.Repeat(" ", availableSpace))
 	}
 
-	sb.WriteString(right)
+	// Write right side with encoding potentially in red
+	sb.WriteString(rightBase)
+	if !s.encodingSupported {
+		sb.WriteString(errorColor)
+		sb.WriteString(encodingDisplay)
+		sb.WriteString(resetToNormal)
+	} else {
+		sb.WriteString(encodingDisplay)
+	}
 
 	// Reset at end
 	sb.WriteString("\033[0m")

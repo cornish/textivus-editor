@@ -209,6 +209,8 @@ type EditorConfig struct {
 	BackupCount     int   `toml:"backup_count"`   // 0=disabled, 1=filename~, >1=filename~1~ through filename~N~
 	Scrollbar       bool  `toml:"scrollbar"`      // Show scrollbar
 	MaxBuffers      int   `toml:"max_buffers"`    // Maximum open buffers (0=unlimited, default 20)
+	TabWidth        int   `toml:"tab_width"`      // Display width of tabs (default 4)
+	TabsToSpaces    bool  `toml:"tabs_to_spaces"` // Insert spaces instead of tab characters
 }
 
 // ThemeConfig holds the theme reference in the main config
@@ -225,6 +227,8 @@ func DefaultConfig() *Config {
 			LineNumbers:     false,
 			SyntaxHighlight: true, // Enabled by default
 			MaxBuffers:      20,   // Default max open buffers
+			TabWidth:        4,    // Default tab width
+			TabsToSpaces:    false, // Use real tabs by default
 		},
 		Theme: ThemeConfig{
 			Name: "default",

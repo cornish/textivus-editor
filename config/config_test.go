@@ -21,6 +21,12 @@ func TestDefaultConfig(t *testing.T) {
 	if cfg.Editor.MaxBuffers != 20 {
 		t.Errorf("DefaultConfig().Editor.MaxBuffers = %d, want 20", cfg.Editor.MaxBuffers)
 	}
+	if cfg.Editor.TabWidth != 4 {
+		t.Errorf("DefaultConfig().Editor.TabWidth = %d, want 4", cfg.Editor.TabWidth)
+	}
+	if cfg.Editor.TabsToSpaces != false {
+		t.Error("DefaultConfig().Editor.TabsToSpaces should be false")
+	}
 	if cfg.Theme.Name != "default" {
 		t.Errorf("DefaultConfig().Theme.Name = %q, want 'default'", cfg.Theme.Name)
 	}

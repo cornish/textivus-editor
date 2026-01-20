@@ -24,8 +24,8 @@
 - [x] Multiple buffers + fast buffer switching
 - [x] External file change detection (warn if file modified on disk)
 - [x] Test suite
-- [ ] Tab support (tabs vs spaces, configurable tab width)
-- [ ] Encoding handling (detect and convert non-UTF-8 files)
+- [x] Tab support (tabs vs spaces, configurable tab width, block indent/dedent)
+- [x] Encoding handling (detect and convert non-UTF-8 files)
 
 ## Tier 3: v1.1 Features
 
@@ -45,6 +45,7 @@
   - Truncate source lines at ~40 chars before converting
 - [ ] Kitty graphics minimap (true bitmap for compatible terminals)
 - [ ] Emoji picker
+- [ ] Hotkeys in dialogs (underlined letters for quick access)
 
 ## Tier 3.5: In Progress
 

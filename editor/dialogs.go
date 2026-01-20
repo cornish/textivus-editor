@@ -2,6 +2,7 @@ package editor
 
 import (
 	"festivus/config"
+	enc "festivus/encoding"
 	"festivus/ui"
 	"fmt"
 	"strings"
@@ -681,14 +682,16 @@ func (e *Editor) overlaySettingsDialog(viewportContent string) string {
 
 	// Settings rows
 	const (
-		rowWordWrap    = 0
-		rowLineNumbers = 1
-		rowSyntax      = 2
-		rowScrollbar   = 3
-		rowBackupCount = 4
-		rowMaxBuffers  = 5
-		rowSave        = 6
-		rowCancel      = 7
+		rowWordWrap     = 0
+		rowLineNumbers  = 1
+		rowSyntax       = 2
+		rowScrollbar    = 3
+		rowTabsToSpaces = 4
+		rowBackupCount  = 5
+		rowMaxBuffers   = 6
+		rowTabWidth     = 7
+		rowSave         = 8
+		rowCancel       = 9
 	)
 
 	// Helper to format checkbox - pad first, then apply highlighting
@@ -721,6 +724,7 @@ func (e *Editor) overlaySettingsDialog(viewportContent string) string {
 	db.lines = append(db.lines, db.box.Vertical+checkbox("Line Numbers", e.settingsLineNumbers, rowLineNumbers)+db.box.Vertical)
 	db.lines = append(db.lines, db.box.Vertical+checkbox("Syntax Highlighting", e.settingsSyntax, rowSyntax)+db.box.Vertical)
 	db.lines = append(db.lines, db.box.Vertical+checkbox("Scrollbar", e.settingsScrollbar, rowScrollbar)+db.box.Vertical)
+	db.lines = append(db.lines, db.box.Vertical+checkbox("Tabs to Spaces", e.settingsTabsToSpaces, rowTabsToSpaces)+db.box.Vertical)
 
 	db.AddEmptyLine()
 
@@ -729,6 +733,8 @@ func (e *Editor) overlaySettingsDialog(viewportContent string) string {
 	db.lines = append(db.lines, db.box.Vertical+db.PadText("    0=disabled, 1=file~, N=rotating")+db.box.Vertical)
 	db.lines = append(db.lines, db.box.Vertical+numberInput("Max Buffers", e.settingsMaxBuffers, rowMaxBuffers)+db.box.Vertical)
 	db.lines = append(db.lines, db.box.Vertical+db.PadText("    0=unlimited")+db.box.Vertical)
+	db.lines = append(db.lines, db.box.Vertical+numberInput("Tab Width", e.settingsTabWidth, rowTabWidth)+db.box.Vertical)
+	db.lines = append(db.lines, db.box.Vertical+db.PadText("    1-16 columns")+db.box.Vertical)
 
 	db.AddEmptyLine()
 
@@ -746,6 +752,51 @@ func (e *Editor) overlaySettingsDialog(viewportContent string) string {
 	}
 	db.lines = append(db.lines, db.box.Vertical+paddedLine+db.box.Vertical)
 
+	db.AddBottomBorder()
+
+	return db.Overlay(viewportContent, e.width, e.viewport.Height())
+}
+
+// overlayEncodingDialog overlays the encoding selection dialog
+func (e *Editor) overlayEncodingDialog(viewportContent string) string {
+	boxWidth := 50
+	db := e.NewDialogBuilder(boxWidth)
+
+	db.AddTitleBorder(" Set Encoding ")
+	db.AddEmptyLine()
+
+	// Get list of supported encodings
+	encodings := enc.GetSupportedEncodings()
+
+	// Current encoding for marking
+	currentEncoding := "utf-8"
+	if e.activeDoc().encoding != nil {
+		currentEncoding = e.activeDoc().encoding.ID
+	}
+
+	// Add encodings as selectable items
+	for i, encoding := range encodings {
+		prefix := "   "
+		if encoding.ID == currentEncoding {
+			prefix = " * "
+		}
+		display := prefix + encoding.Name
+		if encoding.Description != "" {
+			// Truncate description if needed
+			maxDescLen := db.InnerWidth() - len(display) - 3
+			if maxDescLen > 10 {
+				desc := encoding.Description
+				if len(desc) > maxDescLen {
+					desc = desc[:maxDescLen-3] + "..."
+				}
+				display += " - " + desc
+			}
+		}
+		db.AddSelectableItem(display, i == e.encodingIndex)
+	}
+
+	db.AddEmptyLine()
+	db.AddCenteredText("[Enter] Select  [Esc] Cancel")
 	db.AddBottomBorder()
 
 	return db.Overlay(viewportContent, e.width, e.viewport.Height())

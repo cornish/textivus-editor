@@ -11,6 +11,7 @@ import (
 
 	"festivus/clipboard"
 	"festivus/config"
+	enc "festivus/encoding"
 	"festivus/syntax"
 	"festivus/ui"
 
@@ -36,6 +37,7 @@ const (
 	ModeKeybindings
 	ModeConfigError
 	ModeSettings
+	ModeEncoding
 )
 
 // FileEntry represents a file or directory in the file browser
@@ -178,6 +180,7 @@ type Document struct {
 	scrollY     int       // viewport scroll position for this document
 	highlighter *syntax.Highlighter
 	modTime     time.Time // file modification time when loaded/saved
+	encoding    *enc.Encoding // detected file encoding
 }
 
 // Editor is the main Bubbletea model for the text editor
@@ -273,13 +276,18 @@ type Editor struct {
 	configErrorChoice int    // 0=Edit, 1=Defaults, 2=Quit
 
 	// Settings dialog state
-	settingsIndex       int  // Selected row (0-5 for settings, 6=Save, 7=Cancel)
+	settingsIndex       int  // Selected row in settings dialog
 	settingsWordWrap    bool // Temporary value while editing
 	settingsLineNumbers bool
 	settingsSyntax      bool
 	settingsScrollbar   bool
 	settingsBackupCount int
 	settingsMaxBuffers  int
+	settingsTabWidth    int
+	settingsTabsToSpaces bool
+
+	// Encoding dialog state
+	encodingIndex int // Selected encoding index
 }
 
 // activeDoc returns the currently active document
@@ -536,6 +544,7 @@ func NewWithConfig(cfg *config.Config) *Editor {
 		filename:    "",
 		modified:    false,
 		scrollY:     0,
+		encoding:    enc.GetEncodingByID("utf-8"), // Default to UTF-8
 	}
 
 	e := &Editor{
@@ -622,7 +631,7 @@ func (e *Editor) LoadFile(filename string) error {
 	}
 
 	// Read file content and get mod time
-	content, err := os.ReadFile(filename)
+	rawContent, err := os.ReadFile(filename)
 	if err != nil {
 		return err
 	}
@@ -630,6 +639,18 @@ func (e *Editor) LoadFile(filename string) error {
 	var modTime time.Time
 	if err == nil {
 		modTime = fileInfo.ModTime()
+	}
+
+	// Detect encoding
+	detection := enc.Detect(rawContent)
+	detectedEnc := detection.Encoding
+
+	// Convert to UTF-8 if needed
+	content, err := enc.DecodeToUTF8(rawContent, detectedEnc)
+	if err != nil {
+		// Fall back to raw content if decoding fails
+		content = rawContent
+		detectedEnc = enc.GetEncodingByID("utf-8")
 	}
 
 	// Decide whether to reuse current buffer or create new one
@@ -653,6 +674,7 @@ func (e *Editor) LoadFile(filename string) error {
 		currentDoc.modified = false
 		currentDoc.modTime = modTime
 		currentDoc.highlighter.SetFile(filename)
+		currentDoc.encoding = detectedEnc
 	} else {
 		// Check buffer limit before creating new document
 		maxBuffers := 20 // default
@@ -675,9 +697,15 @@ func (e *Editor) LoadFile(filename string) error {
 			modified:    false,
 			scrollY:     0,
 			modTime:     modTime,
+			encoding:    detectedEnc,
 		}
 		e.documents = append(e.documents, doc)
 		e.activeIdx = len(e.documents) - 1
+	}
+
+	// Warn if encoding is unsupported
+	if detectedEnc != nil && !detectedEnc.Supported {
+		e.statusbar.SetMessage("Warning: Unsupported encoding "+detectedEnc.Name, "error")
 	}
 
 	e.viewport.SetScrollY(0)
@@ -723,7 +751,28 @@ func (e *Editor) doSave() bool {
 	}
 
 	content := e.activeDoc().buffer.String()
-	err := os.WriteFile(e.activeDoc().filename, []byte(content), 0644)
+	var outputData []byte
+	var encErr error
+	docEnc := e.activeDoc().encoding
+
+	// Encode to original encoding if supported, otherwise save as UTF-8
+	if docEnc != nil && docEnc.Supported {
+		outputData, encErr = enc.EncodeFromUTF8([]byte(content), docEnc)
+		if encErr != nil {
+			e.statusbar.SetMessage("Encoding failed, saving as UTF-8", "warning")
+			outputData = []byte(content)
+			e.activeDoc().encoding = enc.GetEncodingByID("utf-8")
+		}
+	} else {
+		// Unsupported encoding - convert to UTF-8
+		outputData = []byte(content)
+		if docEnc != nil && !docEnc.Supported {
+			e.activeDoc().encoding = enc.GetEncodingByID("utf-8")
+			e.statusbar.SetMessage("Converted from "+docEnc.Name+" to UTF-8", "info")
+		}
+	}
+
+	err := os.WriteFile(e.activeDoc().filename, outputData, 0644)
 	if err != nil {
 		// Clean up Go's error message for user display
 		errMsg := err.Error()
@@ -738,7 +787,9 @@ func (e *Editor) doSave() bool {
 	}
 
 	e.activeDoc().modified = false
-	e.statusbar.SetMessage("Saved: "+e.activeDoc().filename, "success")
+	if encErr == nil && (docEnc == nil || docEnc.Supported) {
+		e.statusbar.SetMessage("Saved: "+e.activeDoc().filename, "success")
+	}
 	e.updateTitle()
 	e.updateMenuState()
 
@@ -816,7 +867,25 @@ func (e *Editor) doSaveInDialog() bool {
 	}
 
 	content := e.activeDoc().buffer.String()
-	err := os.WriteFile(e.activeDoc().filename, []byte(content), 0644)
+	var outputData []byte
+	docEnc := e.activeDoc().encoding
+
+	// Encode to original encoding if supported, otherwise save as UTF-8
+	if docEnc != nil && docEnc.Supported {
+		var encErr error
+		outputData, encErr = enc.EncodeFromUTF8([]byte(content), docEnc)
+		if encErr != nil {
+			outputData = []byte(content)
+			e.activeDoc().encoding = enc.GetEncodingByID("utf-8")
+		}
+	} else {
+		outputData = []byte(content)
+		if docEnc != nil && !docEnc.Supported {
+			e.activeDoc().encoding = enc.GetEncodingByID("utf-8")
+		}
+	}
+
+	err := os.WriteFile(e.activeDoc().filename, outputData, 0644)
 	if err != nil {
 		// Clean up Go's error message for dialog display
 		errMsg := err.Error()
@@ -911,6 +980,9 @@ func (e *Editor) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if e.mode == ModeSettings {
 			return e.handleSettingsMouse(msg)
 		}
+		if e.mode == ModeEncoding {
+			return e.handleEncodingMouse(msg)
+		}
 		if e.mode == ModeHelp {
 			return e.handleHelpMouse(msg)
 		}
@@ -995,6 +1067,11 @@ func (e *Editor) handleKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	// Handle settings mode
 	if e.mode == ModeSettings {
 		return e.handleSettingsKey(msg)
+	}
+
+	// Handle encoding selection mode
+	if e.mode == ModeEncoding {
+		return e.handleEncodingKey(msg)
 	}
 
 	// Handle theme selection mode
@@ -1211,7 +1288,19 @@ func (e *Editor) handleKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		return e, nil
 
 	case tea.KeyTab:
-		e.insertText("\t")
+		// If there's a selection, indent all selected lines
+		if e.activeDoc().selection.Active && !e.activeDoc().selection.IsEmpty() {
+			e.indentLines()
+		} else {
+			// No selection - insert tab/spaces based on config
+			e.insertText(e.getIndentString())
+		}
+		e.viewport.EnsureCursorVisibleWrapped(e.activeDoc().buffer.Lines(), e.activeDoc().cursor.Line(), e.activeDoc().cursor.Col())
+		return e, nil
+
+	case tea.KeyShiftTab:
+		// Dedent current line or all selected lines
+		e.dedentLines()
 		e.viewport.EnsureCursorVisibleWrapped(e.activeDoc().buffer.Lines(), e.activeDoc().cursor.Line(), e.activeDoc().cursor.Col())
 		return e, nil
 
@@ -1855,6 +1944,8 @@ func (e *Editor) executeAction(action ui.MenuAction) (tea.Model, tea.Cmd) {
 		e.showHelp()
 	case ui.ActionAbout:
 		e.showAbout()
+	case ui.ActionSetEncoding:
+		e.showEncodingDialog()
 	}
 	return e, nil
 }
@@ -2522,6 +2613,11 @@ func (e *Editor) showSettingsDialog() {
 		e.settingsScrollbar = e.config.Editor.Scrollbar
 		e.settingsBackupCount = e.config.Editor.BackupCount
 		e.settingsMaxBuffers = e.config.Editor.MaxBuffers
+		e.settingsTabWidth = e.config.Editor.TabWidth
+		if e.settingsTabWidth <= 0 {
+			e.settingsTabWidth = 4
+		}
+		e.settingsTabsToSpaces = e.config.Editor.TabsToSpaces
 	}
 	e.settingsIndex = 0
 	e.mode = ModeSettings
@@ -2529,17 +2625,19 @@ func (e *Editor) showSettingsDialog() {
 
 // handleSettingsKey handles key events in the settings dialog
 func (e *Editor) handleSettingsKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
-	// Settings rows: 0-3 = checkboxes, 4-5 = numbers, 6 = Save, 7 = Cancel
+	// Settings rows: 0-4 = checkboxes, 5-7 = numbers, 8 = Save, 9 = Cancel
 	const (
-		rowWordWrap    = 0
-		rowLineNumbers = 1
-		rowSyntax      = 2
-		rowScrollbar   = 3
-		rowBackupCount = 4
-		rowMaxBuffers  = 5
-		rowSave        = 6
-		rowCancel      = 7
-		maxRow         = 7
+		rowWordWrap     = 0
+		rowLineNumbers  = 1
+		rowSyntax       = 2
+		rowScrollbar    = 3
+		rowTabsToSpaces = 4
+		rowBackupCount  = 5
+		rowMaxBuffers   = 6
+		rowTabWidth     = 7
+		rowSave         = 8
+		rowCancel       = 9
+		maxRow          = 9
 	)
 
 	switch msg.Type {
@@ -2562,6 +2660,10 @@ func (e *Editor) handleSettingsKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 			if e.settingsMaxBuffers > 0 {
 				e.settingsMaxBuffers--
 			}
+		case rowTabWidth:
+			if e.settingsTabWidth > 1 {
+				e.settingsTabWidth--
+			}
 		case rowCancel:
 			e.settingsIndex = rowSave
 		}
@@ -2576,6 +2678,10 @@ func (e *Editor) handleSettingsKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 			if e.settingsMaxBuffers < 99 {
 				e.settingsMaxBuffers++
 			}
+		case rowTabWidth:
+			if e.settingsTabWidth < 16 {
+				e.settingsTabWidth++
+			}
 		case rowSave:
 			e.settingsIndex = rowCancel
 		}
@@ -2589,6 +2695,8 @@ func (e *Editor) handleSettingsKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 			e.settingsSyntax = !e.settingsSyntax
 		case rowScrollbar:
 			e.settingsScrollbar = !e.settingsScrollbar
+		case rowTabsToSpaces:
+			e.settingsTabsToSpaces = !e.settingsTabsToSpaces
 		case rowSave:
 			e.saveSettings()
 			e.mode = ModeNormal
@@ -2615,6 +2723,8 @@ func (e *Editor) saveSettings() {
 	e.config.Editor.Scrollbar = e.settingsScrollbar
 	e.config.Editor.BackupCount = e.settingsBackupCount
 	e.config.Editor.MaxBuffers = e.settingsMaxBuffers
+	e.config.Editor.TabWidth = e.settingsTabWidth
+	e.config.Editor.TabsToSpaces = e.settingsTabsToSpaces
 
 	// Apply to current editor state
 	e.viewport.SetWordWrap(e.settingsWordWrap)
@@ -2651,8 +2761,9 @@ func (e *Editor) saveSettings() {
 // handleSettingsMouse handles mouse input in the settings dialog
 func (e *Editor) handleSettingsMouse(msg tea.MouseMsg) (tea.Model, tea.Cmd) {
 	// Dialog dimensions (must match overlaySettingsDialog)
+	// title + empty + 5 checkboxes + empty + 3 numbers with help + empty + buttons + bottom
 	boxWidth := 54
-	boxHeight := 14 // title + empty + 4 checkboxes + 2 numbers + empty + buttons + bottom
+	boxHeight := 18
 
 	startX := (e.width - boxWidth) / 2
 	startY := (e.viewport.Height() - boxHeight) / 2
@@ -2670,29 +2781,43 @@ func (e *Editor) handleSettingsMouse(msg tea.MouseMsg) (tea.Model, tea.Cmd) {
 	}
 
 	if msg.Button == tea.MouseButtonLeft && msg.Action == tea.MouseActionPress {
-		// Map Y position to row (rows start at line 2)
-		clickedRow := relY - 2
-		if clickedRow >= 0 && clickedRow <= 5 {
-			e.settingsIndex = clickedRow
-			// Toggle checkbox if clicking on checkbox rows
-			if clickedRow <= 3 {
-				switch clickedRow {
-				case 0:
-					e.settingsWordWrap = !e.settingsWordWrap
-				case 1:
-					e.settingsLineNumbers = !e.settingsLineNumbers
-				case 2:
-					e.settingsSyntax = !e.settingsSyntax
-				case 3:
-					e.settingsScrollbar = !e.settingsScrollbar
-				}
-			}
-		}
+		// Row mapping (0-indexed from content start at line 2):
+		// 0-4: checkboxes (rows 0-4)
+		// 5: empty line
+		// 6: Backup Count (row 5)
+		// 7: help text
+		// 8: Max Buffers (row 6)
+		// 9: help text
+		// 10: Tab Width (row 7)
+		// 11: help text
+		// 12: empty line
+		// 13: buttons (rows 8, 9)
 
-		// Check button clicks (row 11 = buttons row, 0-indexed from dialog top)
-		if relY == 11 {
+		contentRow := relY - 2
+		if contentRow >= 0 && contentRow <= 4 {
+			// Checkbox rows
+			e.settingsIndex = contentRow
+			switch contentRow {
+			case 0:
+				e.settingsWordWrap = !e.settingsWordWrap
+			case 1:
+				e.settingsLineNumbers = !e.settingsLineNumbers
+			case 2:
+				e.settingsSyntax = !e.settingsSyntax
+			case 3:
+				e.settingsScrollbar = !e.settingsScrollbar
+			case 4:
+				e.settingsTabsToSpaces = !e.settingsTabsToSpaces
+			}
+		} else if contentRow == 6 {
+			e.settingsIndex = 5 // Backup Count
+		} else if contentRow == 8 {
+			e.settingsIndex = 6 // Max Buffers
+		} else if contentRow == 10 {
+			e.settingsIndex = 7 // Tab Width
+		} else if contentRow == 14 {
+			// Button row
 			innerX := relX - 1
-			// [ Save ] centered around position ~15, [ Cancel ] around ~35
 			if innerX >= 12 && innerX < 22 {
 				e.saveSettings()
 				e.mode = ModeNormal
@@ -2704,6 +2829,157 @@ func (e *Editor) handleSettingsMouse(msg tea.MouseMsg) (tea.Model, tea.Cmd) {
 	}
 
 	return e, nil
+}
+
+// showEncodingDialog opens the encoding selection dialog
+func (e *Editor) showEncodingDialog() {
+	// Find the current encoding index
+	encodings := enc.GetSupportedEncodings()
+	currentID := "utf-8"
+	if e.activeDoc().encoding != nil {
+		currentID = e.activeDoc().encoding.ID
+	}
+
+	e.encodingIndex = 0
+	for i, encoding := range encodings {
+		if encoding.ID == currentID {
+			e.encodingIndex = i
+			break
+		}
+	}
+
+	e.mode = ModeEncoding
+}
+
+// handleEncodingKey handles key events in the encoding selection dialog
+func (e *Editor) handleEncodingKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
+	encodings := enc.GetSupportedEncodings()
+	count := len(encodings)
+
+	switch msg.Type {
+	case tea.KeyUp:
+		if e.encodingIndex > 0 {
+			e.encodingIndex--
+		}
+	case tea.KeyDown:
+		if e.encodingIndex < count-1 {
+			e.encodingIndex++
+		}
+	case tea.KeyHome:
+		e.encodingIndex = 0
+	case tea.KeyEnd:
+		e.encodingIndex = count - 1
+	case tea.KeyEsc:
+		e.mode = ModeNormal
+	case tea.KeyEnter:
+		// Apply the selected encoding
+		selectedEnc := encodings[e.encodingIndex]
+		e.applyEncoding(selectedEnc)
+		e.mode = ModeNormal
+	}
+
+	return e, nil
+}
+
+// handleEncodingMouse handles mouse input in the encoding selection dialog
+func (e *Editor) handleEncodingMouse(msg tea.MouseMsg) (tea.Model, tea.Cmd) {
+	encodings := enc.GetSupportedEncodings()
+	encodingCount := len(encodings)
+
+	// Dialog dimensions (must match overlayEncodingDialog)
+	boxWidth := 50
+	// title + empty + encodings + empty + footer + bottom border
+	boxHeight := encodingCount + 5
+
+	startX := (e.width - boxWidth) / 2
+	startY := (e.viewport.Height() - boxHeight) / 2
+
+	mouseY := msg.Y - 1 // Adjust for menu bar
+	relX := msg.X - startX
+	relY := mouseY - startY
+
+	// Click outside = cancel
+	if relX < 0 || relX >= boxWidth || relY < 0 || relY >= boxHeight {
+		if msg.Button == tea.MouseButtonLeft && msg.Action == tea.MouseActionPress {
+			e.mode = ModeNormal
+		}
+		return e, nil
+	}
+
+	// Encoding items start at row 2 (after title and empty line)
+	itemRow := relY - 2
+	if itemRow >= 0 && itemRow < encodingCount {
+		if msg.Button == tea.MouseButtonLeft && msg.Action == tea.MouseActionPress {
+			e.encodingIndex = itemRow
+		}
+		// Double-click to select
+		if msg.Button == tea.MouseButtonLeft && msg.Action == tea.MouseActionRelease {
+			if e.encodingIndex == itemRow {
+				selectedEnc := encodings[e.encodingIndex]
+				e.applyEncoding(selectedEnc)
+				e.mode = ModeNormal
+			}
+		}
+	}
+
+	return e, nil
+}
+
+// applyEncoding changes the document encoding and reloads if needed
+func (e *Editor) applyEncoding(newEnc *enc.Encoding) {
+	doc := e.activeDoc()
+	if doc == nil {
+		return
+	}
+
+	oldEnc := doc.encoding
+	if oldEnc != nil && oldEnc.ID == newEnc.ID {
+		// Same encoding, nothing to do
+		return
+	}
+
+	// If no file is loaded (new buffer), just set the encoding
+	if doc.filename == "" {
+		doc.encoding = newEnc
+		e.statusbar.SetMessage("Encoding: "+newEnc.Name, "info")
+		return
+	}
+
+	// File exists - reload with new encoding
+	data, err := os.ReadFile(doc.filename)
+	if err != nil {
+		e.statusbar.SetMessage("Error reading file: "+err.Error(), "error")
+		return
+	}
+
+	// Decode with the new encoding
+	decoded, err := enc.DecodeToUTF8(data, newEnc)
+	if err != nil {
+		e.statusbar.SetMessage("Error decoding: "+err.Error(), "error")
+		return
+	}
+
+	// Replace buffer content
+	content := string(decoded)
+
+	// Create new buffer with decoded content
+	doc.buffer = NewBufferFromString(content)
+	doc.encoding = newEnc
+
+	// Reset cursor and selection
+	doc.cursor = NewCursor(doc.buffer)
+	doc.selection = &Selection{}
+	doc.undoStack = NewUndoStack(1000)
+
+	// Update viewport
+	e.viewport.SetScrollY(0)
+
+	// Re-set file for syntax highlighter
+	if doc.highlighter != nil {
+		doc.highlighter.SetFile(doc.filename)
+	}
+
+	e.statusbar.SetMessage("Reloaded as "+newEnc.Name, "info")
 }
 
 // showKeybindingsDialog opens the keybindings configuration dialog
@@ -3254,6 +3530,202 @@ func (e *Editor) insertText(s string) {
 	e.activeDoc().modified = true
 }
 
+// getIndentString returns the string to use for one level of indentation
+func (e *Editor) getIndentString() string {
+	if e.config.Editor.TabsToSpaces {
+		width := e.config.Editor.TabWidth
+		if width <= 0 {
+			width = 4
+		}
+		return strings.Repeat(" ", width)
+	}
+	return "\t"
+}
+
+// indentLines indents all lines in the current selection
+func (e *Editor) indentLines() {
+	doc := e.activeDoc()
+	sel := doc.selection
+
+	// If no selection, just insert tab at cursor
+	if !sel.Active || sel.IsEmpty() {
+		e.insertText(e.getIndentString())
+		return
+	}
+
+	// Get the line range of the selection
+	startPos, endPos := sel.Normalize()
+	startLine, _ := doc.buffer.PositionToLineCol(startPos)
+	endLine, endCol := doc.buffer.PositionToLineCol(endPos)
+
+	// If selection ends at column 0, don't include that line
+	if endCol == 0 && endLine > startLine {
+		endLine--
+	}
+
+	indent := e.getIndentString()
+
+	// Build the undo entry for all changes
+	var deleted strings.Builder
+	var inserted strings.Builder
+
+	// Calculate the range we're modifying
+	rangeStart := doc.buffer.LineStartOffset(startLine)
+	rangeEnd := doc.buffer.LineEndOffset(endLine)
+	if rangeEnd < doc.buffer.Length() {
+		// Include the newline if present
+		if r, size := doc.buffer.RuneAt(rangeEnd); r == '\n' {
+			rangeEnd += size
+		}
+	}
+
+	// Get original text
+	originalText := doc.buffer.Substring(rangeStart, rangeEnd)
+	deleted.WriteString(originalText)
+
+	// Build new text with indentation
+	lines := strings.Split(originalText, "\n")
+	for i, line := range lines {
+		if i < len(lines)-1 || line != "" { // Don't indent empty trailing line
+			inserted.WriteString(indent)
+		}
+		inserted.WriteString(line)
+		if i < len(lines)-1 {
+			inserted.WriteString("\n")
+		}
+	}
+
+	// Create undo entry
+	entry := &UndoEntry{
+		Position:     rangeStart,
+		Deleted:      deleted.String(),
+		Inserted:     inserted.String(),
+		CursorBefore: doc.cursor.ByteOffset(),
+	}
+
+	// Replace the text
+	doc.cursor.Sync()
+	doc.buffer.Replace(rangeStart, rangeEnd, inserted.String())
+
+	// Update selection to cover the indented lines
+	newEndPos := rangeStart + len(inserted.String())
+	if newEndPos > 0 && inserted.String()[len(inserted.String())-1] == '\n' {
+		newEndPos-- // Don't include trailing newline in selection
+	}
+	sel.Anchor = rangeStart
+	sel.Cursor = newEndPos
+
+	// Position cursor at end of selection
+	doc.cursor.SetByteOffset(newEndPos)
+
+	entry.CursorAfter = doc.cursor.ByteOffset()
+	doc.undoStack.Push(entry)
+	doc.modified = true
+}
+
+// dedentLines removes one level of indentation from all lines in the selection
+func (e *Editor) dedentLines() {
+	doc := e.activeDoc()
+	sel := doc.selection
+
+	// If no selection, dedent current line
+	if !sel.Active || sel.IsEmpty() {
+		line, _ := doc.buffer.PositionToLineCol(doc.cursor.ByteOffset())
+		sel.Start(doc.buffer.LineStartOffset(line))
+		sel.Update(doc.buffer.LineEndOffset(line))
+	}
+
+	// Get the line range of the selection
+	startPos, endPos := sel.Normalize()
+	startLine, _ := doc.buffer.PositionToLineCol(startPos)
+	endLine, endCol := doc.buffer.PositionToLineCol(endPos)
+
+	// If selection ends at column 0, don't include that line
+	if endCol == 0 && endLine > startLine {
+		endLine--
+	}
+
+	tabWidth := e.config.Editor.TabWidth
+	if tabWidth <= 0 {
+		tabWidth = 4
+	}
+
+	// Calculate the range we're modifying
+	rangeStart := doc.buffer.LineStartOffset(startLine)
+	rangeEnd := doc.buffer.LineEndOffset(endLine)
+	if rangeEnd < doc.buffer.Length() {
+		if r, size := doc.buffer.RuneAt(rangeEnd); r == '\n' {
+			rangeEnd += size
+		}
+	}
+
+	// Get original text
+	originalText := doc.buffer.Substring(rangeStart, rangeEnd)
+
+	// Build new text with dedentation
+	var inserted strings.Builder
+	lines := strings.Split(originalText, "\n")
+	changed := false
+
+	for i, line := range lines {
+		newLine := line
+		if len(line) > 0 {
+			if line[0] == '\t' {
+				// Remove one tab
+				newLine = line[1:]
+				changed = true
+			} else if line[0] == ' ' {
+				// Remove up to tabWidth spaces
+				spacesToRemove := 0
+				for j := 0; j < len(line) && j < tabWidth && line[j] == ' '; j++ {
+					spacesToRemove++
+				}
+				if spacesToRemove > 0 {
+					newLine = line[spacesToRemove:]
+					changed = true
+				}
+			}
+		}
+		inserted.WriteString(newLine)
+		if i < len(lines)-1 {
+			inserted.WriteString("\n")
+		}
+	}
+
+	if !changed {
+		// Nothing to dedent
+		sel.Clear()
+		return
+	}
+
+	// Create undo entry
+	entry := &UndoEntry{
+		Position:     rangeStart,
+		Deleted:      originalText,
+		Inserted:     inserted.String(),
+		CursorBefore: doc.cursor.ByteOffset(),
+	}
+
+	// Replace the text
+	doc.cursor.Sync()
+	doc.buffer.Replace(rangeStart, rangeEnd, inserted.String())
+
+	// Update selection to cover the dedented lines
+	newEndPos := rangeStart + len(inserted.String())
+	if newEndPos > 0 && len(inserted.String()) > 0 && inserted.String()[len(inserted.String())-1] == '\n' {
+		newEndPos--
+	}
+	sel.Anchor = rangeStart
+	sel.Cursor = newEndPos
+
+	// Position cursor at end of selection
+	doc.cursor.SetByteOffset(newEndPos)
+
+	entry.CursorAfter = doc.cursor.ByteOffset()
+	doc.undoStack.Push(entry)
+	doc.modified = true
+}
+
 func (e *Editor) backspace() {
 	if e.activeDoc().selection.Active && !e.activeDoc().selection.IsEmpty() {
 		e.deleteSelection()
@@ -3487,6 +3959,7 @@ func (e *Editor) doNewFile() {
 		modified:    false,
 		scrollY:     0,
 		highlighter: syntax.New(""),
+		encoding:    enc.GetEncodingByID("utf-8"), // Default to UTF-8
 	}
 	e.documents = append(e.documents, doc)
 	e.activeIdx = len(e.documents) - 1
@@ -3525,6 +3998,7 @@ func (e *Editor) doCloseFile() {
 		e.activeDoc().modified = false
 		e.activeDoc().scrollY = 0
 		e.activeDoc().highlighter.SetFile("")
+		e.activeDoc().encoding = enc.GetEncodingByID("utf-8")
 		e.viewport.SetScrollY(0)
 		e.statusbar.SetMessage("File closed", "info")
 	}
@@ -3958,6 +4432,11 @@ func (e *Editor) View() string {
 		viewportContent = e.overlaySettingsDialog(viewportContent)
 	}
 
+	// If encoding dialog is open, overlay it centered on the viewport
+	if e.mode == ModeEncoding {
+		viewportContent = e.overlayEncodingDialog(viewportContent)
+	}
+
 	sb.WriteString(viewportContent)
 	sb.WriteString("\n")
 
@@ -4047,6 +4526,13 @@ func (e *Editor) View() string {
 	e.statusbar.SetTotalLines(e.activeDoc().buffer.LineCount())
 	e.statusbar.SetCounts(e.activeDoc().buffer.WordCount(), e.activeDoc().buffer.RuneCount())
 	e.statusbar.SetBufferInfo(e.activeIdx, len(e.documents))
+	// Set encoding display
+	docEnc := e.activeDoc().encoding
+	if docEnc != nil {
+		e.statusbar.SetEncoding(docEnc.Name, docEnc.Supported)
+	} else {
+		e.statusbar.SetEncoding("UTF-8", true)
+	}
 	sb.WriteString(e.statusbar.View())
 
 	return sb.String()
