@@ -303,6 +303,23 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 Contributions welcome! Feel free to submit issues and pull requests.
 
+### Development Setup
+
+After cloning, run:
+
+```bash
+make setup
+```
+
+This configures a pre-commit hook that auto-formats Go code. Other useful commands:
+
+```bash
+make build   # Build binary
+make test    # Run tests
+make fmt     # Format code
+make lint    # Run linters
+```
+
 ---
 
 *"I got a lot of problems with you people!"* - Frank Costanza

@@ -1,0 +1,26 @@
+#!/bin/sh
+# Pre-commit hook: format Go files and fail if there are changes
+
+# Get list of staged .go files
+STAGED_GO_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.go$')
+
+if [ -z "$STAGED_GO_FILES" ]; then
+    exit 0
+fi
+
+# Run gofmt on staged files
+UNFORMATTED=$(echo "$STAGED_GO_FILES" | xargs gofmt -l 2>/dev/null)
+
+if [ -n "$UNFORMATTED" ]; then
+    echo "The following Go files need formatting:"
+    echo "$UNFORMATTED"
+    echo ""
+    echo "Running gofmt -w on them..."
+    echo "$UNFORMATTED" | xargs gofmt -w
+    echo ""
+    echo "Files have been formatted. Please review and re-stage them:"
+    echo "  git add $UNFORMATTED"
+    exit 1
+fi
+
+exit 0
