@@ -19,4 +19,6 @@ Thumbs.db
 # Test files
 *.test
 *.out
-*.txt
+
+# Ignore .txt files in root only (keep testdata/*.txt)
+/*.txt

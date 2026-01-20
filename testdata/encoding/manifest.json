@@ -1,0 +1,164 @@
+{
+  "generated_utc": "2026-01-20T15:52:28Z",
+  "target_min_bytes_per_text_file": 16384,
+  "notes": "Hashes are SHA-256 of file bytes. Most text files are expanded (~16KiB) to improve charset detector confidence.",
+  "files": [
+    {
+      "path": "ascii/ascii_lf.txt",
+      "encoding": "ASCII",
+      "newlines": "LF",
+      "bytes": 16512,
+      "description": "Pure ASCII baseline, expanded for detector confidence.",
+      "sha256": "e69d0fdad41259a03ba2e7156bfa5994eee8e41493d7334c70a2b17b7e08c603"
+    },
+    {
+      "path": "ascii/ascii_crlf.txt",
+      "encoding": "ASCII",
+      "newlines": "CRLF",
+      "bytes": 16942,
+      "description": "Pure ASCII baseline, expanded for detector confidence.",
+      "sha256": "b899a9129d01d9ee92b1fa2addaef641e2432d1fe2e44e1804d7fb82a6ed2a6f"
+    },
+    {
+      "path": "utf-8/utf8_lf.txt",
+      "encoding": "UTF-8",
+      "bom": false,
+      "newlines": "LF",
+      "bytes": 16520,
+      "description": "UTF-8 with accents, punctuation, box drawing, combining marks, emoji; expanded.",
+      "sha256": "a8db1a284a21c7549bf1c6c286b3299c946f27d118edce8d947799f707e32aac"
+    },
+    {
+      "path": "utf-8/utf8_crlf.txt",
+      "encoding": "UTF-8",
+      "bom": false,
+      "newlines": "CRLF",
+      "bytes": 16920,
+      "description": "UTF-8 with accents, punctuation, box drawing, combining marks, emoji; expanded.",
+      "sha256": "5c172e934c2defaeffef8d3d8d2a66420a6ee0b9a7ff7dfc40ca3416c3c03d9d"
+    },
+    {
+      "path": "utf-8-bom/utf8_bom_lf.txt",
+      "encoding": "UTF-8",
+      "bom": true,
+      "newlines": "LF",
+      "bytes": 16523,
+      "description": "UTF-8 with BOM; expanded.",
+      "sha256": "41cb1d76987d526a1d63a368caf3d1e3356d56ff00f454d8d2f320de6d429cba"
+    },
+    {
+      "path": "utf-16/utf16le_bom_lf.txt",
+      "encoding": "UTF-16LE",
+      "bom": true,
+      "newlines": "LF",
+      "bytes": 29362,
+      "description": "UTF-16LE with BOM; expanded.",
+      "sha256": "b528a85273f9a59e8525d03045fce0ec6b0e346c163b6963dd03bf043172de72"
+    },
+    {
+      "path": "utf-16/utf16be_bom_lf.txt",
+      "encoding": "UTF-16BE",
+      "bom": true,
+      "newlines": "LF",
+      "bytes": 29362,
+      "description": "UTF-16BE with BOM; expanded.",
+      "sha256": "23e392579c3e146c65fd8f81e6d119d87b4eb242959e312c5d95341c4177e8ce"
+    },
+    {
+      "path": "latin/iso-8859-1_lf.txt",
+      "encoding": "ISO-8859-1",
+      "newlines": "LF",
+      "bytes": 16520,
+      "description": "Latin-1 characters (no Euro); expanded.",
+      "sha256": "a29ad51ab157671d87d9a5bd9672f4e738afd8d9e09921213089bb87665e0753"
+    },
+    {
+      "path": "latin/windows-1252_lf.txt",
+      "encoding": "Windows-1252",
+      "newlines": "LF",
+      "bytes": 16512,
+      "description": "Windows-1252 punctuation + Euro; expanded.",
+      "sha256": "c45165a43d14ab0267e36fa8387f886f828696bb3626c3417911f8585ed2670a"
+    },
+    {
+      "path": "latin/iso-8859-15_lf.txt",
+      "encoding": "ISO-8859-15",
+      "newlines": "LF",
+      "bytes": 16456,
+      "description": "ISO-8859-15 includes Euro and a few extra letters; expanded.",
+      "sha256": "df47de567f29ba499134fdf62a88baf29f1ccb4b0e4bd2aa7424f4240dd46f96"
+    },
+    {
+      "path": "japanese/shift_jis_lf.txt",
+      "encoding": "Shift_JIS",
+      "newlines": "LF",
+      "bytes": 16569,
+      "description": "Japanese text encoded as Shift-JIS; expanded.",
+      "sha256": "3a41d4c44b164cc51d2a5751ffd19375df4cba2ffefd7eff45580c528e0648ff"
+    },
+    {
+      "path": "japanese/euc_jp_lf.txt",
+      "encoding": "EUC-JP",
+      "newlines": "LF",
+      "bytes": 16569,
+      "description": "Japanese text encoded as EUC-JP; expanded.",
+      "sha256": "5058194ccc09b06e3eab1dff169375a015ce6818f7f19b09e10ec4bcddc27e4a"
+    },
+    {
+      "path": "chinese/big5_lf.txt",
+      "encoding": "Big5",
+      "newlines": "LF",
+      "bytes": 16616,
+      "description": "Traditional Chinese encoded as Big5; expanded. Remove if you choose not to support Big5.",
+      "sha256": "dddff0b946e6815ac53879852139ffe37d4addc538e3d9039175fe2cbc2397f2"
+    },
+    {
+      "path": "chinese/gbk_lf.txt",
+      "encoding": "GBK",
+      "newlines": "LF",
+      "bytes": 16616,
+      "description": "Simplified Chinese encoded as GBK; expanded.",
+      "sha256": "b3decd9da58f6d3d140ef80dcf734c4a249681a2d05b2ebf6b1fba84b4cb8cfd"
+    },
+    {
+      "path": "chinese/gb18030_lf.txt",
+      "encoding": "GB18030",
+      "newlines": "LF",
+      "bytes": 16430,
+      "description": "Simplified Chinese encoded as GB18030; expanded.",
+      "sha256": "287c8bed0399aaf4d7d21dd1184ef1f92f51a6fedad50398fe78eb9acc6bf1f3"
+    },
+    {
+      "path": "korean/euc-kr_lf.txt",
+      "encoding": "EUC-KR",
+      "newlines": "LF",
+      "bytes": 16512,
+      "description": "Korean text encoded as EUC-KR; expanded.",
+      "sha256": "46396044080bb454321e3703acf4c23cc4c7aa5f132339f9ad44dc7b07c53cb2"
+    },
+    {
+      "path": "cyrillic/koi8-r_lf.txt",
+      "encoding": "KOI8-R",
+      "newlines": "LF",
+      "bytes": 16482,
+      "description": "Russian text encoded as KOI8-R; expanded. Remove if you choose not to support KOI8-R.",
+      "sha256": "cac5a172ed83d933e815fcb279f0432444e16b2f1b37139b79b0c3be7f58c44f"
+    },
+    {
+      "path": "invalid/invalid_utf8.bin",
+      "encoding": "INVALID_UTF8_BYTES",
+      "newlines": "LF",
+      "bytes": 19456,
+      "description": "Contains invalid UTF-8 byte sequences (for decoder error handling), expanded.",
+      "sha256": "f18d592bf8dc031fc0a9c3788ea6ddf543d59874561d3e658554a9ef29e0354d"
+    },
+    {
+      "path": "utf-8/mixed_newlines_utf8.bin",
+      "encoding": "UTF-8",
+      "newlines": "MIXED",
+      "bytes": 35840,
+      "description": "UTF-8 with mixed newline styles (CRLF/LF/CR); expanded.",
+      "sha256": "945984de163435b50c6cea2c062287adf59d58e4253d17f5b782774021837f3b"
+    }
+  ]
+}

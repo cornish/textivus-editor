@@ -1,0 +1,448 @@
+[0001] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0002] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0003] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0004] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0005] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0006] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0007] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0008] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0009] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0010] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0011] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0012] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0013] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0014] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0015] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0016] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0017] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0018] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0019] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0020] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0021] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0022] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0023] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0024] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0025] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0026] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0027] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0028] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0029] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0030] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0031] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0032] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0033] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0034] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0035] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0036] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0037] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0038] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0039] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0040] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0041] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0042] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0043] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0044] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0045] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0046] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0047] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0048] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0049] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0050] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0051] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0052] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0053] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0054] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0055] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0056] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0057] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0058] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0059] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0060] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0061] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0062] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0063] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0064] 한국어 테스트: 안녕하세요 세계
+한글: 가나다라마바사아자차카타파하
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+

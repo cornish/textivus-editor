@@ -1,0 +1,384 @@
+[0001] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0002] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0003] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0004] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0005] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0006] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0007] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0008] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0009] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0010] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0011] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0012] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0013] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0014] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0015] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0016] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0017] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0018] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0019] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0020] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0021] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0022] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0023] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0024] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0025] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0026] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0027] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0028] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0029] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0030] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0031] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0032] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0033] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0034] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0035] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0036] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0037] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0038] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0039] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0040] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0041] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0042] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0043] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0044] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0045] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0046] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0047] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0048] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0049] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0050] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0051] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0052] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0053] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0054] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0055] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0056] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0057] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0058] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0059] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0060] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0061] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0062] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0063] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0064] Windows-1252: smart quotes “ ” ‘ ’ em dash — en dash – and euro €
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+

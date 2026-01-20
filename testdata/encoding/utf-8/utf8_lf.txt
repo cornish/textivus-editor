@@ -1,0 +1,400 @@
+[0001] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0002] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0003] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0004] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0005] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0006] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0007] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0008] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0009] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0010] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0011] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0012] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0013] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0014] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0015] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0016] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0017] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0018] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0019] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0020] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0021] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0022] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0023] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0024] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0025] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0026] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0027] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0028] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0029] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0030] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0031] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0032] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0033] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0034] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0035] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0036] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0037] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0038] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0039] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+
+[0040] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+UTF-8: café naïve résumé — “quotes” • bullet ✓ check
+Box: │└┘┌┐ ─ ┼  Braille: ⣿⣶⣤⠶
+Combining: é (e +  ́)  ä (a +  ̈)
+Emoji: 🙂 🚀 🧪  (note: some terminals/fonts may vary)
+

@@ -1,0 +1,430 @@
+[0001] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0002] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0003] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0004] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0005] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0006] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0007] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0008] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0009] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0010] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0011] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0012] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0013] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0014] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0015] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0016] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0017] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0018] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0019] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0020] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0021] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0022] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0023] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0024] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0025] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0026] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0027] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0028] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0029] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0030] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0031] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0032] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0033] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0034] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0035] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0036] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0037] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0038] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0039] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0040] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0041] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0042] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0043] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0044] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0045] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0046] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0047] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0048] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0049] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0050] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0051] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0052] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0053] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0054] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0055] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0056] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0057] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0058] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0059] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0060] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0061] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0062] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0063] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0064] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0065] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0066] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0067] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0068] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0069] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0070] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0071] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0072] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0073] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0074] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0075] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0076] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0077] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0078] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0079] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0080] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0081] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0082] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0083] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0084] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0085] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0086] ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+

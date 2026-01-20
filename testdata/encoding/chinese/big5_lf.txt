@@ -1,0 +1,469 @@
+[0001] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0002] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0003] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0004] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0005] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0006] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0007] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0008] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0009] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0010] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0011] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0012] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0013] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0014] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0015] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0016] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0017] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0018] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0019] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0020] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0021] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0022] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0023] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0024] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0025] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0026] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0027] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0028] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0029] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0030] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0031] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0032] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0033] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0034] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0035] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0036] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0037] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0038] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0039] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0040] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0041] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0042] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0043] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0044] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0045] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0046] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0047] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0048] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0049] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0050] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0051] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0052] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0053] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0054] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0055] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0056] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0057] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0058] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0059] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0060] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0061] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0062] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0063] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0064] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0065] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0066] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
+[0067] 繁體中文測試：你好，世界
+中文內容：文字編輯器 測試 編碼
+ASCII baseline: tabs	and spaces. 1234567890
+Symbols: !@#$%^&*()_+-=[]{};':,./<>?
+Paths: /usr/local/bin  C:\\Program Files\\Textivus
+Lorem: The quick brown fox jumps over the lazy dog.
+
