@@ -1,6 +1,6 @@
 # Festivus TODO
 
-## Tier 0: CI, Distribution & Installation
+## Tier 1: CI, Distribution & Installation
 
 - [ ] GitHub Actions CI
   - [ ] Build on push/PR
@@ -19,7 +19,7 @@
 - [ ] Curl install script (one-liner installation)
 - [ ] GitHub Releases with pre-built binaries
 
-## Tier 1: MVP Gaps
+## Tier 2: MVP Gaps
 
 - [x] Multiple buffers + fast buffer switching
 - [x] External file change detection (warn if file modified on disk)
@@ -27,8 +27,13 @@
 - [ ] Tab support (tabs vs spaces, configurable tab width)
 - [ ] Encoding handling (detect and convert non-UTF-8 files)
 
-## Tier 2: v1.1 Features
+## Tier 3: v1.1 Features
 
+- [ ] Expand test suite
+  - [ ] Undo/redo operations
+  - [ ] Selection logic
+  - [ ] Cursor navigation (word movement, line boundaries)
+  - [ ] Syntax highlighting (Chroma integration)
 - [ ] Rectangular/column selection (block mode)
 - [ ] Split views (simple horizontal/vertical)
   - [ ] Horizontal split
@@ -41,13 +46,13 @@
 - [ ] Kitty graphics minimap (true bitmap for compatible terminals)
 - [ ] Emoji picker
 
-## Tier 2.5: In Progress
+## Tier 3.5: In Progress
 
 - [ ] Graceful degradation (ASCII fallback for limited terminals)
   - [x] Terminal capability detection (UTF-8, colors, Kitty)
   - [ ] Auto-detect and apply ASCII mode when UTF-8 not supported
 
-## Tier 3: Optional Power-User
+## Tier 4: Optional Power-User
 
 - [ ] Fuzzy project navigation (files + content search via ripgrep/fzf-style)
 - [ ] Git-aware gutter indicators (modified lines)
