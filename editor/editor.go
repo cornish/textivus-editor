@@ -1898,6 +1898,39 @@ func (e *Editor) handleMouse(msg tea.MouseMsg) (tea.Model, tea.Cmd) {
 				e.updateViewportSize()
 			}
 
+			// Check if click is on minimap
+			if e.minimapRenderer.IsEnabled() && y >= 0 && y < e.viewport.Height() {
+				// Calculate minimap position (before scrollbar)
+				scrollbarWidth := 0
+				if e.scrollbar.IsEnabled() {
+					scrollbarWidth = e.scrollbar.Width()
+				}
+				minimapStartX := e.width - scrollbarWidth - ui.MinimapWidth()
+				minimapEndX := e.width - scrollbarWidth
+
+				if msg.X >= minimapStartX && msg.X < minimapEndX {
+					lines := e.activeDoc().buffer.Lines()
+
+					// Get minimap metrics and convert click to visual line
+					renderState := e.buildRenderState()
+					metrics := e.minimapRenderer.GetMetrics(e.viewport.Height(), renderState)
+					visualLine := e.minimapRenderer.RowToVisualLine(y, metrics)
+
+					// Convert visual line to buffer line
+					var targetLine int
+					if e.viewport.WordWrap() {
+						targetLine, _ = e.viewport.VisualLineToBufferLine(lines, visualLine)
+					} else {
+						targetLine = visualLine
+					}
+
+					e.activeDoc().cursor.SetPosition(targetLine, 0)
+					e.activeDoc().selection.Clear()
+					e.viewport.EnsureCursorVisibleWrapped(lines, e.activeDoc().cursor.Line(), e.activeDoc().cursor.Col())
+					return e, nil
+				}
+			}
+
 			// Check if click is on scrollbar
 			if e.scrollbar.IsEnabled() && y >= 0 && y < e.viewport.Height() {
 				scrollbarStartX := e.width - e.scrollbar.Width()

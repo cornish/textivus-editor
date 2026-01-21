@@ -108,19 +108,22 @@ func (r *TextRenderer) renderWrapped(width, height int, state *RenderState) []st
 			colors = state.LineColors[logicalLine]
 		}
 
+		// Track starting column for each wrapped segment
+		segmentStartCol := 0
 		for wrapIdx := 0; wrapIdx < len(wrappedLines) && visualLineCount < height; wrapIdx++ {
 			if logicalLine == 0 || visualLinesSkipped < state.ScrollY {
 				if wrapIdx < startOffset {
+					segmentStartCol += utf8.RuneCountInString(wrappedLines[wrapIdx])
 					continue
 				}
 			}
 
-			segmentStartCol := wrapIdx * width
 			rows[visualLineCount] = r.renderWrappedSegment(
 				wrappedLines[wrapIdx], logicalLine, segmentStartCol,
 				state.CursorLine, state.CursorCol, sel, width, colors,
 			)
 			visualLineCount++
+			segmentStartCol += utf8.RuneCountInString(wrappedLines[wrapIdx])
 		}
 
 		logicalLine++
@@ -317,17 +320,21 @@ func (r *TextRenderer) renderEmptyLine(width int) string {
 
 // Helper functions (local copies to avoid dependency issues)
 
+// countWrappedLinesLocal counts how many visual lines a buffer line takes.
+// Accounts for tabs (4 spaces) and wide characters.
 func countWrappedLinesLocal(line string, width int) int {
 	if width <= 0 {
 		return 1
 	}
-	lineLen := utf8.RuneCountInString(line)
-	if lineLen == 0 {
+	visualWidth := calculateVisualWidth(line)
+	if visualWidth == 0 {
 		return 1
 	}
-	return (lineLen + width - 1) / width
+	return (visualWidth + width - 1) / width
 }
 
+// wrapLineLocal splits a line into segments that fit within width visual columns.
+// Accounts for tabs (4 spaces) and wide characters.
 func wrapLineLocal(line string, width int) []string {
 	if width <= 0 {
 		return []string{line}
@@ -338,12 +345,47 @@ func wrapLineLocal(line string, width int) []string {
 	}
 
 	var segments []string
-	for i := 0; i < len(runes); i += width {
-		end := i + width
-		if end > len(runes) {
-			end = len(runes)
+	var currentSegment strings.Builder
+	currentWidth := 0
+
+	for _, r := range runes {
+		charWidth := runewidth.RuneWidth(r)
+		if r == '\t' {
+			charWidth = 4
 		}
-		segments = append(segments, string(runes[i:end]))
+
+		if currentWidth+charWidth > width {
+			// Start a new segment
+			segments = append(segments, currentSegment.String())
+			currentSegment.Reset()
+			currentWidth = 0
+		}
+
+		currentSegment.WriteRune(r)
+		currentWidth += charWidth
+	}
+
+	// Don't forget the last segment
+	if currentSegment.Len() > 0 {
+		segments = append(segments, currentSegment.String())
+	}
+
+	if len(segments) == 0 {
+		return []string{""}
 	}
 	return segments
+}
+
+// calculateVisualWidth returns the visual width of a string,
+// accounting for tabs (4 spaces) and wide characters.
+func calculateVisualWidth(s string) int {
+	width := 0
+	for _, r := range s {
+		if r == '\t' {
+			width += 4
+		} else {
+			width += runewidth.RuneWidth(r)
+		}
+	}
+	return width
 }
