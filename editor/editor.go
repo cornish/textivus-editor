@@ -590,6 +590,9 @@ func NewWithConfig(cfg *config.Config) *Editor {
 	// Initialize compositor with default dimensions
 	e.compositor = ui.NewCompositor(80, 22) // Will be resized on first render
 
+	// Update menu shortcuts from keybindings config
+	e.menubar.UpdateShortcuts(e.keybindings)
+
 	// Apply config settings
 	if cfg != nil {
 		e.viewport.SetWordWrap(cfg.Editor.WordWrap)
@@ -3181,6 +3184,7 @@ func (e *Editor) handleKeybindingsKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 				// Confirmed - reset to defaults
 				e.keybindings = config.DefaultKeybindings()
 				go e.keybindings.Save()
+				e.menubar.UpdateShortcuts(e.keybindings)
 				e.kbDialogMessage = "Reset to defaults"
 				e.kbDialogMsgError = false
 			case 'n', 'N':
@@ -3213,6 +3217,7 @@ func (e *Editor) handleKeybindingsKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 			e.keybindings.SetBinding(action, binding)
 			e.kbDialogEditing = false
 			go e.keybindings.Save()
+			e.menubar.UpdateShortcuts(e.keybindings)
 			return e, nil
 		}
 
@@ -3245,6 +3250,7 @@ func (e *Editor) handleKeybindingsKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 			e.kbDialogMessage = ""
 			e.kbDialogMsgError = false
 			go e.keybindings.Save()
+			e.menubar.UpdateShortcuts(e.keybindings)
 		}
 		return e, nil
 	}

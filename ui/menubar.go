@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
+	"github.com/cornish/textivus-editor/config"
 )
 
 // MenuAction represents an action triggered by a menu item
@@ -167,6 +168,58 @@ func NewMenuBar(styles Styles) *MenuBar {
 		activeItem: 0,
 		isOpen:     false,
 		styles:     styles,
+	}
+}
+
+// UpdateShortcuts updates menu item shortcuts from keybindings config.
+// This should be called after creating the menubar to reflect user's keybindings.
+func (m *MenuBar) UpdateShortcuts(kb *config.KeybindingsConfig) {
+	if kb == nil {
+		return
+	}
+
+	// Map MenuAction to keybinding config field
+	actionToBinding := map[MenuAction]config.KeyBinding{
+		// File menu
+		ActionNew:         kb.New,
+		ActionOpen:        kb.Open,
+		ActionRecentFiles: kb.RecentFiles,
+		ActionClose:       kb.Close,
+		ActionSave:        kb.SaveFile,
+		ActionSaveAs:      kb.SaveAs,
+		ActionExit:        kb.Quit,
+		// Edit menu
+		ActionUndo:      kb.Undo,
+		ActionRedo:      kb.Redo,
+		ActionCut:       kb.Cut,
+		ActionCopy:      kb.Copy,
+		ActionPaste:     kb.Paste,
+		ActionCutLine:   kb.CutLine,
+		ActionSelectAll: kb.SelectAll,
+		// Search menu
+		ActionFind:     kb.Find,
+		ActionFindNext: kb.FindNext,
+		ActionReplace:  kb.Replace,
+		ActionGoToLine: kb.GoToLine,
+		// Options menu
+		ActionLineNumbers: kb.ToggleLineNumbers,
+		// Help menu
+		ActionHelp: kb.Help,
+	}
+
+	// Update shortcuts in all menus
+	for i := range m.menus {
+		for j := range m.menus[i].Items {
+			action := m.menus[i].Items[j].Action
+			if binding, ok := actionToBinding[action]; ok {
+				// Use primary keybinding only for menu display
+				if binding.Primary != "" {
+					m.menus[i].Items[j].Shortcut = config.FormatKeyForDisplay(binding.Primary)
+				} else {
+					m.menus[i].Items[j].Shortcut = ""
+				}
+			}
+		}
 	}
 }
 
