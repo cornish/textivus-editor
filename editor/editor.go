@@ -2533,6 +2533,12 @@ func (e *Editor) showRecentFiles() {
 		e.statusbar.SetMessage("No recent files", "info")
 		return
 	}
+	// Prune missing files from the list
+	e.pruneRecentFiles()
+	if len(e.config.RecentFiles) == 0 {
+		e.statusbar.SetMessage("No recent files", "info")
+		return
+	}
 	// Check buffer limit before showing dialog
 	maxBuffers := 20
 	if e.config.Editor.MaxBuffers > 0 {
@@ -2544,6 +2550,23 @@ func (e *Editor) showRecentFiles() {
 	}
 	e.recentFilesIndex = 0
 	e.mode = ModeRecentFiles
+}
+
+// pruneRecentFiles removes files that no longer exist from the recent files list
+func (e *Editor) pruneRecentFiles() {
+	if e.config == nil {
+		return
+	}
+	valid := make([]string, 0, len(e.config.RecentFiles))
+	for _, path := range e.config.RecentFiles {
+		if _, err := os.Stat(path); err == nil {
+			valid = append(valid, path)
+		}
+	}
+	if len(valid) != len(e.config.RecentFiles) {
+		e.config.RecentFiles = valid
+		go e.config.Save()
+	}
 }
 
 // handleRecentFilesKey handles key events in the recent files dialog
@@ -2675,8 +2698,31 @@ func (e *Editor) showRecentDirs() {
 		e.statusbar.SetMessage("No recent directories", "info")
 		return
 	}
+	// Prune missing directories from the list
+	e.pruneRecentDirs()
+	if len(e.config.RecentDirs) == 0 {
+		e.statusbar.SetMessage("No recent directories", "info")
+		return
+	}
 	e.recentDirsIndex = 0
 	e.mode = ModeRecentDirs
+}
+
+// pruneRecentDirs removes directories that no longer exist from the recent dirs list
+func (e *Editor) pruneRecentDirs() {
+	if e.config == nil {
+		return
+	}
+	valid := make([]string, 0, len(e.config.RecentDirs))
+	for _, path := range e.config.RecentDirs {
+		if info, err := os.Stat(path); err == nil && info.IsDir() {
+			valid = append(valid, path)
+		}
+	}
+	if len(valid) != len(e.config.RecentDirs) {
+		e.config.RecentDirs = valid
+		go e.config.Save()
+	}
 }
 
 // handleRecentDirsKey handles key events in the recent directories dialog
