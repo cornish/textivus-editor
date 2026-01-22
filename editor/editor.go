@@ -204,7 +204,7 @@ type Editor struct {
 	compositor       *ui.Compositor
 	lineNumRenderer  *ui.LineNumberRenderer
 	textRenderer     *ui.TextRenderer
-	minimapRenderer  *ui.MinimapRenderer
+	minimapRenderer  ui.MinimapController
 	scrollbarAdapter *ui.ScrollbarColumnAdapter
 
 	// State
@@ -228,7 +228,8 @@ type Editor struct {
 	pendingQuit     bool         // Whether to quit after current action
 
 	// Terminal state
-	pendingTitle string // Title to set on next render
+	pendingTitle   string // Title to set on next render
+	pendingEscapes string // Escape sequences to output on next render (e.g., clear Kitty graphics)
 
 	// Mouse state
 	mouseDown   bool
@@ -556,6 +557,14 @@ func NewWithConfig(cfg *config.Config) *Editor {
 
 	scrollbar := ui.NewScrollbar(styles)
 
+	// Create minimap renderer - use Kitty graphics when available
+	var minimapRenderer ui.MinimapController
+	if caps.KittyGraphics {
+		minimapRenderer = ui.NewKittyMinimapRenderer(styles, true)
+	} else {
+		minimapRenderer = ui.NewMinimapRenderer(styles)
+	}
+
 	e := &Editor{
 		documents:   []*Document{doc},
 		activeIdx:   0,
@@ -574,7 +583,7 @@ func NewWithConfig(cfg *config.Config) *Editor {
 		// Initialize column renderers
 		lineNumRenderer:  ui.NewLineNumberRenderer(styles),
 		textRenderer:     ui.NewTextRenderer(styles),
-		minimapRenderer:  ui.NewMinimapRenderer(styles),
+		minimapRenderer:  minimapRenderer,
 		scrollbarAdapter: ui.NewScrollbarColumnAdapter(scrollbar),
 	}
 
@@ -1109,14 +1118,20 @@ func (e *Editor) buildRenderState() *ui.RenderState {
 		}
 	}
 
-	// Generate syntax highlighting colors for visible lines
+	// Generate syntax highlighting colors
+	// When minimap is enabled, generate for all lines; otherwise just visible lines
 	var lineColors map[int][]syntax.ColorSpan
 	if e.activeDoc().highlighter.Enabled() && e.activeDoc().highlighter.HasLexer() {
 		lineColors = make(map[int][]syntax.ColorSpan)
-		startLine := e.viewport.ScrollY()
-		endLine := startLine + e.viewport.Height()
-		if endLine > len(lines) {
-			endLine = len(lines)
+		startLine := 0
+		endLine := len(lines)
+		// If minimap is disabled, only generate for visible lines (performance)
+		if !e.minimapRenderer.IsEnabled() {
+			startLine = e.viewport.ScrollY()
+			endLine = startLine + e.viewport.Height()
+			if endLine > len(lines) {
+				endLine = len(lines)
+			}
 		}
 		for i := startLine; i < endLine; i++ {
 			colors := e.activeDoc().highlighter.GetLineColors(lines[i])
@@ -1141,7 +1156,7 @@ func (e *Editor) buildRenderState() *ui.RenderState {
 		Selection:        selectionMap,
 		LineColors:       lineColors,
 		WordWrap:         e.viewport.WordWrap(),
-		TabWidth:         4,
+		TabWidth:         e.config.Editor.TabWidth,
 		TotalLines:       len(lines),
 		TotalVisualLines: totalVisualLines,
 		Styles:           e.styles,
@@ -2211,6 +2226,8 @@ func (e *Editor) toggleMinimap() {
 	} else {
 		e.menubar.SetItemLabel(ui.ActionMinimap, "[ ] Minimap")
 		e.statusbar.SetMessage("Minimap disabled", "info")
+		// Clear Kitty graphics image if applicable
+		e.pendingEscapes += e.minimapRenderer.ClearImage()
 	}
 
 	// Ensure cursor stays visible after toggle (text width changes)
@@ -2247,6 +2264,9 @@ func (e *Editor) applyTheme(themeName string) {
 	e.statusbar.SetStyles(styles)
 	e.viewport.SetStyles(styles)
 	e.scrollbar.SetStyles(styles)
+	e.lineNumRenderer.SetStyles(styles)
+	e.textRenderer.SetStyles(styles)
+	e.minimapRenderer.SetStyles(styles)
 	e.styles = styles
 
 	// Update syntax highlighter colors
@@ -4451,6 +4471,12 @@ func (e *Editor) View() string {
 		sb.WriteString(fmt.Sprintf("\033]0;%s\007", e.pendingTitle))
 	}
 
+	// Output any pending escape sequences (e.g., Kitty graphics cleanup)
+	if e.pendingEscapes != "" {
+		sb.WriteString(e.pendingEscapes)
+		e.pendingEscapes = ""
+	}
+
 	// Menu bar
 	sb.WriteString(e.menubar.View())
 	sb.WriteString("\n")
@@ -4626,6 +4652,20 @@ func (e *Editor) View() string {
 		e.statusbar.SetEncoding("UTF-8", true)
 	}
 	sb.WriteString(e.statusbar.View())
+
+	// Append Kitty graphics minimap if enabled (rendered as overlay with cursor positioning)
+	if e.minimapRenderer.IsEnabled() {
+		// Calculate minimap position
+		// X offset: width - scrollbar (if enabled) - minimap width
+		xOffset := e.width - ui.MinimapWidth()
+		if e.scrollbar.IsEnabled() {
+			xOffset -= e.scrollbar.Width()
+		}
+		// Y offset: 1 for menu bar (viewport starts at row 2, which is index 1)
+		yOffset := 1
+		kittySeq := e.minimapRenderer.GetKittySequence(ui.MinimapWidth(), e.viewport.Height(), xOffset, yOffset, renderState)
+		sb.WriteString(kittySeq)
+	}
 
 	return sb.String()
 }

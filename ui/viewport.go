@@ -18,6 +18,7 @@ type Viewport struct {
 	showLineNum    bool
 	wordWrap       bool
 	scrollbarWidth int // Width reserved for scrollbar (0 if disabled)
+	tabWidth       int // Display width of tabs
 	styles         Styles
 }
 
@@ -29,8 +30,24 @@ func NewViewport(styles Styles) *Viewport {
 		scrollY:     0,
 		scrollX:     0,
 		showLineNum: false,
+		tabWidth:    4,
 		styles:      styles,
 	}
+}
+
+// SetTabWidth sets the display width for tabs
+func (v *Viewport) SetTabWidth(width int) {
+	if width > 0 {
+		v.tabWidth = width
+	}
+}
+
+// TabWidth returns the current tab width
+func (v *Viewport) TabWidth() int {
+	if v.tabWidth <= 0 {
+		return 4
+	}
+	return v.tabWidth
 }
 
 // SetSize sets the viewport dimensions
@@ -569,6 +586,7 @@ func (v *Viewport) wrapLine(line string, textWidth int) []string {
 func (v *Viewport) renderWrappedSegment(segment string, lineIdx, segmentStartCol, cursorLine, cursorCol int, sel SelectionRange, textWidth int, colors []syntax.ColorSpan) string {
 	var sb strings.Builder
 	runes := []rune(segment)
+	tabWidth := v.TabWidth()
 
 	for i, r := range runes {
 		col := segmentStartCol + i
@@ -577,7 +595,7 @@ func (v *Viewport) renderWrappedSegment(segment string, lineIdx, segmentStartCol
 
 		char := string(r)
 		if r == '\t' {
-			char = "    "
+			char = strings.Repeat(" ", tabWidth)
 		}
 
 		if isCursor {
@@ -624,6 +642,7 @@ func (v *Viewport) renderWrappedSegment(segment string, lineIdx, segmentStartCol
 // renderLineContent renders a single line's content with selection and cursor
 func (v *Viewport) renderLineContent(line string, lineIdx, cursorLine, cursorCol int, selection map[int]SelectionRange, colors []syntax.ColorSpan) string {
 	textWidth := v.TextWidth()
+	tabWidth := v.TabWidth()
 
 	// Convert line to runes for proper unicode handling
 	runes := []rune(line)
@@ -640,7 +659,7 @@ func (v *Viewport) renderLineContent(line string, lineIdx, cursorLine, cursorCol
 	for runeIdx < len(runes) && visualCol < visibleStart {
 		r := runes[runeIdx]
 		if r == '\t' {
-			visualCol += 4
+			visualCol += tabWidth
 		} else {
 			visualCol += runewidth.RuneWidth(r)
 		}
@@ -658,8 +677,8 @@ func (v *Viewport) renderLineContent(line string, lineIdx, cursorLine, cursorCol
 
 		char := string(r)
 		if r == '\t' {
-			char = "    " // Render tab as 4 spaces
-			rw = 4
+			char = strings.Repeat(" ", tabWidth) // Render tab as spaces
+			rw = tabWidth
 		}
 
 		if outputCol+rw > textWidth {

@@ -79,6 +79,11 @@ func (r *TextRenderer) renderWrapped(width, height int, state *RenderState) []st
 	rows := make([]string, height)
 	visualLineCount := 0
 
+	tabWidth := state.TabWidth
+	if tabWidth <= 0 {
+		tabWidth = 4
+	}
+
 	// Skip lines until we reach scrollY visual lines
 	logicalLine := 0
 	visualLinesSkipped := 0
@@ -87,7 +92,7 @@ func (r *TextRenderer) renderWrapped(width, height int, state *RenderState) []st
 	if state.ScrollY > 0 {
 		for logicalLine < len(state.Lines) && visualLinesSkipped < state.ScrollY {
 			line := state.Lines[logicalLine]
-			wrappedCount := countWrappedLinesLocal(line, width)
+			wrappedCount := countWrappedLinesLocal(line, width, tabWidth)
 			if visualLinesSkipped+wrappedCount > state.ScrollY {
 				break
 			}
@@ -101,7 +106,7 @@ func (r *TextRenderer) renderWrapped(width, height int, state *RenderState) []st
 	for visualLineCount < height && logicalLine < len(state.Lines) {
 		line := state.Lines[logicalLine]
 		sel := state.Selection[logicalLine]
-		wrappedLines := wrapLineLocal(line, width)
+		wrappedLines := wrapLineLocal(line, width, tabWidth)
 
 		var colors []syntax.ColorSpan
 		if state.LineColors != nil {
@@ -120,7 +125,7 @@ func (r *TextRenderer) renderWrapped(width, height int, state *RenderState) []st
 
 			rows[visualLineCount] = r.renderWrappedSegment(
 				wrappedLines[wrapIdx], logicalLine, segmentStartCol,
-				state.CursorLine, state.CursorCol, sel, width, colors,
+				state.CursorLine, state.CursorCol, sel, width, tabWidth, colors,
 			)
 			visualLineCount++
 			segmentStartCol += utf8.RuneCountInString(wrappedLines[wrapIdx])
@@ -157,10 +162,14 @@ func (r *TextRenderer) renderLineContent(line string, lineIdx, width int, state 
 	runeIdx := 0
 
 	// Skip to scroll position
+	tabWidth := state.TabWidth
+	if tabWidth <= 0 {
+		tabWidth = 4
+	}
 	for runeIdx < len(runes) && visualCol < visibleStart {
 		ru := runes[runeIdx]
 		if ru == '\t' {
-			visualCol += 4
+			visualCol += tabWidth
 		} else {
 			visualCol += runewidth.RuneWidth(ru)
 		}
@@ -178,8 +187,8 @@ func (r *TextRenderer) renderLineContent(line string, lineIdx, width int, state 
 
 		char := string(ru)
 		if ru == '\t' {
-			char = "    " // Render tab as 4 spaces
-			rw = 4
+			char = strings.Repeat(" ", tabWidth) // Render tab as spaces
+			rw = tabWidth
 		}
 
 		if outputCol+rw > width {
@@ -238,7 +247,7 @@ func (r *TextRenderer) renderLineContent(line string, lineIdx, width int, state 
 }
 
 // renderWrappedSegment renders a single wrapped segment of a line.
-func (r *TextRenderer) renderWrappedSegment(segment string, lineIdx, segmentStartCol, cursorLine, cursorCol int, sel SelectionRange, width int, colors []syntax.ColorSpan) string {
+func (r *TextRenderer) renderWrappedSegment(segment string, lineIdx, segmentStartCol, cursorLine, cursorCol int, sel SelectionRange, width, tabWidth int, colors []syntax.ColorSpan) string {
 	var sb strings.Builder
 	runes := []rune(segment)
 
@@ -249,6 +258,10 @@ func (r *TextRenderer) renderWrappedSegment(segment string, lineIdx, segmentStar
 	selectionFg := ColorToANSIFg(ui.SelectionFg)
 	resetCode := "\033[0m"
 
+	if tabWidth <= 0 {
+		tabWidth = 4
+	}
+
 	outputCol := 0
 	for i, ru := range runes {
 		col := segmentStartCol + i
@@ -258,8 +271,8 @@ func (r *TextRenderer) renderWrappedSegment(segment string, lineIdx, segmentStar
 		char := string(ru)
 		charWidth := runewidth.RuneWidth(ru)
 		if ru == '\t' {
-			char = "    "
-			charWidth = 4
+			char = strings.Repeat(" ", tabWidth)
+			charWidth = tabWidth
 		}
 
 		if isCursor {
@@ -321,12 +334,12 @@ func (r *TextRenderer) renderEmptyLine(width int) string {
 // Helper functions (local copies to avoid dependency issues)
 
 // countWrappedLinesLocal counts how many visual lines a buffer line takes.
-// Accounts for tabs (4 spaces) and wide characters.
-func countWrappedLinesLocal(line string, width int) int {
+// Accounts for tabs and wide characters.
+func countWrappedLinesLocal(line string, width, tabWidth int) int {
 	if width <= 0 {
 		return 1
 	}
-	visualWidth := calculateVisualWidth(line)
+	visualWidth := calculateVisualWidth(line, tabWidth)
 	if visualWidth == 0 {
 		return 1
 	}
@@ -334,10 +347,13 @@ func countWrappedLinesLocal(line string, width int) int {
 }
 
 // wrapLineLocal splits a line into segments that fit within width visual columns.
-// Accounts for tabs (4 spaces) and wide characters.
-func wrapLineLocal(line string, width int) []string {
+// Accounts for tabs and wide characters.
+func wrapLineLocal(line string, width, tabWidth int) []string {
 	if width <= 0 {
 		return []string{line}
+	}
+	if tabWidth <= 0 {
+		tabWidth = 4
 	}
 	runes := []rune(line)
 	if len(runes) == 0 {
@@ -351,7 +367,7 @@ func wrapLineLocal(line string, width int) []string {
 	for _, r := range runes {
 		charWidth := runewidth.RuneWidth(r)
 		if r == '\t' {
-			charWidth = 4
+			charWidth = tabWidth
 		}
 
 		if currentWidth+charWidth > width {
@@ -377,12 +393,15 @@ func wrapLineLocal(line string, width int) []string {
 }
 
 // calculateVisualWidth returns the visual width of a string,
-// accounting for tabs (4 spaces) and wide characters.
-func calculateVisualWidth(s string) int {
+// accounting for tabs and wide characters.
+func calculateVisualWidth(s string, tabWidth int) int {
+	if tabWidth <= 0 {
+		tabWidth = 4
+	}
 	width := 0
 	for _, r := range s {
 		if r == '\t' {
-			width += 4
+			width += tabWidth
 		} else {
 			width += runewidth.RuneWidth(r)
 		}

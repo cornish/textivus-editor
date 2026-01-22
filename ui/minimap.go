@@ -4,6 +4,20 @@ import (
 	"strings"
 )
 
+// MinimapController is an interface for minimap renderers.
+// Both the braille-based MinimapRenderer and KittyMinimapRenderer implement this.
+type MinimapController interface {
+	ColumnRenderer
+	SetStyles(styles Styles)
+	SetEnabled(enabled bool)
+	IsEnabled() bool
+	Toggle() bool
+	GetMetrics(viewportHeight int, state *RenderState) MinimapMetrics
+	RowToVisualLine(row int, metrics MinimapMetrics) int
+	ClearImage() string                                                              // Returns escape sequence to clear graphics (Kitty only, empty for braille)
+	GetKittySequence(width, height, xOffset, yOffset int, state *RenderState) string // Kitty graphics overlay
+}
+
 // MinimapRenderer renders a braille-based minimap of the document.
 // Standard width is 8 (1 viewport indicator + 6 braille chars + 1 space).
 //
@@ -355,4 +369,14 @@ func (r *MinimapRenderer) RowToVisualLine(row int, metrics MinimapMetrics) int {
 		return metrics.TotalVisualLines - 1
 	}
 	return visualLine
+}
+
+// ClearImage returns an empty string for braille renderer (no graphics to clear).
+func (r *MinimapRenderer) ClearImage() string {
+	return ""
+}
+
+// GetKittySequence returns empty for braille renderer (no Kitty graphics).
+func (r *MinimapRenderer) GetKittySequence(width, height, xOffset, yOffset int, state *RenderState) string {
+	return ""
 }
