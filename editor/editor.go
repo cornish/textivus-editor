@@ -2533,6 +2533,15 @@ func (e *Editor) showRecentFiles() {
 		e.statusbar.SetMessage("No recent files", "info")
 		return
 	}
+	// Check buffer limit before showing dialog
+	maxBuffers := 20
+	if e.config.Editor.MaxBuffers > 0 {
+		maxBuffers = e.config.Editor.MaxBuffers
+	}
+	if maxBuffers > 0 && len(e.documents) >= maxBuffers {
+		e.statusbar.SetMessage(fmt.Sprintf("Buffer limit reached (%d)", maxBuffers), "error")
+		return
+	}
 	e.recentFilesIndex = 0
 	e.mode = ModeRecentFiles
 }
@@ -2993,7 +3002,12 @@ func (e *Editor) handleSettingsKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		case rowSave:
 			e.saveSettings()
 			e.mode = ModeNormal
-			e.statusbar.SetMessage("Settings saved", "success")
+			// Warn if buffer limit is now lower than current count
+			if e.settingsMaxBuffers > 0 && len(e.documents) > e.settingsMaxBuffers {
+				e.statusbar.SetMessage(fmt.Sprintf("Settings saved (close %d buffers to open new files)", len(e.documents)-e.settingsMaxBuffers), "warning")
+			} else {
+				e.statusbar.SetMessage("Settings saved", "success")
+			}
 		case rowCancel:
 			e.mode = ModeNormal
 		}
@@ -3118,7 +3132,12 @@ func (e *Editor) handleSettingsMouse(msg tea.MouseMsg) (tea.Model, tea.Cmd) {
 			if innerX >= 12 && innerX < 22 {
 				e.saveSettings()
 				e.mode = ModeNormal
-				e.statusbar.SetMessage("Settings saved", "success")
+				// Warn if buffer limit is now lower than current count
+				if e.settingsMaxBuffers > 0 && len(e.documents) > e.settingsMaxBuffers {
+					e.statusbar.SetMessage(fmt.Sprintf("Settings saved (close %d buffers to open new files)", len(e.documents)-e.settingsMaxBuffers), "warning")
+				} else {
+					e.statusbar.SetMessage("Settings saved", "success")
+				}
 			} else if innerX >= 28 && innerX < 40 {
 				e.mode = ModeNormal
 			}
@@ -4325,8 +4344,13 @@ func (e *Editor) updateMenuState() {
 
 // openFile prompts for a filename to open
 func (e *Editor) openFile() {
-	if e.activeDoc().modified {
-		e.showPrompt("Unsaved changes. Discard? (y/N): ", PromptConfirmOpen)
+	// Check buffer limit before showing dialog
+	maxBuffers := 20
+	if e.config != nil && e.config.Editor.MaxBuffers > 0 {
+		maxBuffers = e.config.Editor.MaxBuffers
+	}
+	if maxBuffers > 0 && len(e.documents) >= maxBuffers {
+		e.statusbar.SetMessage(fmt.Sprintf("Buffer limit reached (%d)", maxBuffers), "error")
 		return
 	}
 	e.showFileBrowser()

@@ -156,7 +156,10 @@ func (r *KittyMinimapRenderer) GetKittySequence(width, height, xOffset, yOffset 
 	if linesShown < 1 {
 		linesShown = 1
 	}
-	imgHeight := linesShown * kittyPixelsPerLine
+
+	// Always use full image height to avoid Kitty scaling artifacts
+	// For short files, the extra space will just be background color
+	imgHeight := imgPixelHeight
 
 	// Store startLine for click handling
 	r.lastStartLine = startLine

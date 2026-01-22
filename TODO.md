@@ -11,13 +11,13 @@
   - [x] linux/arm64
   - [x] darwin/amd64
   - [x] darwin/arm64 (Apple Silicon)
+- [x] Curl install script (one-liner installation)
+- [x] GitHub Releases with pre-built binaries
 - [ ] Distribution packages
   - [ ] Homebrew tap (macOS/Linux)
   - [ ] .deb package (Debian/Ubuntu)
   - [ ] .rpm package (Fedora/RHEL)
   - [ ] AUR package (Arch Linux)
-- [x] Curl install script (one-liner installation)
-- [x] GitHub Releases with pre-built binaries
 - [ ] (maybe) Add `txv` shortcut to distribution packages (Homebrew, .deb, .rpm, AUR)
 
 ## Tier 2: MVP Gaps
@@ -30,37 +30,47 @@
 
 ## Tier 3: v1.1 Features
 
+- [x] Configurable keybindings
+- [x] Braille minimap (2x4 pixels per cell for code density)
+  - 4 chars wide works best
+  - Truncate source lines at ~40 chars before converting
+- [x] Kitty graphics minimap (true bitmap for compatible terminals)
 - [ ] Expand test suite
   - [ ] Undo/redo operations
   - [ ] Selection logic
   - [ ] Cursor navigation (word movement, line boundaries)
   - [ ] Syntax highlighting (Chroma integration)
+- [ ] Highlight search hits in text editor (while search bar open)
+- [ ] Highlight search hits in minimap (while search bar open)
+- [ ] Highlight search hits in scrollbar (while search bar open)
+- [ ] Hotkeys in dialogs (underlined letters for quick access)
 - [ ] Rectangular/column selection (block mode)
 - [ ] Split views (simple horizontal/vertical)
   - [ ] Horizontal split
   - [ ] Vertical split
   - [ ] Same buffer in multiple views
-- [x] Configurable keybindings
-- [ ] Braille minimap (2x4 pixels per cell for code density)
-  - 4 chars wide works best
-  - Truncate source lines at ~40 chars before converting
-- [ ] Kitty graphics minimap (true bitmap for compatible terminals)
 - [ ] Emoji picker
-- [ ] Hotkeys in dialogs (underlined letters for quick access)
 
-## Tier 3.5: In Progress
+## Polish
 
-- [ ] Graceful degradation (ASCII fallback for limited terminals)
-  - [x] Terminal capability detection (UTF-8, colors, Kitty)
-  - [ ] Auto-detect and apply ASCII mode when UTF-8 not supported
+- [ ] Create mini-framework for dialogs (standard components: buttons, file pickers, inputs)
+- [ ] Make dialog appearance, function, and conventions consistent throughout
+- [ ] Mouse-enable buttons with hotkeys in dialogs
+- [ ] Make non-editor cursors consistent throughout
+- [ ] Consistent default answers to [y/n] questions
+- [ ] Create consistent pattern for dialog vs status bar messages and user input
+- [ ] Reconsider right side layout/appearance of status bar
+- [ ] Revisit search and replace behavior
+- [ ] Address theme colors in minimap and scrollbar
+- [ ] Consider displaying encoding compatibility for buffer in Set Encoding dialog
 
 ## Tier 4: Optional Power-User
 
+- [ ] Vim keybindings (optional modal editing)
 - [ ] Fuzzy project navigation (files + content search via ripgrep/fzf-style)
 - [ ] Git-aware gutter indicators (modified lines)
-- [ ] LSP mode (disabled by default, on-demand)
-- [ ] Vim keybindings (optional modal editing)
 - [ ] Macro recording/playback
+- [ ] LSP mode (disabled by default, on-demand)
 - [ ] Graphical theme editor
 
 ---
