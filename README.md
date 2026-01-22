@@ -56,6 +56,7 @@ Textivus is for people who want a **comfortable, familiar editor in the terminal
 - **Word wrap** — toggle via Options menu
 - **Line numbers** — toggle via Options menu or Ctrl+L
 - **Syntax highlighting** — auto-detected by file extension
+- **Minimap** — document overview with click-to-navigate; Kitty graphics or text-based fallback
 - **Find & Replace** — Ctrl+F to find, Ctrl+H to find and replace
 - **Go to Line** — Ctrl+G to jump to a specific line
 - **Cut Line** — Ctrl+K cuts the entire current line (like nano)
