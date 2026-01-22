@@ -63,6 +63,8 @@
 - [ ] Revisit search and replace behavior
 - [ ] Address theme colors in minimap and scrollbar
 - [ ] Consider displaying encoding compatibility for buffer in Set Encoding dialog
+- [ ] Minimap location highlighting barely visible for dense text (e.g., fred.txt with large word-wrapped paragraphs) - review VS Code style
+- [ ] Add gutter separation between buffer text and Kitty minimap
 
 ## Tier 4: Optional Power-User
 
