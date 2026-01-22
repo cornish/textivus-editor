@@ -237,7 +237,7 @@ func (e *Editor) overlayAboutDialog(viewportContent string) string {
 		e.box.Vertical+strings.Repeat(" ", innerWidth)+e.box.Vertical,
 		e.box.Vertical+centerText("A Text Editor for the Rest of Us")+e.box.Vertical,
 		e.box.Vertical+strings.Repeat(" ", innerWidth)+e.box.Vertical,
-		e.box.Vertical+centerText("Version 0.1.0")+e.box.Vertical,
+		e.box.Vertical+centerText("Version 0.2.0")+e.box.Vertical,
 		e.box.Vertical+centerText("github.com/cornish/textivus-editor")+e.box.Vertical,
 		e.box.Vertical+centerText("Copyright (c) 2025")+e.box.Vertical,
 		e.box.Vertical+strings.Repeat(" ", innerWidth)+e.box.Vertical,

@@ -10,7 +10,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-const version = "0.1.0"
+const version = "0.2.0"
 
 func main() {
 	// Parse command line arguments
