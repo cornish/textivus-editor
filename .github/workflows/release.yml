@@ -30,7 +30,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.21'
+          go-version: '1.24'
 
       - name: Build binary
         env:
@@ -38,7 +38,7 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
         run: |
           mkdir -p dist
-          go build -ldflags="-s -w" -o dist/textivus-${{ matrix.goos }}-${{ matrix.goarch }}
+          go build -ldflags="-s -w" -o dist/textivus-${{ matrix.goos }}-${{ matrix.goarch }} ./cmd/textivus
           cd dist && sha256sum textivus-${{ matrix.goos }}-${{ matrix.goarch }} > textivus-${{ matrix.goos }}-${{ matrix.goarch }}.sha256
 
       - name: Upload artifact

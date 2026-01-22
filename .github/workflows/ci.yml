@@ -17,7 +17,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.21'
+          go-version: '1.24'
 
       - name: Download dependencies
         run: go mod download
@@ -42,14 +42,14 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.21'
+          go-version: '1.24'
 
       - name: Build
         env:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: |
-          go build -o textivus-${{ matrix.goos }}-${{ matrix.goarch }}
+          go build -o textivus-${{ matrix.goos }}-${{ matrix.goarch }} ./cmd/textivus
           ls -la textivus-*
 
   lint:
@@ -62,7 +62,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.21'
+          go-version: '1.24'
 
       - name: Run go vet
         run: go vet ./...
