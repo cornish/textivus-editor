@@ -20,6 +20,11 @@
 curl -fsSL https://raw.githubusercontent.com/cornish/textivus-editor/main/install.sh | sh
 ```
 
+### Install system-wide
+```sh
+curl -fsSL https://raw.githubusercontent.com/cornish/textivus-editor/main/install.sh | sudo sh -s -- --bin-dir /usr/local/bin
+```
+
 Or download binaries from **GitHub Releases**.
 
 ### Run
